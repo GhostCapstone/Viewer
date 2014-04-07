@@ -59,7 +59,7 @@ CGA_Main.prototype.generateURL = function ()
     var url = this.config.url;
     var vp = this.gfxEngine.getViewpoint();
 
-    url += "/" + encodeURIComponent(vp.cameraPos[0].x + "," + vp.cameraPos[0].y + "," + vp.cameraPos[0].z);
+    url += "/" + encodeURIComponent(vp.cameraPos.x + "," + vp.cameraPos.y + "," + vp.cameraPos.z);
     url += "/" + encodeURIComponent(vp.rotation.x + "," + vp.rotation.y + "," + vp.rotation.z);
     url += "/" + encodeURIComponent(vp.translation.x + "," + vp.translation.y + "," + vp.translation.z);
     url += "/";
