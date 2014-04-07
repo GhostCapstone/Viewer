@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0050)http://www.meme-hazard.org/sig/neuro-demo/nd1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>Neuroanatomy - Scene 1</title>
+        <!--<base href=".">--><base href=".">
+        <link media="screen" type="text/css" href="styles/cga.css" rel="stylesheet">
+        <link media="screen" type="text/css" href="styles/ava.css" rel="stylesheet">
+        <script src="scripts/three.min.56.js">;</script>
+        <script src="scripts/obj_loader.js">;</script>
+        <script src="scripts/jquery-1.8.3.min.js">;</script>
+        <script src="scripts/jquery.mousewheel.min.js">;</script>
+        <script src="scripts/DOMUtils.js">;</script>
+        <script src="scripts/Lang.js">;</script>
+        <script src="scripts/CGA_BaseController.js">;</script>
+        <script src="scripts/CGA_GeometryObject.js">;</script>
+        <script src="scripts/CGA_GraphicsEngine.js">;</script>
+        <script src="scripts/CGA_GroupObject.js">;</script>
+        <script src="scripts/CGA_InteractionManager.js">;</script>
+        <script src="scripts/CGA_Main.js">;</script>
+        <script src="scripts/CGA_Scene.js">;</script>
+        <script src="scripts/CGA_SceneContentLoader.js">;</script>
+        <script src="scripts/CGA_UI_HelpPanel.js">;</script>
+        <script src="scripts/CGA_UI_LoadProgressPanel.js">;</script>
+        <script src="scripts/AVA_Controller.js">;</script>
+        <script src="scripts/AVA_PickingPanel.js">;</script>
+        <script src="scripts/AVA_ContentsPanel.js">;</script>
+        <script>
+         // Globals
+        "use strict";
+        
+        var sceneObjectDescriptors =
+        [{
+            file: "brain_models/3222.obj",
+            name: "Isthmus of left cingulate gyrus",
+            id: 72749,
+            link: "http://www.google.com/?q=Isthmus of left cingulate gyrus",
+            centroid: { x : -5.978343387024602 , y: -39.29368362304251, z: 7.561364609619664 },
+            min: { x : -14.828419 , y: -52.455494, z: -14.489667 },
+            max: { x : 0.149664 , y: -17.659989, z: 26.273007 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3215.obj",
+            name: "Left cuneus",
+            id: 72680,
+            link: "http://www.google.com/?q=Left cuneus",
+            centroid: { x : -8.402976593615723 , y: -75.2873033364026, z: 10.825434011663589 },
+            min: { x : -19.148766 , y: -96.003331, z: -2.653346 },
+            max: { x : 1.415115 , y: -53.00708, z: 24.411802 },
+            material: { ambient: "#00ff80", diffuse: "#00ff80", emissive: "#202020", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3216.obj",
+            name: "Left entorhinal area",
+            id: 72741,
+            link: "http://www.google.com/?q=Left entorhinal area",
+            centroid: { x : -25.91021780741275 , y: -10.031888779069758, z: -41.315806746366206 },
+            min: { x : -35.637602 , y: -23.939649, z: -55.123694 },
+            max: { x : -14.789996 , y: 3.083398, z: -29.874451 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3217.obj",
+            name: "Left frontal pole",
+            id: 272827,
+            link: "http://www.google.com/?q=Left frontal pole",
+            centroid: { x : -8.184663322734488 , y: 60.17658048966605, z: -31.22875398569161 },
+            min: { x : -16.897134 , y: 53.45861, z: -39.902429 },
+            max: { x : -0.277394 , y: 66.302926, z: -22.567233 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3218.obj",
+            name: "Left fusiform gyrus",
+            id: 72690,
+            link: "http://www.google.com/?q=Left fusiform gyrus",
+            centroid: { x : -35.68521256723904 , y: -42.81098196611452, z: -27.572707483817105 },
+            min: { x : -50.131775 , y: -79.30104, z: -56.470917 },
+            max: { x : -18.845174 , y: 0.890466, z: -9.714585 },
+            material: { ambient: "#0000ff", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3219.obj",
+            name: "Left inferior parietal lobule",
+            id: 81255,
+            link: "http://www.google.com/?q=Left inferior parietal lobule",
+            centroid: { x : -35.67839435460383 , y: -60.6680298791265, z: 21.374998585697686 },
+            min: { x : -57.904884 , y: -86.515091, z: 0.086413 },
+            max: { x : -14.515167 , y: -38.347239, z: 45.569607 },
+            material: { ambient: "#00ffff", diffuse: "#00ffff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3220.obj",
+            name: "Left inferior temporal gyrus",
+            id: 72688,
+            link: "http://www.google.com/?q=Left inferior temporal gyrus",
+            centroid: { x : -50.52191275830186 , y: -38.58413727364445, z: -27.53995088370478 },
+            min: { x : -66.789372 , y: -73.933174, z: -55.542809 },
+            max: { x : -31.658971 , y: 5.344564, z: 0.587204 },
+            material: { ambient: "#0000ff", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3221.obj",
+            name: "Left insula",
+            id: 72978,
+            link: "http://www.google.com/?q=Left insula",
+            centroid: { x : -37.18972097870518 , y: -2.2718267340289495, z: -12.17455237414823 },
+            min: { x : -47.629513 , y: -27.007303, z: -36.050005 },
+            max: { x : -21.369568 , y: 24.681771, z: 8.297865 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3223.obj",
+            name: "Left lateral occipital gyrus",
+            id: 72678,
+            link: "http://www.google.com/?q=Left lateral occipital gyrus",
+            centroid: { x : -30.219224788823425 , y: -82.76200193130133, z: -6.0436691644151965 },
+            min: { x : -59.552053 , y: -99.889786, z: -23.972986 },
+            max: { x : -0.680674 , y: -61.501154, z: 19.275375 },
+            material: { ambient: "#00ff80", diffuse: "#00ff80", emissive: "#202020", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3225.obj",
+            name: "Left lingual gyrus",
+            id: 72682,
+            link: "http://www.google.com/?q=Left lingual gyrus",
+            centroid: { x : -11.82797717311808 , y: -69.83133630620968, z: -8.659185031296307 },
+            min: { x : -31.613343 , y: -98.630913, z: -21.410744 },
+            max: { x : 2.782177 , y: -43.179533, z: 7.671803 },
+            material: { ambient: "#00ff80", diffuse: "#00ff80", emissive: "#202020", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3227.obj",
+            name: "Left middle temporal gyrus",
+            id: 72686,
+            link: "http://www.google.com/?q=Left middle temporal gyrus",
+            centroid: { x : -54.72939852113259 , y: -31.863671311038065, z: -19.54594373601433 },
+            min: { x : -69.331604 , y: -74.949867, z: -51.746111 },
+            max: { x : -38.032494 , y: 7.774628, z: 14.899018 },
+            material: { ambient: "#0000ff", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3228.obj",
+            name: "Left paracentral lobule",
+            id: 81257,
+            link: "http://www.google.com/?q=Left paracentral lobule",
+            centroid: { x : -8.435315831935187 , y: -19.964524087069663, z: 39.20831621868669 },
+            min: { x : -17.598558 , y: -33.64278, z: 20.213265 },
+            max: { x : 0.679195 , y: -3.114302, z: 59.211136 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3229.obj",
+            name: "Left parahippocampal gyrus",
+            id: 72706,
+            link: "http://www.google.com/?q=Left parahippocampal gyrus",
+            centroid: { x : -25.285890272955 , y: -33.59990155175287, z: -25.51122562061767 },
+            min: { x : -36.462009 , y: -50.977425, z: -43.986841 },
+            max: { x : -10.021177 , y: -14.632522, z: -7.066766 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3234.obj",
+            name: "Left postcentral gyrus",
+            id: 72666,
+            link: "http://www.google.com/?q=Left postcentral gyrus",
+            centroid: { x : -42.519980501564 , y: -14.450730615892558, z: 24.868670253098617 },
+            min: { x : -67.650352 , y: -31.922818, z: -15.09623 },
+            max: { x : -5.043915 , y: 7.326596, z: 60.284389 },
+            material: { ambient: "#00ffff", diffuse: "#00ffff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3235.obj",
+            name: "Left posterior cingulate gyrus",
+            id: 72747,
+            link: "http://www.google.com/?q=Left posterior cingulate gyrus",
+            centroid: { x : -6.489107996108953 , y: -14.686103399999949, z: 20.49393253579766 },
+            min: { x : -17.155819 , y: -34.036924, z: 8.164714 },
+            max: { x : 1.285127 , y: 9.306843, z: 32.027556 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3236.obj",
+            name: "Left precentral gyrus",
+            id: 72662,
+            link: "http://www.google.com/?q=Left precentral gyrus",
+            centroid: { x : -38.921421324299956 , y: 0.0113407977851666, z: 21.781448970829143 },
+            min: { x : -64.981628 , y: -28.077447, z: -22.088274 },
+            max: { x : -1.598666 , y: 20.893877, z: 59.294064 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3237.obj",
+            name: "Left precuneus",
+            id: 72674,
+            link: "http://www.google.com/?q=Left precuneus",
+            centroid: { x : -8.114807961378013 , y: -49.85206402018589, z: 24.550343367783473 },
+            min: { x : -20.091669 , y: -74.543343, z: -2.18998 },
+            max: { x : 0.72058 , y: -23.027164, z: 56.837734 },
+            material: { ambient: "#00ffff", diffuse: "#00ffff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3240.obj",
+            name: "Left superior frontal gyrus",
+            id: 72654,
+            link: "http://www.google.com/?q=Left superior frontal gyrus",
+            centroid: { x : -9.672885154364709 , y: 30.314682333958928, z: 16.771032355921477 },
+            min: { x : -27.743607 , y: -10.335536, z: -28.313837 },
+            max: { x : 2.080451 , y: 69.479324, z: 53.772526 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3241.obj",
+            name: "Left superior parietal lobule",
+            id: 72672,
+            link: "http://www.google.com/?q=Left superior parietal lobule",
+            centroid: { x : -19.620216166649943 , y: -54.055574924488354, z: 32.76226621373121 },
+            min: { x : -36.727455 , y: -88.916878, z: 2.00864 },
+            max: { x : -0.631749 , y: -24.994282, z: 58.492306 },
+            material: { ambient: "#00ffff", diffuse: "#00ffff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3242.obj",
+            name: "Left superior temporal gyrus",
+            id: 72684,
+            link: "http://www.google.com/?q=Left superior temporal gyrus",
+            centroid: { x : -52.561279626233556 , y: -15.296786254155842, z: -14.653752272597364 },
+            min: { x : -69.701225 , y: -50.898929, z: -47.38127 },
+            max: { x : -34.004124 , y: 18.405184, z: 15.508191 },
+            material: { ambient: "#0000ff", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3243.obj",
+            name: "Left supramarginal gyrus",
+            id: 72668,
+            link: "http://www.google.com/?q=Left supramarginal gyrus",
+            centroid: { x : -48.26801894939598 , y: -32.25435999353982, z: 20.480584994377267 },
+            min: { x : -67.311688 , y: -53.960526, z: -0.245784 },
+            max: { x : -28.376576 , y: -10.866577, z: 45.441547 },
+            material: { ambient: "#00ffff", diffuse: "#00ffff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3244.obj",
+            name: "Left temporal pole",
+            id: 272831,
+            link: "http://www.google.com/?q=Left temporal pole",
+            centroid: { x : -33.25032769479969 , y: 5.249837975277057, z: -45.329058473145736 },
+            min: { x : -46.272489 , y: -2.268083, z: -55.763454 },
+            max: { x : -20.584919 , y: 17.736627, z: -33.330492 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3245.obj",
+            name: "Left transverse temporal gyrus",
+            id: 273675,
+            link: "http://www.google.com/?q=Left transverse temporal gyrus",
+            centroid: { x : -41.62971240120791 , y: -19.872644352027596, z: -3.8849551855047415 },
+            min: { x : -50.76816 , y: -29.318653, z: -13.356566 },
+            max: { x : -33.483075 , y: -7.250231, z: 5.818949 },
+            material: { ambient: "#0000ff", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3212.obj",
+            name: "lh.pial.DK.bankssts.obj",
+            id: -1,
+            link: "http://www.google.com/?q=lh.pial.DK.bankssts.obj",
+            centroid: { x : -53.55714876059581 , y: -41.646866490397294, z: -2.353443893708605 },
+            min: { x : -68.419681 , y: -57.409086, z: -16.077762 },
+            max: { x : -40.843939 , y: -29.627654, z: 9.071198 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3213.obj",
+            name: "Caudal part of left anterior cingulate gyrus",
+            id: 72745,
+            link: "http://www.google.com/?q=Caudal part of left anterior cingulate gyrus",
+            centroid: { x : -5.822059822268324 , y: 21.21159420746887, z: 2.739264392116193 },
+            min: { x : -10.767141 , y: 4.425883, z: -12.894755 },
+            max: { x : -0.024666 , y: 34.014771, z: 16.319434 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3214.obj",
+            name: "Caudal part of left middle frontal gyrus",
+            id: 72656,
+            link: "http://www.google.com/?q=Caudal part of left middle frontal gyrus",
+            centroid: { x : -32.38905822400144 , y: 16.527955346646586, z: 24.795897555764974 },
+            min: { x : -51.955334 , y: -3.032432, z: 4.873 },
+            max: { x : -17.789753 , y: 36.207336, z: 46.809477 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3226.obj",
+            name: "Medial part of orbitofrontal segment of left frontal lobe",
+            id: 274357,
+            link: "http://www.google.com/?q=Medial part of orbitofrontal segment of left frontal lobe",
+            centroid: { x : -9.423325873727123 , y: 25.25078597374967, z: -31.179780877347792 },
+            min: { x : -35.146892 , y: -6.988288, z: -45.291855 },
+            max: { x : -0.003898 , y: 61.454216, z: -19.57892 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3233.obj",
+            name: "lh.pial.DK.pericalcarine.obj",
+            id: -1,
+            link: "http://www.google.com/?q=lh.pial.DK.pericalcarine.obj",
+            centroid: { x : -9.646452462529687 , y: -76.48919301254676, z: 0.47191607968802884 },
+            min: { x : -17.320284 , y: -95.06725, z: -11.567953 },
+            max: { x : 1.050806 , y: -50.466034, z: 9.759382 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3238.obj",
+            name: "Rostral part of left anterior cingulate gyrus",
+            id: 72745,
+            link: "http://www.google.com/?q=Rostral part of left anterior cingulate gyrus",
+            centroid: { x : -4.546797005238097 , y: 29.59102609142857, z: -19.944639649999942 },
+            min: { x : -12.565773 , y: 8.760172, z: -30.454552 },
+            max: { x : 0.991857 , y: 47.81184, z: -5.776034 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3239.obj",
+            name: "Rostral part of left middle frontal gyrus",
+            id: 72656,
+            link: "http://www.google.com/?q=Rostral part of left middle frontal gyrus",
+            centroid: { x : -31.120898487691353 , y: 46.689224020625375, z: -8.229674613059574 },
+            min: { x : -52.966589 , y: 22.615793, z: -38.556795 },
+            max: { x : -13.042955 , y: 65.664062, z: 24.367823 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3224.obj",
+            name: "Lateral part of orbitofrontal segment of left frontal lobe",
+            id: 274357,
+            link: "http://www.google.com/?q=Lateral part of orbitofrontal segment of left frontal lobe",
+            centroid: { x : -24.418849203105683 , y: 28.528453986956638, z: -31.948525609937803 },
+            min: { x : -48.659866 , y: 0.650054, z: -47.884113 },
+            max: { x : -3.88227 , y: 60.189714, z: -10.798857 },
+            material: { ambient: "#ffff40", diffuse: "#ffff40", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3246.obj",
+            name: "lh.pial.DK.unknown.obj",
+            id: -1,
+            link: "http://www.google.com/?q=lh.pial.DK.unknown.obj",
+            centroid: { x : -13.35513558664426 , y: -15.347327179473847, z: -15.116478681413149 },
+            min: { x : -37.910389 , y: -42.08646, z: -42.169272 },
+            max: { x : 0.597083 , y: 33.553417, z: 13.667358 },
+            material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
+        },{
+            file: "brain_models/3230.obj",
+            name: "Opercular part of left inferior frontal gyrus",
+            id: 72753,
+            link: "http://www.google.com/?q=Opercular part of left inferior frontal gyrus",
+            centroid: { x : -44.41753734007403 , y: 20.936130467388185, z: -1.8410924639703758 },
+            min: { x : -59.234192 , y: 3.305315, z: -21.808569 },
+            max: { x : -31.641012 , y: 39.468023, z: 11.502384 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3231.obj",
+            name: "Orbital part of left inferior frontal gyrus",
+            id: 72755,
+            link: "http://www.google.com/?q=Orbital part of left inferior frontal gyrus",
+            centroid: { x : -44.8238306768377 , y: 31.5756175429958, z: -28.840741108183074 },
+            min: { x : -56.028398 , y: 14.883333, z: -36.329488 },
+            max: { x : -30.783743 , y: 44.69997, z: -19.028901 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },{
+            file: "brain_models/3232.obj",
+            name: "Triangular part of left inferior frontal gyrus",
+            id: 72751,
+            link: "http://www.google.com/?q=Triangular part of left inferior frontal gyrus",
+            centroid: { x : -46.57356834967321 , y: 27.243046712055193, z: -12.694314915758856 },
+            min: { x : -60.281387 , y: 17.376252, z: -29.805758 },
+            max: { x : -31.825327 , y: 38.167236, z: 2.470791 },
+            material: { ambient: "#0080ff", diffuse: "#0080ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+        },];
+        
+         
+
+        // Adjust this value to select the number of loaders to use in loading mesh data
+        // 
+        // MeshManager.LOADER_COUNT = 5;
+
+        // Initialize page when ready
+        $(document).ready(function ()
+        {
+            if (typeof errorMessage !== 'undefined')
+            {
+                var msg = "Errors occurred while preparing this scene:\n\n" + errorMessage
+
+                console.log(msg);
+                alert(msg);
+            }
+
+            // Configure viewer
+            var cgaConfig =
+            {
+                elements:
+                {
+                    container: document.getElementById("cga_container"),
+                },
+                gfx: {
+                	 viewpoint: {
+                        cameraPos: { x : 0.0 , y: 0.0, z: 251.0906572350434 },
+                        rotation: { x : 0.14000000000000057 , y: 1.4700000000000002, z: 0.0 },
+                        translation: { x : 27.405476226456887 , y: 14.217561745014471, z: 4.197793789312079 },
+                    }
+                },
+                interaction: {},
+                url: "/SIG-SceneGen/sceneFragment/assetSet/3140/3222,3215,3216,3217,3218,3219,3220,3221,3223,3225,3227,3228,3229,3234,3235,3236,3237,3240,3241,3242,3243,3244,3245,3212,3213,3214,3226,3233,3238,3239,3224,3246,3230,3231,3232/395",
+            };
+
+            // Load AVA
+            var mainApp = new CGA_Main(cgaConfig);
+            mainApp.addController(new CGA_BaseController(mainApp));
+            mainApp.addController(new AVA_Controller(mainApp));
+            mainApp.gfxEngine.loadSceneObjects(sceneObjectDescriptors);
+        });
+        
+    </script>
+    </head>
+    <body style="">
+        <div id="cga_gfx_container" tabindex="1">
+            <div id="cga_lpp_wrap">
+                <div id="cga_lpp" style="display: none;"></div>
+            </div>
+            <div id="cga_help_wrap">
+                <div id="cga_help"></div>
+            </div>
+            <div id="ava_ui_container">
+                <div id="ava_ui_right_panel">
+                    <div id="ava_contents"></div>
+                </div>
+                <div id="ava_ui_left_panel">
+                    <div id="ava_picking" style="display: block;"></div>
+                </div>
+            </div>
+            <div id="cga_help_button">&nbsp;</div>
+    </body>
+</html>
