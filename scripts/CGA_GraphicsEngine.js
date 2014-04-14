@@ -71,7 +71,7 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 0, 0, -30 ],
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 4
+        fov: 45
     },
     { 
         left: 0.5,
@@ -498,6 +498,7 @@ CGA_GraphicsEngine.prototype.replaceSceneObjects = function (sceneObjectDescript
 //
 // Reset uses viewpoint parameters computed from objects in the scene when
 // computeViewpoint was last invoked.
+// TODO - Should use views[] to reset viewpoint
 CGA_GraphicsEngine.prototype.resetViewpoint = function ()
 {
     console.log(this.viewpoint);
