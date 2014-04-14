@@ -49,8 +49,7 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 0, 0, 30  ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45,
-        zoom: 1
+        fov: 45
     },
     { 
         left: 0.5,
@@ -61,8 +60,7 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 30, 0, 0 ],
         default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45,
-        zoom: 1
+        fov: 45
     },
     { 
         left: 0,
@@ -73,8 +71,7 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 0, 0, -30 ],
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45,
-        zoom: 1
+        fov: 4
     },
     { 
         left: 0.5,
@@ -85,8 +82,7 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ -30, 0, 0 ],
         default_rotation: [ 0, 3 * Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45,
-        zoom: 1
+        fov: 45
     }];
     
     
@@ -502,9 +498,6 @@ CGA_GraphicsEngine.prototype.replaceSceneObjects = function (sceneObjectDescript
 //
 // Reset uses viewpoint parameters computed from objects in the scene when
 // computeViewpoint was last invoked.
-
-// TODO - Should use views[] to reset viewpoint
-// TODO - this.viewpoint.distance is really zoom
 CGA_GraphicsEngine.prototype.resetViewpoint = function ()
 {
     console.log(this.viewpoint);
