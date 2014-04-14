@@ -122,7 +122,7 @@ var CGA_GraphicsEngine = function(config)
     this.loadListeners = [];
 
     // Create a projector to handle picking
-    this.projector = new THREE.Projector();
+    this.projector = new THREE.Projector();                         
 };
 
 
@@ -214,8 +214,8 @@ CGA_GraphicsEngine.prototype.applyCameraUpdate = function(update)
         // Clamp distance to min / max range
         if (this.viewpoint.zoom < 0.001)
             this.viewpoint.zoom = 0.001;
-        if (this.viewpoint.zoom > 120)
-            this.viewpoint.zoom = 120;
+        if (this.viewpoint.zoom > 2)
+            this.viewpoint.zoom = 2;
 
         // Set new camera position (adjust for zoom)
         for (var i = 0 ; i < this.views.length ; i++)
@@ -405,33 +405,39 @@ CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
 {
 	// Translate page coords to element coords
 	var offset = $(this.renderer.domElement).offset();
-	var eltx = x - offset.left;
-	var elty = y - offset.top;
+	
+	var eltx = x;
+	var elty = this.windowSize - y + offset.top; // Invert Y to to put origin at lower left
 
-	// Translate client coords into viewport x,y
-    var vpx = ( eltx / this.container.offsetWidth ) * 2 - 1;
-    var vpy = - ( elty / this.container.offsetHeight ) * 2 + 1;
-
-    // Calculate vector pick vector
-    var vector = new THREE.Vector3( vpx, vpy, 1.0 );
-    this.projector.unprojectVector( vector, this.views[0].camera , 0, Infinity);
-    vector.sub( this.views[0].camera.position );
-    vector.normalize();
-
-    // Cast ray to find intersects
-    var raycaster = new THREE.Raycaster( this.views[0].camera.position, vector );
-    var targets = this.scene.mainRotationGroup.object3D.children;
-    var intersects = raycaster.intersectObjects( targets, true );
-
-    // Find first visible object
-    for (var i = 0 ; i < intersects.length ; i ++)
-    {
-        if (intersects[i].object != null && intersects[i].object.visible)
+	// Handle picking only over view 0
+	if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 
+	    && elty < this.windowSize * (this.views[0].height + this.views[0].bottom))
+	{
+        // Translate client coords into viewport x,y
+        var vpx = (eltx / (this.windowSize * this.views[0].width)) * 2 - 1;
+        var vpy = (elty / (this.windowSize * this.views[0].height)) * 2 - 1;
+        
+        // Calculate vector pick vector
+        var vector = new THREE.Vector3( vpx, vpy, 1.0 );
+        this.projector.unprojectVector( vector, this.views[0].camera , 0, Infinity);
+        vector.sub( this.views[0].camera.position );
+        vector.normalize();
+    
+        // Cast ray to find intersects
+        var raycaster = new THREE.Raycaster( this.views[0].camera.position, vector );
+        var targets = this.scene.mainRotationGroup.object3D.children;
+        var intersects = raycaster.intersectObjects( targets, true );
+    
+        // Find first visible object
+        for (var i = 0 ; i < intersects.length ; i ++)
         {
-            var mat = new THREE.Matrix4().getInverse(intersects[i].object.matrixWorld);
-            var point = intersects[i].point;
-            point.applyMatrix4(mat);
-            return ({"obj":intersects[i].object, "point":point});
+            if (intersects[i].object != null && intersects[i].object.visible)
+            {
+                var mat = new THREE.Matrix4().getInverse(intersects[i].object.matrixWorld);
+                var point = intersects[i].point;
+                point.applyMatrix4(mat);
+                return ({"obj":intersects[i].object, "point":point});
+            }
         }
     }
 
