@@ -18,7 +18,7 @@ var AVA_PickingPanel = function (container)
 AVA_PickingPanel.prototype.buildUI = function ()
 {
     // Configure - Container
-    this.container.style.display = "block";
+    // this.container.style.display = "block";
 	this.container.innerHTML = "";
 
 	// Components - Links

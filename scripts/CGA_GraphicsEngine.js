@@ -25,14 +25,18 @@ var CGA_GraphicsEngine = function(config)
         return;
 
     // Store window dimensions
-    this.windowHeight = this.container.offsetHeight;
-    this.windowWidth = this.container.offsetWidth;
+    this.windowSize  = this.container.offsetHeight < this.container.offsetWidth ? this.container.offsetHeight : this.container.offsetWidth;
+    this.windowLeft  = this.container.offsetWidth  > this.windowSize ? (this.container.offsetWidth - this.windowSize) / 2  : 0;
+    this.windowTop   = this.container.offsetHeight > this.windowSize ? (this.container.offsetHeight - this.windowSize) / 2 : 0;
     
     // Create the Three.js renderer, add it to our div
     this.renderer = new THREE.WebGLRenderer( { antialias: true, canvas: undefined } );
-    this.renderer.setSize(this.windowWidth, this.windowHeight);
+    this.renderer.setSize(this.windowSize, this.windowSize);
     this.container.appendChild(this.renderer.domElement);
     this.renderer.domElement.setAttribute("tabindex", 1);
+    this.renderer.domElement.style.marginLeft = this.windowLeft + "px";
+    this.renderer.domElement.style.marginTop = this.windowTop + "px";
+    
 
     // Viewpoint configuration
     this.views = [
@@ -45,7 +49,8 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 0, 0, 30  ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45
+        fov: 45,
+        zoom: 1
     },
     { 
         left: 0.5,
@@ -56,7 +61,8 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 30, 0, 0 ],
         default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45
+        fov: 45,
+        zoom: 1
     },
     { 
         left: 0,
@@ -67,7 +73,8 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ 0, 0, -30 ],
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45
+        fov: 45,
+        zoom: 1
     },
     { 
         left: 0.5,
@@ -78,7 +85,8 @@ var CGA_GraphicsEngine = function(config)
         default_eye: [ -30, 0, 0 ],
         default_rotation: [ 0, 3 * Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
-        fov: 45
+        fov: 45,
+        zoom: 1
     }];
     
     
@@ -91,7 +99,7 @@ var CGA_GraphicsEngine = function(config)
     // Create cameras and place in default location\
     for (var i = 0 ; i < this.views.length ; i ++)
     {
-        this.views[i].camera = new THREE.PerspectiveCamera( this.views[i].fov, this.windowWidth / this.windowHeight, 1, 10000 );
+        this.views[i].camera = new THREE.PerspectiveCamera( this.views[i].fov, 1, 1, 10000 );
         this.views[i].camera.position.set( this.views[i].default_eye[0], this.views[i].default_eye[1], this.views[i].default_eye[2] );
         this.views[i].camera.rotation.set( this.views[i].default_rotation[0], this.views[i].default_rotation[1], this.views[i].default_rotation[2] );
         this.views[i].camera.up.set( this.views[i].default_up[0], this.views[i].default_up[1], this.views[i].default_up[2] );
@@ -194,7 +202,8 @@ CGA_GraphicsEngine.prototype.applyCameraUpdate = function(update)
         // Apply reversed rotation to screen translation to put it into rotated model space
         var m = new THREE.Matrix4();
         m.setRotationFromEuler(tr_rotated);
-        var tr_screen = new THREE.Vector3(update.pan.x * this.viewpoint.distance, update.pan.y * this.viewpoint.distance, 0);
+        // TODO - Translation should account for distance from model
+        var tr_screen = new THREE.Vector3(update.pan.x * this.viewpoint.extent, update.pan.y * this.viewpoint.extent, 0);
         tr_screen.applyMatrix4(m);
 
         // Apply translation
@@ -204,20 +213,20 @@ CGA_GraphicsEngine.prototype.applyCameraUpdate = function(update)
     // Zoom - Adjust camera distance
     if (update.zoom)
     {
-        this.viewpoint.distance -= update.zoom * this.viewpoint.distance;
+        this.viewpoint.zoom -= update.zoom;
 
         // Clamp distance to min / max range
-        if (this.viewpoint.distance < this.viewpoint.distance_min)
-            this.viewpoint.distance = this.viewpoint.distance_min;
-        if (this.viewpoint.distance > this.viewpoint.distance_max)
-            this.viewpoint.distance = this.viewpoint.distance_max;
+        if (this.viewpoint.zoom < 0.001)
+            this.viewpoint.zoom = 0.001;
+        if (this.viewpoint.zoom > 120)
+            this.viewpoint.zoom = 120;
 
         // Set new camera position (adjust for zoom)
         for (var i = 0 ; i < this.views.length ; i++)
         {
-            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.distance;
-            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.distance;
-            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.distance;
+            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom;
+            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom;
+            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom;
         }
     }
 };
@@ -291,12 +300,9 @@ CGA_GraphicsEngine.prototype.computeViewpoint = function ()
         if (extent < 1)
             extent = 1;
 
-
         // Set Viewpoint parameters
         this.viewpoint.origin             = { x : -centroid.x, y: -centroid.y, z: -centroid.z};
-        this.viewpoint.distance_default   = extent * 3;
-        this.viewpoint.distance_max       = extent * 120;
-        this.viewpoint.distance_min       = extent * 0.001;
+        this.viewpoint.extent = extent;
     }
 };
 
@@ -451,18 +457,24 @@ CGA_GraphicsEngine.prototype.removeLoadListener = function (listener)
 
 
 
+var frameCount = 0;
 // Render a single frame
 //
 // Called by main loop
 // TODO - Fix up to use views properly from this.
 CGA_GraphicsEngine.prototype.render = function()
 {
+    frameCount ++;
+    
     for (var i = 0 ; i < this.views.length ; i++)
     {
-        var left   = Math.floor( this.windowWidth  * this.views[i].left );
-        var bottom = Math.floor( this.windowHeight * this.views[i].bottom );
-        var width  = Math.floor( this.windowWidth  * this.views[i].width );
-        var height = Math.floor( this.windowHeight * this.views[i].height );
+        var left   = Math.floor( this.windowSize * this.views[i].left);
+        var bottom = Math.floor( this.windowSize * this.views[i].bottom);
+        var width  = Math.floor( this.windowSize * this.views[i].width );
+        var height = Math.floor( this.windowSize * this.views[i].height );
+        
+        if (frameCount % 1000 == 0)
+            console.log("Camera " + i + " - l " + left + " b " + bottom + " w " + width + " h " + height);
         
         this.renderer.setViewport( left, bottom, width, height );
         this.renderer.setScissor( left, bottom, width, height );
@@ -495,10 +507,11 @@ CGA_GraphicsEngine.prototype.replaceSceneObjects = function (sceneObjectDescript
 // TODO - this.viewpoint.distance is really zoom
 CGA_GraphicsEngine.prototype.resetViewpoint = function ()
 {
+    console.log(this.viewpoint);
+    
+    // Reset translation and rotation to preset values
     if (!this.viewpoint.preset)
     {
-        this.viewpoint.distance = 1;
-
         this.scene.mainRotationGroup.object3D.rotation.x = 0;
         this.scene.mainRotationGroup.object3D.rotation.y = 0;
         this.scene.mainRotationGroup.object3D.rotation.z = 0;
@@ -506,21 +519,9 @@ CGA_GraphicsEngine.prototype.resetViewpoint = function ()
         this.scene.mainTranslationGroup.object3D.position.x = this.viewpoint.origin.x;
         this.scene.mainTranslationGroup.object3D.position.y = this.viewpoint.origin.y;
         this.scene.mainTranslationGroup.object3D.position.z = this.viewpoint.origin.z;
-
-        // Set new camera positions
-        for (var i = 0 ; i < this.views.length ; i++)
-        {
-            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.distance;
-            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.distance;
-            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.distance;
-        }
-        
-        this.scene.lightSource.position.set(this.viewpoint.distance * 0.5, this.viewpoint.distance * 0.5, this.viewpoint.distance * 0.8);
     }
     else
     {
-        this.viewpoint.distance = 1;
-        
         this.scene.mainRotationGroup.object3D.rotation.x = this.viewpoint.preset.rotation.x;
         this.scene.mainRotationGroup.object3D.rotation.y = this.viewpoint.preset.rotation.y;
         this.scene.mainRotationGroup.object3D.rotation.z = this.viewpoint.preset.rotation.z;
@@ -528,19 +529,20 @@ CGA_GraphicsEngine.prototype.resetViewpoint = function ()
         this.scene.mainTranslationGroup.object3D.position.x = this.viewpoint.preset.translation.x;
         this.scene.mainTranslationGroup.object3D.position.y = this.viewpoint.preset.translation.y;
         this.scene.mainTranslationGroup.object3D.position.z = this.viewpoint.preset.translation.z;
-
-        // Set new camera positions
-        for (var i = 0 ; i < this.views.length ; i++)
-        {
-            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.distance;
-            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.distance;
-            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.distance;
-        }
-
-        this.viewpoint.distance = this.viewpoint.preset.cameraPos.z;
-        
-        this.scene.lightSource.position.set(this.viewpoint.distance * 0.5, this.viewpoint.distance * 0.5, this.viewpoint.distance * 0.8);
     }
+
+    // Reset zoom to 1.0
+    this.viewpoint.zoom = 1.0;
+    
+    // Set new camera positions
+    for (var i = 0 ; i < this.views.length ; i++)
+    {
+        this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom;
+        this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom;
+        this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom;
+    }
+        
+    this.scene.lightSource.position.set(this.viewpoint.extent * 2, this.viewpoint.extent * 2, this.viewpoint.extent * 2);
 };
 
 
@@ -550,16 +552,19 @@ CGA_GraphicsEngine.prototype.resetViewpoint = function ()
 CGA_GraphicsEngine.prototype.resize = function()
 {
     // Store window dimensions
-    this.windowHeight = this.container.offsetHeight;
-    this.windowWidth = this.container.offserWidth;
+    this.windowSize  = this.container.offsetHeight < this.container.offsetWidth ? this.container.offsetHeight : this.container.offsetWidth;
+    this.windowLeft  = this.container.offsetWidth  > this.windowSize ? (this.container.offsetWidth - this.windowSize)  / 2 : 0;
+    this.windowTop   = this.container.offsetHeight > this.windowSize ? (this.container.offsetHeight - this.windowSize) / 2 : 0;
     
     // Update renderer
-    this.renderer.setSize(this.windowWidth, this.windowHeight);
+    this.renderer.setSize(this.windowSize, this.windowSize);
+    this.renderer.domElement.style.marginLeft = this.windowLeft + "px";
+    this.renderer.domElement.style.marginTop = this.windowTop + "px";
 	
     // Update camera aspect ratios
     for (var i = 0; i < this.views.length ; i++)
     {
-        this.views[i].camera.aspect = this.windowWidth / this.windowHeight;
+        // this.views[i].camera.aspect = 1.0; Aspect is 1.0 by definition
         this.views[i].camera.updateProjectionMatrix();
     }
 };

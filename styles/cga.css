@@ -49,6 +49,7 @@
         overflow: hidden;
         position: absolute;
         width: 100%;
+        text-align: center;
     }
     div#cga_gfx_container canvas
     {
