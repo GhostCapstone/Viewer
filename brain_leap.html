@@ -12,6 +12,8 @@
         <script src="scripts/jquery.mousewheel.min.js">;</script>
         <script src="scripts/DOMUtils.js">;</script>
         <script src="scripts/Lang.js">;</script>
+        <script src="scripts/Ghost_LeapController.js">;</script>
+        <script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script>
         <script src="scripts/CGA_BaseController.js">;</script>
         <script src="scripts/CGA_GeometryObject.js">;</script>
         <script src="scripts/CGA_GraphicsEngine.js">;</script>
@@ -381,6 +383,9 @@
             mainApp.addController(new CGA_BaseController(mainApp));
             mainApp.addController(new AVA_Controller(mainApp));
             mainApp.gfxEngine.loadSceneObjects(sceneObjectDescriptors);
+            
+            var ghost_leapController = new Ghost_LeapController(mainApp.gfxEngine, document.getElementById("2dCanvas"));
+            ghost_leapController.initialize();
         });
         
     </script>
@@ -402,6 +407,9 @@
                 </div>
             </div>
             <div id="cga_help_button">&nbsp;</div>
+            <canvas id="2dCanvas"></canvas>
+            
+            <div id="sample_ui">I am a UI element</div> 
         </div>
     </body>
 </html>

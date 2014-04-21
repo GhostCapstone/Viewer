@@ -46,7 +46,7 @@ var CGA_GraphicsEngine = function(config)
         width: 0.5,
         height: 0.5,
         background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
-        default_eye: [ 0, 0, 30  ],
+        default_eye: [ 0, 0, 1  ],  // The eye vector is multiplied by the zoom factor and extent to determine camera position
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
@@ -57,7 +57,7 @@ var CGA_GraphicsEngine = function(config)
         width: 0.5,
         height: 0.5,
         background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
-        default_eye: [ 30, 0, 0 ],
+        default_eye: [ 1, 0, 0 ],
         default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
@@ -68,7 +68,7 @@ var CGA_GraphicsEngine = function(config)
         width: 0.5,
         height: 0.5,
         background: new THREE.Color().setRGB( 0.5, 0.7, 0.7 ),
-        default_eye: [ 0, 0, -30 ],
+        default_eye: [ 0, 0, -1 ],
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
@@ -79,7 +79,7 @@ var CGA_GraphicsEngine = function(config)
         width: 0.5,
         height: 0.5,
         background: new THREE.Color().setRGB( 0.7, 0.5, 0.7 ),
-        default_eye: [ -30, 0, 0 ],
+        default_eye: [ -1, 0, 0 ],
         default_rotation: [ 0, 3 * Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
@@ -214,15 +214,15 @@ CGA_GraphicsEngine.prototype.applyCameraUpdate = function(update)
         // Clamp distance to min / max range
         if (this.viewpoint.zoom < 0.001)
             this.viewpoint.zoom = 0.001;
-        if (this.viewpoint.zoom > 2)
-            this.viewpoint.zoom = 2;
+        if (this.viewpoint.zoom > 10)
+            this.viewpoint.zoom = 10;
 
         // Set new camera position (adjust for zoom)
         for (var i = 0 ; i < this.views.length ; i++)
         {
-            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom;
-            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom;
-            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom;
+            this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom * this.viewpoint.extent;
+            this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom * this.viewpoint.extent;
+            this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom * this.viewpoint.extent;
         }
     }
 };
@@ -531,15 +531,15 @@ CGA_GraphicsEngine.prototype.resetViewpoint = function ()
         this.scene.mainTranslationGroup.object3D.position.z = this.viewpoint.preset.translation.z;
     }
 
-    // Reset zoom to 1.0
-    this.viewpoint.zoom = 1.0;
+    // Reset zoom to 1.5
+    this.viewpoint.zoom = 2;
     
     // Set new camera positions
     for (var i = 0 ; i < this.views.length ; i++)
     {
-        this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom;
-        this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom;
-        this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom;
+        this.views[i].camera.position.x = this.views[i].default_eye[0] * this.viewpoint.zoom * this.viewpoint.extent;
+        this.views[i].camera.position.y = this.views[i].default_eye[1] * this.viewpoint.zoom * this.viewpoint.extent;
+        this.views[i].camera.position.z = this.views[i].default_eye[2] * this.viewpoint.zoom * this.viewpoint.extent;
     }
         
     this.scene.lightSource.position.set(this.viewpoint.extent * 2, this.viewpoint.extent * 2, this.viewpoint.extent * 2);

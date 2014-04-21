@@ -11,7 +11,9 @@
         <script src="scripts/jquery-1.8.3.min.js">;</script>
         <script src="scripts/jquery.mousewheel.min.js">;</script>
         <script src="scripts/DOMUtils.js">;</script>
-        <script src="scripts/Lang.js">;</script>
+        <script src="scripts/Lang.js">;</script>        
+        <script src="scripts/Ghost_LeapController.js">;</script>
+        <script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script>
         <script src="scripts/CGA_BaseController.js">;</script>
         <script src="scripts/CGA_GeometryObject.js">;</script>
         <script src="scripts/CGA_GraphicsEngine.js">;</script>
@@ -776,9 +778,7 @@
                 {
                     container: document.getElementById("cga_container"),
                 },
-                gfx: {
-                	viewpoint: {}
-                },
+                gfx: {},
                 interaction: {},
                 url: "/SIG-SceneGen/sceneFragment/assetSet/3140/3222,3215,3216,3217,3218,3219,3220,3221,3223,3225,3227,3228,3229,3234,3235,3236,3237,3240,3241,3242,3243,3244,3245,3212,3213,3214,3226,3233,3238,3239,3224,3246,3230,3231,3232/395",
             };
@@ -788,6 +788,9 @@
             mainApp.addController(new CGA_BaseController(mainApp));
             mainApp.addController(new AVA_Controller(mainApp));
             mainApp.gfxEngine.loadSceneObjects(sceneObjectDescriptors);
+                        
+            var ghost_leapController = new Ghost_LeapController(mainApp.gfxEngine, document.getElementById("2dCanvas"));
+            ghost_leapController.initialize();
         });
         
     </script>
@@ -808,6 +811,9 @@
                     <div id="ava_picking" style="display: none;"></div>
                 </div>
             </div>
-            <div id="cga_help_button" style="display: none;">&nbsp;</div>
+            <div id="cga_help_button">&nbsp;</div>
+            <canvas id="2dCanvas"></canvas>
+            
+            <div id="sample_ui">I am a UI element</div> 
     </body>
 </html>
