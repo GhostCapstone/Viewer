@@ -41,8 +41,8 @@ var CGA_GraphicsEngine = function(config)
     // Sets Leap Canvas size
     var leapCanvas = document.getElementById('2dCanvas');
 
-    leapCanvas.style.width = this.windowSize/2 + 'px';
-    leapCanvas.style.height = this.windowSize/2 + 'px';
+    leapCanvas.width = this.windowSize/2;
+    leapCanvas.height = this.windowSize/2;
     leapCanvas.style.left = this.windowLeft + 'px';
     leapCanvas.style.top = this.windowTop + 'px';
     
@@ -567,8 +567,8 @@ CGA_GraphicsEngine.prototype.resize = function()
     this.windowLeft  = this.container.offsetWidth  > this.windowSize ? (this.container.offsetWidth - this.windowSize)  / 2 : 0;
     this.windowTop   = this.container.offsetHeight > this.windowSize ? (this.container.offsetHeight - this.windowSize) / 2 : 0;
     
-    leapCanvas.style.width = this.windowSize/2 + 'px';
-    leapCanvas.style.height = this.windowSize/2 + 'px';
+    leapCanvas.width = this.windowSize/2;
+    leapCanvas.height = this.windowSize/2;
     leapCanvas.style.left = this.windowLeft + 'px';
     leapCanvas.style.top = this.windowTop + 'px';
     
