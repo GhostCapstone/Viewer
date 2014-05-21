@@ -46,7 +46,6 @@ Ghost_LeapController.prototype.initialize = function ()
     this.leapController.connect();
 };
 
-
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
@@ -67,6 +66,20 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
         var translation = this.lastFrame.translation(this.frame);
     
+        // Loops through each finger
+        for (var j = 0; j < hand.fingers.length; j++) {
+            var finger = hand.fingers[j]; // Current finger
+            var fingerPos = this.applyLeapToScreenTransform(finger.tipPosition); // Finger position
+
+            // Drawing the finger
+            this.canvas2d.strokeStyle = "#FF5A40";
+            this.canvas2d.lineWidth = 6;
+            this.canvas2d.beginPath();
+            this.canvas2d.arc(fingerPos[0], fingerPos[1], 6, 0, Math.PI * 2);
+            this.canvas2d.closePath();
+            this.canvas2d.stroke();
+        }
+
         /* GESTURES */
     
         // ZOOM OUT - If there are two fingers and they're separating

@@ -25,6 +25,7 @@ var CGA_GraphicsEngine = function(config)
         return;
 
     // Store window dimensions
+
     this.windowSize  = this.container.offsetHeight < this.container.offsetWidth ? this.container.offsetHeight : this.container.offsetWidth;
     this.windowLeft  = this.container.offsetWidth  > this.windowSize ? (this.container.offsetWidth - this.windowSize) / 2  : 0;
     this.windowTop   = this.container.offsetHeight > this.windowSize ? (this.container.offsetHeight - this.windowSize) / 2 : 0;
@@ -36,6 +37,14 @@ var CGA_GraphicsEngine = function(config)
     this.renderer.domElement.setAttribute("tabindex", 1);
     this.renderer.domElement.style.marginLeft = this.windowLeft + "px";
     this.renderer.domElement.style.marginTop = this.windowTop + "px";
+
+    // Sets Leap Canvas size
+    var leapCanvas = document.getElementById('2dCanvas');
+
+    leapCanvas.style.width = this.windowSize/2 + 'px';
+    leapCanvas.style.height = this.windowSize/2 + 'px';
+    leapCanvas.style.left = this.windowLeft + 'px';
+    leapCanvas.style.top = this.windowTop + 'px';
     
 
     // Viewpoint configuration
@@ -45,7 +54,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 0.7, 0.5, 0.7 ),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -56,7 +65,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
         default_eye: [ 1.5, 0, 0 ],
         default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -67,7 +76,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 0.5, 0.7, 0.7 ),
         default_eye: [ 0, 0, -1.5  ],  // The eye vector is multiplied by the zoom factor and extent to determine camera position
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -78,7 +87,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
         default_eye: [ -1.5, 0, 0 ],
         default_rotation: [ 0, Math.PI  * (3/2), 0 ],
         default_up: [ 0, 0, 1 ],
@@ -551,15 +560,22 @@ CGA_GraphicsEngine.prototype.resetViewpoint = function ()
 // Resize the renderer and camera frustum according to current container size
 CGA_GraphicsEngine.prototype.resize = function()
 {
+    var leapCanvas = document.getElementById('2dCanvas');
+
     // Store window dimensions
     this.windowSize  = this.container.offsetHeight < this.container.offsetWidth ? this.container.offsetHeight : this.container.offsetWidth;
     this.windowLeft  = this.container.offsetWidth  > this.windowSize ? (this.container.offsetWidth - this.windowSize)  / 2 : 0;
     this.windowTop   = this.container.offsetHeight > this.windowSize ? (this.container.offsetHeight - this.windowSize) / 2 : 0;
     
+    leapCanvas.style.width = this.windowSize/2 + 'px';
+    leapCanvas.style.height = this.windowSize/2 + 'px';
+    leapCanvas.style.left = this.windowLeft + 'px';
+    leapCanvas.style.top = this.windowTop + 'px';
+    
     // Update renderer
     this.renderer.setSize(this.windowSize, this.windowSize);
     this.renderer.domElement.style.marginLeft = this.windowLeft + "px";
-    this.renderer.domElement.style.marginTop = this.windowTop + "px";
+    this.renderer.domElement.style.marginTop = this.windowTop + "px";    
 	
     // Update camera aspect ratios
     for (var i = 0; i < this.views.length ; i++)
