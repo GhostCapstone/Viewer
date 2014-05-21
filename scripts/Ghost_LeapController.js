@@ -190,10 +190,26 @@ Ghost_LeapController.prototype.applyLeapToScreenTransform = function(leapPos)
     x /= iBox.size[0];
     y /= iBox.size[1];
 
-    x *= this.width;
+    x *= this.width;        //  * (iBox.size[1]/iBox.size[0])
     y *= this.height;
 
-    return [x, -y];
+    var returnCoordinates = this.polarCoordinateConversion(x, -y);
+
+    return returnCoordinates;
+}
+
+Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
+    var xinVal = parseInt(xin);
+    var yinVal = parseInt(yin);
+    var rinVal = Math.sqrt(xinVal*xinVal + yinVal*yinVal);
+    var thetaIn = Math.atan2(yinVal, xinVal);
+    // console.log(thetaIn);
+
+    var thetaOffset = Math.PI / 4;
+    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset);
+    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset);
+
+    return [xoutVal, youtVal];
 }
 
 
