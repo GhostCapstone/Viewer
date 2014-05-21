@@ -51,6 +51,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
     this.frame = data;
+
+    // Dtaw UI
+    this.canvas2d.fillStyle = "#FF0000";
+    this.canvas2d.fillRect(0,0,150,75);
     
     // Clears the window
     this.canvas2d.clearRect(0, 0, this.width, this.height);

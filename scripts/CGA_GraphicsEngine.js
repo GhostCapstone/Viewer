@@ -42,12 +42,23 @@ var CGA_GraphicsEngine = function(config)
     this.views = [
     {
         left: 0,
+        bottom: 0.5,
+        width: 0.5,
+        height: 0.5,
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        default_eye: [ 0, 0, 1.5 ],
+        default_rotation: [ 0, 0, 0 ],
+        default_up: [ 0, 0, 1 ],
+        fov: 45
+    },
+    { 
+        left: 0,
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
-        default_eye: [ 0, 0, 1  ],  // The eye vector is multiplied by the zoom factor and extent to determine camera position
-        default_rotation: [ 0, 0, 0 ],
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        default_eye: [ 1.5, 0, 0 ],
+        default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
     },
@@ -56,19 +67,8 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
-        default_eye: [ 1, 0, 0 ],
-        default_rotation: [ 0, Math.PI / 2, 0 ],
-        default_up: [ 0, 0, 1 ],
-        fov: 45
-    },
-    { 
-        left: 0,
-        bottom: 0.5,
-        width: 0.5,
-        height: 0.5,
-        background: new THREE.Color().setRGB( 0.5, 0.7, 0.7 ),
-        default_eye: [ 0, 0, -1 ],
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        default_eye: [ 0, 0, -1.5  ],  // The eye vector is multiplied by the zoom factor and extent to determine camera position
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
@@ -78,9 +78,9 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.7, 0.5, 0.7 ),
-        default_eye: [ -1, 0, 0 ],
-        default_rotation: [ 0, 3 * Math.PI / 2, 0 ],
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        default_eye: [ -1.5, 0, 0 ],
+        default_rotation: [ 0, Math.PI  * (3/2), 0 ],
         default_up: [ 0, 0, 1 ],
         fov: 45
     }];
