@@ -187,7 +187,7 @@ Ghost_LeapController.prototype.applyLeapToScreenTransform = function(leapPos)
     var top = iBox.center[1] + iBox.size[1] / 2;
 
     // X Poisition = Current
-    var x = leapPos[0] - left;
+    var x = leapPos[0];
     var y = leapPos[1] - top;
 
     x /= iBox.size[0];
