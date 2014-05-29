@@ -1,6 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!-- saved from url=(0050)http://www.meme-hazard.org/sig/neuro-demo/nd1.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        
+        <style type="text/css">
+            #menu {
+                position: fixed;
+                left: 365px;
+                top: 170px;
+            }
+            #menu_img {
+                height: 200px;
+                width: 200px;
+                transform:rotate(-45deg);
+                -ms-transform:rotate(-45deg);
+                -webkit-transform:rotate(-45deg);
+            }
+        </style>
+            
+    
+
         <title>Neuroanatomy - Scene 1</title>
         <!--<base href=".">--><base href=".">
         <link media="screen" type="text/css" href="styles/cga.css" rel="stylesheet">
@@ -402,6 +421,7 @@
                     <div id="ava_contents"></div>
                 </div>
                 <div id="ava_ui_left_panel">
+                    <div id="menu"><img id="menu_img" src="fullmenuon.png"></div>
                     <div id="ava_picking" style="display: block;"></div>
                 </div>
             </div>
@@ -410,5 +430,29 @@
             
             <div id="sample_ui">I am a UI element</div> 
         </div>
+        <script>
+
+        $( "#circle-container" ).mouseover(function() {
+          console.log("hihihi");
+          $( "#circle-container" ).animate({
+            "left": "-=50px",
+            "top": "-=50px"
+          }, "slow");
+        });
+
+
+
+        $(document).ready(function() {
+            $('.quarter').bind("mouseover", function(){
+                var color  = $(this).css("background-color");
+
+                $(this).css("background", "#78B9D3");
+
+                $(this).bind("mouseout", function(){
+                    $(this).css("background", color);
+                })    
+            })
+        });
+        </script>
     </body>
 </html>
