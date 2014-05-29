@@ -54,7 +54,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.7, 0.5, 0.7 ),
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -65,7 +65,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
         default_eye: [ 1.5, 0, 0 ],
         default_rotation: [ 0, Math.PI / 2, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -76,7 +76,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.5, 0.7, 0.7 ),
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
         default_eye: [ 0, 0, -1.5  ],  // The eye vector is multiplied by the zoom factor and extent to determine camera position
         default_rotation: [ 0, Math.PI, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -87,7 +87,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
+        background: new THREE.Color().setRGB( 0, 0, 0 ),
         default_eye: [ -1.5, 0, 0 ],
         default_rotation: [ 0, Math.PI  * (3/2), 0 ],
         default_up: [ 0, 0, 1 ],
@@ -407,16 +407,19 @@ CGA_GraphicsEngine.prototype.loadSceneObjects = function (sceneObjectDescriptors
 
 
 
-
 // Pick the first object under coordinates given
 // TODO - Choose camera based on which viewpoint x,y is in
 CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
 {
+    console.log('coordinates: ' + x + ', ' + y);
+
 	// Translate page coords to element coords
 	var offset = $(this.renderer.domElement).offset();
 	
 	var eltx = x;
 	var elty = this.windowSize - y + offset.top; // Invert Y to to put origin at lower left
+
+    console.log('coordinates 2: ' + eltx + ', ' + elty);
 
 	// Handle picking only over view 0
 	if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 

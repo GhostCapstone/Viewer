@@ -196,7 +196,7 @@ Ghost_LeapController.prototype.applyLeapToScreenTransform = function(leapPos)
     x *= this.width;        //  * (iBox.size[1]/iBox.size[0])
     y *= this.height;
 
-    var returnCoordinates = this.polarCoordinateConversion(x, -y);
+    var returnCoordinates = this.polarCoordinateConversion(-x, -y);
 
     return returnCoordinates;
 }
