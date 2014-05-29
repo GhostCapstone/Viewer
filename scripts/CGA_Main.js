@@ -42,7 +42,6 @@ var CGA_Main = function(config)
 
 
 
-
 // Add a controller
 CGA_Main.prototype.addController = function (controller)
 {
@@ -51,6 +50,12 @@ CGA_Main.prototype.addController = function (controller)
 };
 
 
+// CGA_Main.getInteractionManager = function()
+// {
+//   console.log("interaction manager");
+//   console.log(this);
+//   return CGA_Main.interactionManager;
+// };
 
 
 // Generate URL for current scene (including viewpoint)
@@ -94,12 +99,12 @@ CGA_Main.prototype.mainLoop = function()
             this.controllers[i].frame();
     }
 
-	// Render scene
-	this.gfxEngine.render();
+  // Render scene
+  this.gfxEngine.render();
 
-	// Proceed to next frame
-	var that = this;
-	requestAnimationFrame(function()
+  // Proceed to next frame
+  var that = this;
+  requestAnimationFrame(function()
     {
         that.mainLoop();
     });

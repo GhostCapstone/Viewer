@@ -54,7 +54,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 100, 100, 100 ),
+        background: new THREE.Color().setRGB( 0, 120, 0 ),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -414,10 +414,10 @@ CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
     // Translate page coords to element coords
     var offset = $(this.renderer.domElement).offset();
     
-    var eltx = x - offset.left;
-    var elty = this.windowSize * this.views[0].width - y; // Invert Y to to put origin at lower left
+    var eltx = x.toFixed();
+    var elty = this.windowSize * this.views[0].width - y.toFixed(); // Invert Y to to put origin at lower left
     // console.log("offset top: " + offset.top);
-    console.log('coordinates: ' + x + ', ' + y);
+    // console.log('coordinates: ' + x + ', ' + y);
     console.log('coordinates 2: ' + eltx + ', ' + elty);
 
     // Handle picking only over view 0
@@ -443,7 +443,7 @@ CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
         var raycaster = new THREE.Raycaster( this.views[0].camera.position, vector );
         var targets = this.scene.mainRotationGroup.object3D.children;
         var intersects = raycaster.intersectObjects( targets, true );
-    
+        
         // Find first visible object
         for (var i = 0 ; i < intersects.length ; i ++)
         {

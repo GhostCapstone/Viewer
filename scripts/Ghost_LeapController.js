@@ -46,6 +46,8 @@ Ghost_LeapController.prototype.initialize = function ()
     this.leapController.connect();
 };
 
+
+var frames = 0;
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
@@ -69,20 +71,28 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         /* GESTURES */
 
         // POINT AND HIGHLIGHT - If one finger is present
-        if (this.frame.fingers.length == 1) 
+        if (this.frame.fingers.length == 1 && hand.fingers[0] != undefined) 
         {
             var finger = hand.fingers[0]; // Current finger
             var fingerPos = this.applyLeapToScreenTransform(finger.tipPosition); // Finger position
-
-            // Drawing the finger
+            // // Drawing the finger
             this.canvas2d.strokeStyle = "#FF5A40";
             this.canvas2d.lineWidth = 6;
             this.canvas2d.beginPath();
             this.canvas2d.arc(fingerPos[0], fingerPos[1], 2, 0, Math.PI * 2);
             this.canvas2d.closePath();
             this.canvas2d.stroke();
-
-            this.gfxEngine.objectAtPoint(fingerPos[0], fingerPos[1]);
+            if(frames === 30){
+                frames = 0;
+                var pickResult = this.gfxEngine.objectAtPoint(fingerPos[0], fingerPos[1]);
+                
+                // console.log(mainApp.interactionManager);
+                mainApp.interactionManager.highlightObjects(pickResult);
+                // console.log("fingerPos: " + fingerPos[0] + ", " + fingerPos[1]);
+            } else {
+                frames++;
+                // console.log(frames);
+            }
         }
     
         // ZOOM OUT - If there are two fingers and they're separating

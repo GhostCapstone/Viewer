@@ -159,21 +159,9 @@ CGA_InteractionManager.prototype.onMouseMove = function(event)
     // Handle picking (if enabled)
     if (this.flag_pickingOnHoverEnabled)
     {
-        var pickResult = this.gfxEngine.objectAtPoint(event.pageX, event.pageY);
-
-        // Call controller
-        if (pickResult.obj)
-        {
-            for (var i = 0 ; i < this.listeners.length ; i++)
-                if (this.listeners[i].handleObjectHovered)
-                    this.listeners[i].handleObjectHovered(pickResult.obj.cgaObj);
-        }
-        else
-        {
-            for (var i = 0 ; i < this.listeners.length ; i++)
-                if (this.listeners[i].handleObjectHovered)
-                    this.listeners[i].handleObjectHovered(null);
-        }
+        var canvas = document.getElementsByTagName("canvas")[1];
+        var pickResult = this.gfxEngine.objectAtPoint(event.pageX - canvas.offsetLeft, event.pageY);
+        this.highlightObjects(pickResult);
     }
 
     // Notify listeners of mouse motion
@@ -182,6 +170,21 @@ CGA_InteractionManager.prototype.onMouseMove = function(event)
             this.listeners[i].handleMouseMove(this.state);
 };
 
+CGA_InteractionManager.prototype.highlightObjects = function(pickResult){
+   // Call controller
+    if (pickResult.obj)
+    {
+        for (var i = 0 ; i < this.listeners.length ; i++)
+            if (this.listeners[i].handleObjectHovered)
+                this.listeners[i].handleObjectHovered(pickResult.obj.cgaObj);
+    }
+    else
+    {
+        for (var i = 0 ; i < this.listeners.length ; i++)
+            if (this.listeners[i].handleObjectHovered)
+                this.listeners[i].handleObjectHovered(null);
+    }
+}
 
 // Event - mouse wheel has been scrolled within webGL canvas
 CGA_InteractionManager.prototype.onMouseScroll = function(event, delta)
