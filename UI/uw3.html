@@ -12,14 +12,28 @@
 		#circle-container{
 			width:400px;
 			height:400px;
-			transform:rotate(45deg);
+			/*transform:rotate(45deg);
 			-ms-transform:rotate(45deg); /* IE 9 */
-			-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
+			/*-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
 			opacity: 1;
 			background:url("http://l.rgbimg.com/cache1uP3P0/users/x/xy/xymonau/600/o99zE7C.jpg");
 			border-radius: 200px;
-
+			position: fixed;
+			/*top: 100px;
+			right: 300px;*/
 		}
+		/*#circle-container:hover{
+		    -webkit-transform: translate(540px,-200px);
+		    -moz-transform: translate(540px,-200px);
+		    -o-transform: translate(540px,-200px);
+		    -ms-transform: translate(540px,-200px);
+		    transform: translate(540px,-200px);
+
+		    -webkit-transition: 2s ease-in-out;
+		    -moz-transition: 2s ease-in-out;
+		    -o-transition: 2s ease-in-out;
+		    transition: 2s ease-in-out;
+		  }*/
 		.quarter{
 			width:200px;
 			height:200px;
@@ -89,6 +103,9 @@
 			-ms-transform:rotate(-45deg); /* IE 9 */
 			-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
 		}
+		/*#top-right, #bottom-left, #bottom-right {
+			background-color: white;
+		}*/
 	</style>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -114,30 +131,35 @@
 	<div id="bottom">
 	</div>
 	<script>
-		$("#bottom").mouseover(function() {
-  			$("#circle-container" ).animate({ "opacity": "1" }, "slow" );
-		});
+		// $("#bottom").mouseover(function() {
+  // 			$("#circle-container" ).animate({ "opacity": "1" }, "slow" );
+		// });
 
 		// $("#circle-container").mouseout(function() {
   // 			$( "#circle-container" ).animate({ "opacity": "0" }, "slow" );
 		// });
 
 		
-
+		$( "#circle-container" ).mouseover(function() {
+		  $( "#circle-container" ).animate({
+		    "left": "-=50px",
+		    "top": "-=50px"
+		  }, "slow");
+		});
 
 
 
 		$(document).ready(function() {
-        $('.quarter').bind("mouseover", function(){
-            var color  = $(this).css("background-color");
+	        $('.quarter').bind("mouseover", function(){
+	            var color  = $(this).css("background-color");
 
-            $(this).css("background", "#78B9D3");
+	            $(this).css("background", "#78B9D3");
 
-            $(this).bind("mouseout", function(){
-                $(this).css("background", color);
-            })    
-        })    
-    })
+	            $(this).bind("mouseout", function(){
+	                $(this).css("background", color);
+	            })    
+        	})
+    	});
 		// function changeC() {
 		// 	$(this).stop().animate({backgroundColor:"red"}, "slow");
 		// }
