@@ -54,7 +54,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 100, 100, 100 ),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -411,23 +411,26 @@ CGA_GraphicsEngine.prototype.loadSceneObjects = function (sceneObjectDescriptors
 // TODO - Choose camera based on which viewpoint x,y is in
 CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
 {
-    console.log('coordinates: ' + x + ', ' + y);
+    // Translate page coords to element coords
+    var offset = $(this.renderer.domElement).offset();
+    
+    var eltx = x;
+    var elty = this.windowSize - y + offset.top; // Invert Y to to put origin at lower left
 
-	// Translate page coords to element coords
-	var offset = $(this.renderer.domElement).offset();
-	
-	var eltx = x;
-	var elty = this.windowSize - y + offset.top; // Invert Y to to put origin at lower left
+    // console.log('coordinates 2: ' + eltx + ', ' + elty);
 
-    console.log('coordinates 2: ' + eltx + ', ' + elty);
-
-	// Handle picking only over view 0
-	if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 
-	    && elty < this.windowSize * (this.views[0].height + this.views[0].bottom))
-	{
+    // Handle picking only over view 0
+    // if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 
+    //     && elty < this.windowSize * (this.views[0].height + this.views[0].bottom))
+    // {
+    // console.log("view 0 diminesions: " + this.views[0].width + " x " + this.views[0].height);
+    if (eltx  - offset.left < this.windowSize * this.views[0].width && elty > this.windowSize * this.views[0].height)
+    {
+        console.log('coordinates: ' + x + ', ' + y);
+        // console.log('camera poistion: ' + this.views[0].camera.position.x + ", " + this.views[0].camera.position.y + ", " + this.views[0].camera.position.z);
         // Translate client coords into viewport x,y
-        var vpx = (eltx / (this.windowSize * this.views[0].width)) * 2 - 1;
-        var vpy = (elty / (this.windowSize * this.views[0].height)) * 2 - 1;
+        var vpx = (eltx / (this.windowSize * this.views[0].width)) - 1;
+        var vpy = (elty / (this.windowSize * this.views[0].height)) - 1;
         
         // Calculate vector pick vector
         var vector = new THREE.Vector3( vpx, vpy, 1.0 );
