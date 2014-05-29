@@ -11,7 +11,9 @@
         <script src="scripts/jquery-1.8.3.min.js">;</script>
         <script src="scripts/jquery.mousewheel.min.js">;</script>
         <script src="scripts/DOMUtils.js">;</script>
-        <script src="scripts/Lang.js">;</script>
+        <script src="scripts/Lang.js">;</script>        
+        <script src="scripts/Ghost_LeapController.js">;</script>
+        <script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script>
         <script src="scripts/CGA_BaseController.js">;</script>
         <script src="scripts/CGA_GeometryObject.js">;</script>
         <script src="scripts/CGA_GraphicsEngine.js">;</script>
@@ -38,6 +40,7 @@
             centroid: { x : 0.3498019650943397 , y: 0.3776975037735851, z: 7.30715247924528 },
             min: { x : -0.518241 , y: -0.978645, z: 5.75453 },
             max: { x : 1.37793 , y: 2.18864, z: 8.11631 },
+			layer: "circulatory", 
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1792.obj",
@@ -47,6 +50,7 @@
             centroid: { x : -4.047080376473619E-16 , y: -2.4141567908294723, z: 14.703572858835647 },
             min: { x : -2.0784 , y: -3.79779, z: 13.3303 },
             max: { x : 2.0784 , y: -0.498098, z: 16.4142 },
+			layer: "skeletal", 
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1803.obj",
@@ -56,6 +60,7 @@
             centroid: { x : 1.730188679246394E-5 , y: -2.9367982150943392, z: 5.773230779245277 },
             min: { x : -0.73443 , y: -3.582242, z: 3.743911 },
             max: { x : 0.734429 , y: -1.792652, z: 8.180175 },
+			layer: "skeletal", 
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1814.obj",
@@ -65,7 +70,8 @@
             centroid: { x : -0.6399307984496121 , y: 0.4536583565891473, z: 9.463033289405681 },
             min: { x : -1.490211 , y: -0.01977, z: 7.75438 },
             max: { x : 0.087826 , y: 0.871924, z: 11.0654 },
-            material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
+            layer: "circulatory",
+			material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1823.obj",
             name: "C5-C6 anterior division of right brachial plexus",
@@ -74,6 +80,7 @@
             centroid: { x : -1.8035355263157895 , y: 1.5101496842105262, z: 10.93730668421053 },
             min: { x : -2.15792 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.90384, z: 11.760046 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1840.obj",
@@ -83,6 +90,7 @@
             centroid: { x : -1.7936141875000002 , y: 1.6428887291666665, z: 11.480428874999996 },
             min: { x : -1.96318 , y: 1.335515, z: 11.2468 },
             max: { x : -1.650875 , y: 1.98728, z: 11.703652 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1852.obj",
@@ -92,6 +100,7 @@
             centroid: { x : -1.8390591666666671 , y: 1.676543729166667, z: 11.422089812500003 },
             min: { x : -2.122446 , y: 1.51772, z: 11.32998 },
             max: { x : -1.55144 , y: 1.884503, z: 11.5226 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1862.obj",
@@ -101,6 +110,7 @@
             centroid: { x : -1.7424649999999997 , y: 1.7553200000000002, z: 11.37230277777778 },
             min: { x : -2.0213 , y: 1.48327, z: 11.1737 },
             max: { x : -1.50911 , y: 2.07565, z: 11.5797 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1778.obj",
@@ -110,6 +120,7 @@
             centroid: { x : -1.6273305405405403 , y: 1.9667018918918917, z: 10.856199999999998 },
             min: { x : -1.97973 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.27655, z: 11.4094 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1779.obj",
@@ -119,6 +130,7 @@
             centroid: { x : -1.5819588400000004 , y: 1.8001651599999997, z: 10.842985659999997 },
             min: { x : -1.90123 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.9613, z: 11.370423 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1780.obj",
@@ -128,6 +140,7 @@
             centroid: { x : 3.670625462901077E-18 , y: -0.5678774699898269, z: 12.40009623601222 },
             min: { x : -0.658397 , y: -1.10241, z: 11.9712 },
             max: { x : 0.658397 , y: -0.042308, z: 12.9322 },
+			layer: "muscular",
             material: { ambient: "#c0e0ff", diffuse: "#c0e0ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1781.obj",
@@ -137,6 +150,7 @@
             centroid: { x : 0.16969734146341467 , y: 0.7934729176829265, z: 7.10533845121952 },
             min: { x : -0.305046 , y: -0.405273, z: 1.26974 },
             max: { x : 1.06211 , y: 1.965091, z: 13.351243 },
+			layer: "digestive",
             material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
         },{
             file: "cvc_models/1783.obj",
@@ -146,6 +160,7 @@
             centroid: { x : -1.2169562499999997 , y: 1.7622164583333328, z: 11.434868750000005 },
             min: { x : -1.47495 , y: 1.63752, z: 11.2604 },
             max: { x : -1.00511 , y: 1.94403, z: 11.5792 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1784.obj",
@@ -155,6 +170,7 @@
             centroid: { x : -0.003251320393974468 , y: -0.8819085533024349, z: 13.706994904403233 },
             min: { x : -0.64709 , y: -1.32678, z: 12.2387 },
             max: { x : 0.646788 , y: -0.22825, z: 14.71 },
+			layer: "respiratory",
             material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
         },{
             file: "cvc_models/1786.obj",
@@ -164,6 +180,7 @@
             centroid: { x : -2.3445552777777774 , y: 1.9483919444444442, z: 11.342711111111115 },
             min: { x : -2.61258 , y: 1.77323, z: 11.2128 },
             max: { x : -2.09487 , y: 2.08325, z: 11.4918 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1787.obj",
@@ -173,6 +190,7 @@
             centroid: { x : 0.2463811044776116 , y: -0.08479170149253722, z: 10.044014388059702 },
             min: { x : -0.833787 , y: -0.476428, z: 8.766467 },
             max: { x : 1.73811 , y: 0.370414, z: 11.300837 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1788.obj",
@@ -182,6 +200,7 @@
             centroid: { x : 3.325298042941763 , y: 0.146194736426456, z: 10.104184442250753 },
             min: { x : 0.649682 , y: -1.09364, z: 9.61965 },
             max: { x : 6.9588 , y: 1.87164, z: 10.444 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1789.obj",
@@ -191,6 +210,7 @@
             centroid: { x : 0.5430599527027026 , y: 0.23896177702702712, z: 9.935704283783796 },
             min: { x : 0.118367 , y: -0.613867, z: 8.00829 },
             max: { x : 1.35224 , y: 0.726002, z: 13.753266 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1790.obj",
@@ -200,6 +220,7 @@
             centroid: { x : 2.066209639730639 , y: -0.09886756565656564, z: 16.67589123905724 },
             min: { x : 1.13098 , y: -0.724353, z: 13.735445 },
             max: { x : 2.58539 , y: 0.596662, z: 18.971701 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1791.obj",
@@ -209,6 +230,7 @@
             centroid: { x : 1.4632308539603955 , y: 0.18060941336633662, z: 14.432427938118813 },
             min: { x : 1.032109 , y: -0.605176, z: 11.257092 },
             max: { x : 1.70216 , y: 2.10056, z: 16.296301 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1793.obj",
@@ -218,6 +240,7 @@
             centroid: { x : 0.9077679888888891 , y: -0.3404546822222222, z: 16.03943489333335 },
             min: { x : 0.239605 , y: -0.751126, z: 13.29675 },
             max: { x : 1.30751 , y: 0.021933, z: 17.989201 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1794.obj",
@@ -227,6 +250,7 @@
             centroid: { x : 1.9605562407407398 , y: -0.03445288580246912, z: 14.371084669753092 },
             min: { x : 1.6819 , y: -0.403928, z: 11.1961 },
             max: { x : 2.474296 , y: 0.55067, z: 17.3769 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1798.obj",
@@ -236,6 +260,7 @@
             centroid: { x : 2.7450009024454296 , y: 0.16968984854062574, z: 5.494043073626096 },
             min: { x : 0.526841 , y: -3.17714, z: 1.11779 },
             max: { x : 5.1658 , y: 4.462348, z: 10.8369 },
+			layer: "respiratory",
             material: { ambient: "#301008", diffuse: "#301008", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1805.obj",
@@ -245,6 +270,7 @@
             centroid: { x : 2.0796541933333352 , y: 0.1556267433333334, z: 11.219335966666668 },
             min: { x : 0.350313 , y: -1.69937, z: 9.64796 },
             max: { x : 4.92039 , y: 2.35597, z: 13.8403 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1827.obj",
@@ -254,6 +280,7 @@
             centroid: { x : 1.6219825329512891 , y: 0.5184559942693413, z: 11.658711796561601 },
             min: { x : 0.800422 , y: 0.236796, z: 10.492002 },
             max: { x : 2.495678 , y: 0.716626, z: 13.3527 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1828.obj",
@@ -263,6 +290,7 @@
             centroid: { x : 1.480457375579598 , y: 0.7151638655332304, z: 12.411583726429676 },
             min: { x : 0.888516 , y: 0.132349, z: 10.699683 },
             max: { x : 2.409462 , y: 1.38092, z: 15.1329 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1830.obj",
@@ -272,6 +300,7 @@
             centroid: { x : 1.9237136888888893 , y: 1.3623957222222232, z: 11.443760000000003 },
             min: { x : 0.915537 , y: 0.600124, z: 10.2641 },
             max: { x : 3.0478 , y: 1.90406, z: 12.8062 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1832.obj",
@@ -281,6 +310,7 @@
             centroid: { x : 5.444014329014346 , y: 2.7455706196205445, z: 8.849666756131425 },
             min: { x : 3.04341 , y: 0.245535, z: 5.00796 },
             max: { x : 7.5925 , y: 5.00017, z: 10.553 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1812.obj",
@@ -290,6 +320,7 @@
             centroid: { x : 2.904566913210779 , y: 1.8038684424967928, z: 5.191010857203935 },
             min: { x : 0.0 , y: -3.40812, z: -2.35971 },
             max: { x : 5.40196 , y: 4.71142, z: 11.5778 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1837.obj",
@@ -299,6 +330,7 @@
             centroid: { x : 1.5602335038961042 , y: 0.24352748571428579, z: 13.035236314285727 },
             min: { x : 0.103842 , y: -1.303, z: 9.67296 },
             max: { x : 3.005331 , y: 2.31675, z: 16.615299 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1839.obj",
@@ -308,6 +340,7 @@
             centroid: { x : 0.2700991538461539 , y: -0.9814002051282049, z: 11.399671863247857 },
             min: { x : 0.062491 , y: -1.76852, z: 9.22882 },
             max: { x : 0.730977 , y: -0.497905, z: 13.7173 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1841.obj",
@@ -317,6 +350,7 @@
             centroid: { x : 0.500817084615385 , y: -0.5821580153846154, z: 10.987946999999998 },
             min: { x : 0.007853 , y: -1.20662, z: 8.91406 },
             max: { x : 0.957272 , y: -0.269762, z: 13.3821 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1795.obj",
@@ -326,6 +360,7 @@
             centroid: { x : 1.6236391057692314 , y: 0.913947809615384, z: 9.742253271153848 },
             min: { x : 0.455167 , y: 0.386197, z: 7.96946 },
             max: { x : 4.80613 , y: 1.71374, z: 11.4066 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1796.obj",
@@ -335,6 +370,7 @@
             centroid: { x : 3.5412276535947718 , y: 0.5594140326797385, z: 10.354959849673206 },
             min: { x : 1.66698 , y: -0.388046, z: 9.3816 },
             max: { x : 4.95815 , y: 1.34469, z: 11.2304 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1799.obj",
@@ -344,6 +380,7 @@
             centroid: { x : 3.037198443579835E-4 , y: -1.3869584980544754, z: 8.899973229571984 },
             min: { x : -1.042564 , y: -2.061872, z: 8.030961 },
             max: { x : 1.042564 , y: -0.562329, z: 9.92774 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1800.obj",
@@ -353,6 +390,7 @@
             centroid: { x : -2.2214229729729724 , y: 2.167208378378378, z: 10.549032432432432 },
             min: { x : -2.70833 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.33684, z: 11.0378 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1801.obj",
@@ -362,6 +400,7 @@
             centroid: { x : -5.006660590604024 , y: 1.3705659798657712, z: 8.421816000000003 },
             min: { x : -6.87729 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.301793, z: 11.319274 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1802.obj",
@@ -371,6 +410,7 @@
             centroid: { x : -1.2476865999999998 , y: 1.4427822000000001, z: 11.188202 },
             min: { x : -1.53292 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.60836, z: 11.8825 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1808.obj",
@@ -380,6 +420,7 @@
             centroid: { x : -2.3395312972972975 , y: 2.084322864864865, z: 10.81574562162162 },
             min: { x : -2.805424 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.256598, z: 11.3028 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1809.obj",
@@ -389,6 +430,7 @@
             centroid: { x : 0.623584830645162 , y: 0.14110507903225789, z: 6.380583983870971 },
             min: { x : -1.54666 , y: -1.86638, z: 5.77768 },
             max: { x : 2.08489 , y: 1.40719, z: 6.93067 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1813.obj",
@@ -398,6 +440,7 @@
             centroid: { x : -1.7926622222222226 , y: 0.5676958095238096, z: 12.784563555555557 },
             min: { x : -1.85606 , y: 0.495037, z: 12.28223 },
             max: { x : -1.73858 , y: 0.624974, z: 13.3082 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1816.obj",
@@ -407,6 +450,7 @@
             centroid: { x : -1.5238213488372099 , y: 0.14883888372093024, z: 9.95344306511628 },
             min: { x : -1.943665 , y: -0.163815, z: 8.678175 },
             max: { x : -1.044194 , y: 0.583581, z: 10.743412 },
+			layer: "nervous",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1817.obj",
@@ -416,6 +460,7 @@
             centroid: { x : -3.325298042941763 , y: 0.14619473642645595, z: 10.104184442250753 },
             min: { x : -6.9588 , y: -1.09364, z: 9.61965 },
             max: { x : -0.649682 , y: 1.87164, z: 10.444 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1818.obj",
@@ -425,6 +470,7 @@
             centroid: { x : -1.0469449693251534 , y: -0.027997368098159517, z: 12.245773171779142 },
             min: { x : -1.351152 , y: -0.613867, z: 10.6917 },
             max: { x : -0.75042 , y: 0.668362, z: 13.753266 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1819.obj",
@@ -434,6 +480,7 @@
             centroid: { x : -2.0651216296296284 , y: -0.09886656565656562, z: 16.675891239057243 },
             min: { x : -2.584302 , y: -0.724352, z: 13.735445 },
             max: { x : -1.129892 , y: 0.596663, z: 18.971701 },
+			layer: "circulatory",
             material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
         },{
             file: "cvc_models/1820.obj",
@@ -443,6 +490,7 @@
             centroid: { x : -1.450797535564853 , y: 0.18994061924686187, z: 13.822268372384926 },
             min: { x : -1.758803 , y: -0.571765, z: 0.0 },
             max: { x : 0.0 , y: 2.100561, z: 16.296301 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1815.obj",
@@ -452,6 +500,7 @@
             centroid: { x : -1.7654946741071431 , y: 0.5472745111607136, z: 10.515766696428566 },
             min: { x : -2.62616 , y: -0.931808, z: 0.0 },
             max: { x : 0.0 , y: 1.63644, z: 11.5778 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1782.obj",
@@ -461,6 +510,7 @@
             centroid: { x : -1.4679856071428572 , y: 0.1553172321428571, z: 12.318268214285713 },
             min: { x : -2.011787 , y: -0.434694, z: 11.574871 },
             max: { x : -0.748932 , y: 0.61147, z: 12.611589 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1821.obj",
@@ -470,6 +520,7 @@
             centroid: { x : -0.9066799888888873 , y: -0.340455682222222, z: 16.039434893333354 },
             min: { x : -1.306422 , y: -0.751127, z: 13.29675 },
             max: { x : -0.238517 , y: 0.021932, z: 17.989201 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1822.obj",
@@ -479,6 +530,7 @@
             centroid: { x : -1.9804022462908037 , y: -0.012975400593471815, z: 14.213124418397639 },
             min: { x : -2.473208 , y: -0.403928, z: 10.8606 },
             max: { x : -1.680812 , y: 0.55067, z: 17.3769 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1797.obj",
@@ -488,6 +540,7 @@
             centroid: { x : -2.605760877643505 , y: 0.12032297432024197, z: 5.646061341691844 },
             min: { x : -5.332306 , y: -3.420208, z: 1.57138 },
             max: { x : -0.342948 , y: 4.45074, z: 10.8441 },
+			layer: "respiratory",
             material: { ambient: "#301008", diffuse: "#301008", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1804.obj",
@@ -497,6 +550,7 @@
             centroid: { x : -5.8161363033175455 , y: 1.2998436800947877, z: 8.354381753554504 },
             min: { x : -8.35192 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.08325, z: 11.3125 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1806.obj",
@@ -506,6 +560,7 @@
             centroid: { x : -2.079654193333335 , y: 0.1556267433333334, z: 11.219335966666668 },
             min: { x : -4.92039 , y: -1.69937, z: 9.64796 },
             max: { x : -0.350313 , y: 2.35597, z: 13.8403 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1810.obj",
@@ -515,6 +570,7 @@
             centroid: { x : -6.173624267898387 , y: 1.5974646420323315, z: 7.916182722863749 },
             min: { x : -8.80581 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.237163, z: 11.072211 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1833.obj",
@@ -524,6 +580,7 @@
             centroid: { x : -5.444014329014346 , y: 2.7455706196205445, z: 8.849666756131425 },
             min: { x : -7.5925 , y: 0.245535, z: 5.00796 },
             max: { x : -3.04341 , y: 5.00017, z: 10.553 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1811.obj",
@@ -533,6 +590,7 @@
             centroid: { x : -2.9718370778026997 , y: 1.8612229780269036, z: 4.923678069506736 },
             min: { x : -5.40196 , y: -3.40812, z: -2.35971 },
             max: { x : 0.0 , y: 4.71142, z: 10.8807 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1838.obj",
@@ -542,6 +600,7 @@
             centroid: { x : -0.2700991538461539 , y: -0.9814002051282049, z: 11.39967186324786 },
             min: { x : -0.730977 , y: -1.76852, z: 9.22882 },
             max: { x : -0.062491 , y: -0.497905, z: 13.7173 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1842.obj",
@@ -551,6 +610,7 @@
             centroid: { x : -0.500817084615385 , y: -0.5821580153846152, z: 10.987947000000002 },
             min: { x : -0.957272 , y: -1.20662, z: 8.91406 },
             max: { x : -0.007853 , y: -0.269762, z: 13.3821 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1824.obj",
@@ -560,6 +620,7 @@
             centroid: { x : -2.9362145591397852 , y: 0.8970148021505374, z: 10.800444554838712 },
             min: { x : -4.94867 , y: 0.360451, z: 9.66518 },
             max: { x : -1.26573 , y: 1.77236, z: 11.379637 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1825.obj",
@@ -569,6 +630,7 @@
             centroid: { x : -3.2206591962365567 , y: 0.5253156397849468, z: 10.410170717741936 },
             min: { x : -4.95815 , y: -0.094517, z: 9.3816 },
             max: { x : -1.721993 , y: 1.34469, z: 10.8982 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1845.obj",
@@ -578,6 +640,7 @@
             centroid: { x : -1.9790185384615386 , y: 0.6070533076923076, z: 11.469001384615385 },
             min: { x : -2.04808 , y: 0.532286, z: 11.344093 },
             max: { x : -1.910452 , y: 0.695073, z: 11.613146 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1834.obj",
@@ -587,6 +650,7 @@
             centroid: { x : -2.0387696989137972E-16 , y: -1.4970630335582082, z: 16.587759355128878 },
             min: { x : -2.424701 , y: -4.11497, z: 15.1034 },
             max: { x : 2.424701 , y: 3.098536, z: 21.132757 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1777.obj",
@@ -596,6 +660,7 @@
             centroid: { x : 1.127976189670507E-6 , y: 1.1379086031746046, z: 13.518382239583362 },
             min: { x : -4.97031 , y: -0.051468, z: 10.5894 },
             max: { x : 4.97031 , y: 1.96721, z: 16.405899 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1843.obj",
@@ -605,6 +670,7 @@
             centroid: { x : -1.3270116981132076 , y: 1.1574184528301887, z: 10.738001018867925 },
             min: { x : -1.68032 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.443614, z: 12.141 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1844.obj",
@@ -614,6 +680,7 @@
             centroid: { x : -0.9198358512658229 , y: 0.18262998417721538, z: 8.395692582278485 },
             min: { x : -1.53496 , y: -0.29612, z: 7.124787 },
             max: { x : -0.266461 , y: 0.705111, z: 9.44682 },
+			layer: "circulatory",
             material: { ambient: "#303030", diffuse: "#0000ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1846.obj",
@@ -623,6 +690,7 @@
             centroid: { x : -3.5234161267617816E-16 , y: -0.8153932192460324, z: 13.898042169642865 },
             min: { x : -0.955085 , y: -1.776444, z: 13.066185 },
             max: { x : 0.955085 , y: -0.293647, z: 14.410924 },
+			layer: "muscular",
             material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
         },{
             file: "cvc_models/1847.obj",
@@ -632,6 +700,7 @@
             centroid: { x : 4.098003312854152E-16 , y: -0.6862398736176936, z: 12.993851690363348 },
             min: { x : -0.990534 , y: -1.53127, z: 12.2864 },
             max: { x : 0.990534 , y: -0.101119, z: 14.141331 },
+			layer: "muscular",
             material: { ambient: "#c0e0ff", diffuse: "#c0e0ff", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1848.obj",
@@ -641,6 +710,7 @@
             centroid: { x : -1.7459272874470555E-16 , y: -0.4712400699677072, z: 12.0501484714747 },
             min: { x : -1.22689 , y: -1.066523, z: 10.6619 },
             max: { x : 1.22689 , y: 0.185284, z: 13.255524 },
+			layer: "muscular",
             material: { ambient: "#301008", diffuse: "#301008", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1849.obj",
@@ -650,6 +720,7 @@
             centroid: { x : 0.04957276135013107 , y: 0.7300182028761585, z: 8.769030046351324 },
             min: { x : -1.32909 , y: -0.880258, z: 5.96855 },
             max: { x : 1.39458 , y: 1.65436, z: 12.3967 },
+			layer: "respiratory",
             material: { ambient: "#808080", diffuse: "#808080", emissive: "#000000", specular: "#ffffff", shininess: "20", },
         },{
             file: "cvc_models/1850.obj",
@@ -659,6 +730,7 @@
             centroid: { x : -2.9593109406771537E-15 , y: 3.497953459759495, z: 9.84509508757322 },
             min: { x : -6.93046 , y: 1.71731, z: -0.626918 },
             max: { x : 6.93046 , y: 5.65567, z: 16.4944 },
+			layer: "muscular",
             material: { ambient: "#600020", diffuse: "#600020", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1851.obj",
@@ -668,6 +740,7 @@
             centroid: { x : -0.4627451617161717 , y: 1.6027433663366337, z: 11.589327722772275 },
             min: { x : -1.05215 , y: 1.34482, z: 11.431 },
             max: { x : -0.068756 , y: 1.7503, z: 11.8493 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1853.obj",
@@ -677,6 +750,7 @@
             centroid: { x : -0.6838665212464585 , y: 0.7724321756373939, z: 13.050986592067993 },
             min: { x : -1.44238 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.292061, z: 13.5521 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1854.obj",
@@ -686,6 +760,7 @@
             centroid: { x : -0.5139018318584071 , y: 1.7023731533923308, z: 11.074886876106198 },
             min: { x : -1.108194 , y: 1.47746, z: 10.8721 },
             max: { x : -0.046392 , y: 1.86575, z: 11.543204 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1855.obj",
@@ -695,6 +770,7 @@
             centroid: { x : -0.5314811388012618 , y: 1.3493150473186124, z: 12.04096561514195 },
             min: { x : -1.09783 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 1.5445, z: 12.4238 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1856.obj",
@@ -704,6 +780,7 @@
             centroid: { x : -0.6293843272171261 , y: 1.0622580428134554, z: 12.664033027522938 },
             min: { x : -1.34178 , y: 0.881818, z: 11.9869 },
             max: { x : -0.109262 , y: 1.29221, z: 13.0221 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1859.obj",
@@ -713,6 +790,7 @@
             centroid: { x : -5.497409376443422 , y: 1.504924064665127, z: 8.268997782909935 },
             min: { x : -7.34779 , y: 0.0, z: 0.0 },
             max: { x : 0.0 , y: 2.25891, z: 10.7744 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1860.obj",
@@ -722,6 +800,7 @@
             centroid: { x : 0.5240116338230021 , y: 0.6555072407739153, z: 8.958243243640254 },
             min: { x : -0.805089 , y: -1.15344, z: 1.17882 },
             max: { x : 1.97195 , y: 1.6746, z: 16.509199 },
+			layer: "nervous",
             material: { ambient: "#8000a0", diffuse: "#8000a0", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1835.obj",
@@ -731,6 +810,7 @@
             centroid: { x : 3.031969122702624E-5 , y: 2.1518562690636225, z: 9.67999099294138 },
             min: { x : -1.544549 , y: -0.199942, z: 0.0 },
             max: { x : 1.544549 , y: 5.257681, z: 15.796076 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1861.obj",
@@ -740,6 +820,7 @@
             centroid: { x : -0.6137564420401862 , y: 0.25072783771251983, z: 14.726564064915001 },
             min: { x : -1.60009 , y: -0.423079, z: 11.14725 },
             max: { x : 0.062571 , y: 0.782698, z: 17.673401 },
+			layer: "circulatory",
             material: { ambient: "#ff0000", diffuse: "#ff0000", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },{
             file: "cvc_models/1863.obj",
@@ -749,6 +830,7 @@
             centroid: { x : 3.6164062499999135E-5 , y: -3.343415421875, z: 3.6310194765625003 },
             min: { x : -0.409218 , y: -3.410935, z: 2.993498 },
             max: { x : 0.409218 , y: -3.260271, z: 3.81289 },
+			layer: "skeletal",
             material: { ambient: "#808080", diffuse: "#fff090", emissive: "#000000", specular: "#ffffff", shininess: "10", },
         },];
         
@@ -776,9 +858,7 @@
                 {
                     container: document.getElementById("cga_container"),
                 },
-                gfx: {
-                	viewpoint: {}
-                },
+                gfx: {},
                 interaction: {},
                 url: "/SIG-SceneGen/sceneFragment/assetSet/3140/3222,3215,3216,3217,3218,3219,3220,3221,3223,3225,3227,3228,3229,3234,3235,3236,3237,3240,3241,3242,3243,3244,3245,3212,3213,3214,3226,3233,3238,3239,3224,3246,3230,3231,3232/395",
             };
@@ -788,6 +868,9 @@
             mainApp.addController(new CGA_BaseController(mainApp));
             mainApp.addController(new AVA_Controller(mainApp));
             mainApp.gfxEngine.loadSceneObjects(sceneObjectDescriptors);
+                        
+            var ghost_leapController = new Ghost_LeapController(mainApp.gfxEngine, document.getElementById("2dCanvas"));
+            ghost_leapController.initialize();
         });
         
     </script>
@@ -805,9 +888,13 @@
                     <div id="ava_contents"></div>
                 </div>
                 <div id="ava_ui_left_panel">
-                    <div id="ava_picking" style="display: none;"></div>
+                    <div id="ava_picking" style="display: block;"></div>
                 </div>
             </div>
-            <div id="cga_help_button" style="display: none;">&nbsp;</div>
+            <div id="cga_help_button">&nbsp;</div>
+            <canvas id="2dCanvas"></canvas>
+            
+            <div id="sample_ui">I am a UI element</div> 
+        </div>
     </body>
 </html>
