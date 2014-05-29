@@ -54,7 +54,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 100, 100, 100 ),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, 0 ],
         default_up: [ 0, 0, 1 ],
@@ -411,20 +411,24 @@ CGA_GraphicsEngine.prototype.loadSceneObjects = function (sceneObjectDescriptors
 // TODO - Choose camera based on which viewpoint x,y is in
 CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
 {
+    // Translate page coords to element coords
+    var offset = $(this.renderer.domElement).offset();
+    
+    var eltx = x - offset.left;
+    var elty = this.windowSize * this.views[0].width - y; // Invert Y to to put origin at lower left
+    // console.log("offset top: " + offset.top);
     console.log('coordinates: ' + x + ', ' + y);
-
-	// Translate page coords to element coords
-	var offset = $(this.renderer.domElement).offset();
-	
-	var eltx = x;
-	var elty = this.windowSize - y + offset.top; // Invert Y to to put origin at lower left
-
     console.log('coordinates 2: ' + eltx + ', ' + elty);
 
-	// Handle picking only over view 0
-	if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 
-	    && elty < this.windowSize * (this.views[0].height + this.views[0].bottom))
-	{
+    // Handle picking only over view 0
+    // if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 
+    //     && elty < this.windowSize * (this.views[0].height + this.views[0].bottom))
+    // {
+    // console.log("view 0 diminesions: " + this.views[0].width + " x " + this.views[0].height);
+    // if (eltx  - offset.left < this.windowSize * this.views[0].width && elty > this.windowSize * this.views[0].height)
+    if(true)
+    {
+        // console.log('camera poistion: ' + this.views[0].camera.position.x + ", " + this.views[0].camera.position.y + ", " + this.views[0].camera.position.z);
         // Translate client coords into viewport x,y
         var vpx = (eltx / (this.windowSize * this.views[0].width)) * 2 - 1;
         var vpy = (elty / (this.windowSize * this.views[0].height)) * 2 - 1;
