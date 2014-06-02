@@ -23,7 +23,7 @@ var Ghost_LeapController = function(gfxEngine, canvas)
     this.layerGestureLastPos;
     this.layerGestureDirection;
     this.LAYER_LIST = ['nervous', 'digestive', 'respiratory', 'circulatory', 'skeletal', 'muscular'];
-    this.LAYER_NUMBER = LAYER_LIST.length;
+    this.LAYER_NUMBER = LAYER_LIST.length - 1;
 };
 
 Ghost_LeapController.SCREENTAP_LIFETIME = 1;
