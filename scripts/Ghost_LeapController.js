@@ -47,7 +47,9 @@ Ghost_LeapController.prototype.initialize = function ()
 };
 
 var MENU_MODE = false;
+var menuOffset = $( "sample_ui" ).offset();
 var frames = 0;
+var menuCoordinates[];
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
@@ -95,6 +97,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             }
 
             /* MENU */
+            // Menu coordinates; 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
+            menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
+            menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
+            menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
+            menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
             if ( blah ) {
                 MENU_MODE = true;
             }
