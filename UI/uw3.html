@@ -8,128 +8,66 @@
 	<style type="text/css">
 		body {
 			font-size: 20px;
+			background-color: black;
 		}
-		#circle-container{
-			width:400px;
-			height:400px;
-			/*transform:rotate(45deg);
-			-ms-transform:rotate(45deg); /* IE 9 */
-			/*-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
-			opacity: 1;
-			background:url("http://l.rgbimg.com/cache1uP3P0/users/x/xy/xymonau/600/o99zE7C.jpg");
-			border-radius: 200px;
+	
+
+		#menu img {
+			height: 300px;
+			width: 300px;
+		}
+		#menubottom {
+			height: 200px;
+			width: inherit;
 			position: fixed;
-			/*top: 100px;
-			right: 300px;*/
+			left: 400px;
+			top: 200px;
 		}
-		/*#circle-container:hover{
-		    -webkit-transform: translate(540px,-200px);
-		    -moz-transform: translate(540px,-200px);
-		    -o-transform: translate(540px,-200px);
-		    -ms-transform: translate(540px,-200px);
-		    transform: translate(540px,-200px);
-
-		    -webkit-transition: 2s ease-in-out;
-		    -moz-transition: 2s ease-in-out;
-		    -o-transition: 2s ease-in-out;
-		    transition: 2s ease-in-out;
-		  }*/
-		.quarter{
-			width:200px;
-			height:200px;
-
+	
+		#layeroff, #quizoff, #searchoff, #settingsoff {
+			position: absolute;
 		}
-		#top-left{
-			border-top-left-radius:200px;
-			/*background:#4D90FE;*/
-			float:left;
+		/*#layeroff {
+			left: -305px;
 		}
-		#top-right{
-			border-top-right-radius:200px;
-			/*background:#4D90FE;*/
-			float:right;
-			}
-		#bottom-left{
-			border-bottom-left-radius:200px;
-			/*background:#4D90FE;*/
-			float:left
-			}
-		#bottom-right{
-			border-bottom-right-radius:200px;
-			/*background:#4D90FE;*/
-			float:right
+		#quizoff {
+			left: -305px;
 		}
-		.inner-circle {
-		    position: relative;
-		    background: white;
-		    border-radius: 200px;
-		    height:200px;
-		    width:200px;
-		    top:25%;
-		    left:25%;    
-		    /*margin: -150px 0px 0px -150px;  minus half of the width and minus half of the height */
-		}
-		i {
-			text-align: center;
-			font-size: 20px;
-			margin: 15%;
-			transform:rotate(-45deg);
-			-ms-transform:rotate(-45deg); /* IE 9 */
-			-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
-		}
-		#bottom {
-			height: 100px;
-			width: 100px;
-			border: 5px solid white;
-		}
-		img {
-			height: 30px;
-			width: 30px;
-			/*margin: 50%;
-			text-align: center;
-			/*transform:rotate(-45deg);
-			-ms-transform:rotate(-45deg); /* IE 9 */
-			/*-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
-		}
-		.icon {
-			height: 40px;
-			width: 40px;
-			margin: 40%;
-			font-size: 10px; 
-			font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-			text-align: center;
-			color: white;
-			transform:rotate(-45deg);
-			-ms-transform:rotate(-45deg); /* IE 9 */
-			-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
-		}
-		/*#top-right, #bottom-left, #bottom-right {
-			background-color: white;
+		#settingsoff {
+			top: 305px;
+			left: -305px;
 		}*/
+		#menu, #menubottom {
+			transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg); /* IE 9 */
+			-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
+		}
+		#menu {
+			display: none;
+			position: fixed;
+			position: fixed;
+			left: 300px;
+			top: 300px;
+
+		}
+		#menubottom {
+			display: block;
+		}
+
 	</style>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 </head>
 
 <body>
-	<div id="circle-container">
-		<div class="quarter" id="top-left">
-			<div class="icon"><img src="icon_4500.png"><br>LAYERS</div>
-		</div>
-		<div class="quarter" id="top-right">
-			<div class="icon"><i class="fa fa-search"></i><br>SEARCH</div>
-		</div>
-		<div class="quarter" id="bottom-left">
-			<div class="icon"><img src="icon_5392.png"><br>SETTINGS</div>
-		</div>
-		<div class="quarter" id="bottom-right">
-			<div class="icon"><img src="icon_18960.png"><br>QUIZ</div>
-		</div>
-		<div class="inner-circle"></div>
+	<!-- <div id="circle-container"> -->
+	<img id="menubottom" src="images/menubottom.png">
+	<div id="menu">
+		<img class="button" id="searchoff" src="images/searchoff.png">
+		<img class="button" id="layeroff" src="images/layersoff.png">
+		<img class="button" id="quizoff" src="images/quizoff.png">
+		<img class="button" id="settingsoff" src="images/settingsoff.png">
+	</div>
+		
 
-	</div>
-	<div id="bottom">
-	</div>
 	<script>
 		// $("#bottom").mouseover(function() {
   // 			$("#circle-container" ).animate({ "opacity": "1" }, "slow" );
@@ -140,47 +78,33 @@
 		// });
 
 		
-		$( "#circle-container" ).mouseover(function() {
-		  $( "#circle-container" ).animate({
-		    "left": "-=50px",
-		    "top": "-=50px"
-		  }, "slow");
+		$( "#menubottom" ).click(function() {
+			console.log("hihi");
+			$(this).css("display", "none");
+			$("#menu").css("display", "block");
+		  	$( "#menu" ).animate({
+			    "left": "220px",
+			    "top": "220px"
+			 }, 3000);
 		});
 
+		$("#searchoff").click(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/searchon.png");
+		});
+		$("#layeroff").click(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/layerson.png");
+		});
+		$("#quizoff").click(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/quizon.png");
+		});
+		$("#settingsoff").mouseover(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/settingson.png");
+		});
 
-
-		$(document).ready(function() {
-	        $('.quarter').bind("mouseover", function(){
-	            var color  = $(this).css("background-color");
-
-	            $(this).css("background", "#78B9D3");
-
-	            $(this).bind("mouseout", function(){
-	                $(this).css("background", color);
-	            })    
-        	})
-    	});
-		// function changeC() {
-		// 	$(this).stop().animate({backgroundColor:"red"}, "slow");
-		// }
-		// $('.quarter').hover(function () {
-  //   		$(this).data('oldColor', $(this).css('background-color'));
-		//     $(this).stop().animate({
-		//         backgroundColor: '#303030'
-		//     }, 300);
-		// });
-		// $( "#top-left").mouseover(function() {
-	 //        $(this).stop().animate({backgroundColor:"red"}, "slow");
-	 //    });
-		// $( "#top-right").mouseover(function() {
-  // 			$( "#top-right" ).animate({ "background": "#78B9D3" }, "slow" );
-		// });
-		// $( "#bottom").mouseover(function() {
-  // 			$( "#circle-container" ).animate({ "background": "#78B9D3" }, "slow" );
-		// });
-		// $( "#bottom").mouseover(function() {
-  // 			$( "#circle-container" ).animate({ "background": "#78B9D3" }, "slow" );
-		// });
 	</script>
 </body>
 </html>
