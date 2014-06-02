@@ -3,8 +3,8 @@
 <html>
 <head>
 	<title> Cutom Gestures</title>
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+	<script src="jquery.js"></script>	
 	<style type="text/css">
 		body {
 			font-size: 20px;
@@ -69,13 +69,7 @@
 		
 
 	<script>
-		// $("#bottom").mouseover(function() {
-  // 			$("#circle-container" ).animate({ "opacity": "1" }, "slow" );
-		// });
 
-		// $("#circle-container").mouseout(function() {
-  // 			$( "#circle-container" ).animate({ "opacity": "0" }, "slow" );
-		// });
 
 		
 		$( "#menubottom" ).click(function() {
@@ -85,24 +79,41 @@
 		  	$( "#menu" ).animate({
 			    "left": "220px",
 			    "top": "220px"
-			 }, 3000);
+			 }, 9000);
 		});
 
-		$("#searchoff").click(function(){
+		$("#searchoff").mouseenter(function(){
 			console.log("ovr");
 			$(this).attr("src", "images/searchon.png");
 		});
-		$("#layeroff").click(function(){
+		$("#searchoff").mouseleave(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/searchoff.png");
+		});
+
+		$("#layeroff").mouseenter(function(){
 			console.log("ovr");
 			$(this).attr("src", "images/layerson.png");
 		});
-		$("#quizoff").click(function(){
+		$("#layeroff").mouseleave(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/layersoff.png");
+		});
+		$("#quizoff").mouseenter(function(){
 			console.log("ovr");
 			$(this).attr("src", "images/quizon.png");
 		});
-		$("#settingsoff").mouseover(function(){
+		$("#quizoff").mouseout(function(){
+			console.log("ovr");
+			$(this).attr("src", "images/quizoff.png");
+		});
+		$("#settingsoff").mouseenter(function(){
 			console.log("ovr");
 			$(this).attr("src", "images/settingson.png");
+		});
+		$("#settingsoff").mouseleave(function(){
+			console.log("ovrla");
+			$(this).attr("src", "images/settingsoff.png");
 		});
 
 	</script>
