@@ -80,7 +80,7 @@ CGA_Scene.prototype.enableObjectsOnLayer = function(layer) {
 CGA_Scene.prototype.setLayerStatus = function(layer, enabledStatus) {
     objs = this.getObjects();
     objs.forEach(function(obj) {
-        console.log(obj);
+        // console.log(obj);
         if (obj.descriptor.layer === layer) {
             obj.setVisibility(enabledStatus);
         }

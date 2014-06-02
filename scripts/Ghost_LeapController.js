@@ -22,8 +22,9 @@ var Ghost_LeapController = function(gfxEngine, canvas)
     this.layerGestureFrameCount = 0;
     this.layerGestureLastPos;
     this.layerGestureDirection;
+    
     this.LAYER_LIST = ['nervous', 'digestive', 'respiratory', 'circulatory', 'skeletal', 'muscular'];
-    this.LAYER_NUMBER = LAYER_LIST.length - 1;
+    this.currentLayer = this.LAYER_LIST.length - 1;
 };
 
 Ghost_LeapController.SCREENTAP_LIFETIME = 1;
@@ -34,7 +35,6 @@ Ghost_LeapController.Z_AXIS = new THREE.Vector3(0,0,1);
 Ghost_LeapController.SCALE_FACTOR_ROTATION = 0.02;
 Ghost_LeapController.LAYER_GESTURE_FRAMES = 30;
 Ghost_LeapController.LAYER_GESTURE_DELTA = 3.0;
-
 
 Ghost_LeapController.prototype.initialize = function ()
 {
@@ -72,6 +72,26 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     // Loops through each hand
     for (var i = 0; i < this.frame.hands.length; i++) 
     {
+        var layerGestureDirection = detectLayerGesture(this.frame);
+        if(layerGestureDirection) {
+            if(layerGestureDirection === "left" && this.currentLayer > 0){
+                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                this.currentLayer--;
+                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
+                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                this.currentLayer++;
+                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            }
+            return;
+        }
+
         // Setting up the hand
         var hand = this.frame.hands[i]; // The current hand
         var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
@@ -155,7 +175,6 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             this.gfxEngine.applyCameraUpdate(update);
         }
         
-        detectLayerGesture(this.frame);
     }
     
     // LAYERING GESTURE
@@ -197,19 +216,21 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     //  console.log("quit gesture detection because of change in dir");
                     //  clearLayerGestureStatus();
                     // }
-                } else {
-                    console.log("first frame");
-                }
+                } 
+                // else {
+                //     console.log("first frame");
+                // }
                 if (this.detectingLayerGesture === true) {
                     this.layerGestureFrameCount++;
                 }
                 if (this.layerGestureFrameCount === Ghost_LeapController.LAYER_GESTURE_FRAMES) { //gesture detected
-                    console.log("gesture detected: " + this.layerGestureDirection);
+                    // console.log("gesture detected: " + this.layerGestureDirection);
                     // clearLayerGestureStatus();
                     return this.layerGestureDirection;
                 }
 
                 this.layerGestureLastPos = handPosX;
+                return "currently detecting";
             } else { // palm rotation out of range
                 clearLayerGestureStatus();
                 return undefined;
