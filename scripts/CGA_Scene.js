@@ -66,8 +66,26 @@ CGA_Scene.prototype.getObjectById = function (id)
     return this.objectMap[id];
 }
 
+// disable object visibility if their layer descriptor matches
+CGA_Scene.prototype.disableObjectsOnLayer = function(layer) {
+    this.setLayerStatus(layer, false);
+}
 
+// enables object visibilty if their layer descriptor matches
+CGA_Scene.prototype.enableObjectsOnLayer = function(layer) {
+    this.setLayerStatus(layer, true);
+}
 
+// Set the layer  based on enabledStatus being true or false
+CGA_Scene.prototype.setLayerStatus = function(layer, enabledStatus) {
+    objs = this.getObjects();
+    objs.forEach(function(obj) {
+        console.log(obj);
+        if (obj.descriptor.layer === layer) {
+            obj.setVisibility(enabledStatus);
+        }
+    });
+}
 
 // Get count of objects in scene
 CGA_Scene.prototype.getObjectCount = function ()
