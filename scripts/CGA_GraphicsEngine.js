@@ -418,7 +418,7 @@ CGA_GraphicsEngine.prototype.objectAtPoint = function(x,y)
     var elty = this.windowSize * this.views[0].width - y.toFixed(); // Invert Y to to put origin at lower left
     // console.log("offset top: " + offset.top);
     // console.log('coordinates: ' + x + ', ' + y);
-    console.log('coordinates 2: ' + eltx + ', ' + elty);
+    // console.log('coordinates 2: ' + eltx + ', ' + elty);
 
     // Handle picking only over view 0
     // if (   eltx < this.windowSize * (this.views[0].width + this.views[0].left) 

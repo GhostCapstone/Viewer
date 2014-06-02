@@ -33,8 +33,8 @@ Ghost_LeapController.X_AXIS = new THREE.Vector3(1,0,0);
 Ghost_LeapController.Y_AXIS = new THREE.Vector3(0,1,0);
 Ghost_LeapController.Z_AXIS = new THREE.Vector3(0,0,1);
 Ghost_LeapController.SCALE_FACTOR_ROTATION = 0.02;
-Ghost_LeapController.LAYER_GESTURE_FRAMES = 30;
-Ghost_LeapController.LAYER_GESTURE_DELTA = 3.0;
+Ghost_LeapController.LAYER_GESTURE_FRAMES = 20;
+Ghost_LeapController.LAYER_GESTURE_DELTA = 2.0;
 
 Ghost_LeapController.prototype.initialize = function ()
 {
@@ -77,12 +77,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             if(layerGestureDirection === "left" && this.currentLayer > 0){
                 mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 this.currentLayer--;
-                // mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
 
                 console.log("layer gesture: " + layerGestureDirection);
                 console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
             } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
-                // mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 this.currentLayer++;
                 mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 
@@ -158,7 +156,6 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         // If there are five fingers in the screen
         if (this.frame.fingers.length == 5) 
         {
-            console.log(translation);
             var tX = -(translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION);
             var tY = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             var tZ = -(translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION);
@@ -185,43 +182,51 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         if (frame.hands.length > 0) {
             var handPosX = frame.hands[0].palmPosition[0];
             var palmNormalX = frame.hands[0].palmNormal[0];
-            // c.fillText("hand x coord: " + handPosX, 0, 15);
-            // c.fillText("num fingers : " + frame.hands[0].fingers.length, 0, 40);
-            // c.fillText("palm norm x : " + palmNormalX, 0, 65);
 
             //determine if palm is sideways
             // -1 = left, 1 = right
             if (Math.abs(palmNormalX) > 0.65) { //start detecting gesture
-                // c.fillText("gesture start", 0, 90);
                 this.detectingLayerGesture = true;
                 if (this.layerGestureLastPos !== undefined) {
                     var prevDir = this.layerGestureDirection;
-                    if (handPosX - Ghost_LeapController.LAYER_GESTURE_DELTA < this.layerGestureLastPos && prevDir === this.layerGestureDirection) {
-                        // console.log("gesture left");
-                        // c.fillText("gesture left", 0, 115);
+                    // console.log("current handx: " + handPosX);
+                    // console.log("layer gesture delta: " + Ghost_LeapController.LAYER_GESTURE_DELTA);
+                    // console.log("previous x: " + this.layerGestureLastPos);
+                    // console.log("\n");
+                    if(Math.abs(handPosX - this.layerGestureLastPos) > Ghost_LeapController.LAYER_GESTURE_DELTA) { // hand has moved far enough
+                        // console.log("current delta: " + Math.abs(handPosX - this.layerGestureLastPos));
+                        if(handPosX - this.layerGestureLastPos > 0){
+                            this.layerGestureDirection = "right";
+                        } else {
+                            this.layerGestureDirection = "left";
+                        }
 
-                        this.layerGestureDirection = "left";
-                    } else if (handPosX + Ghost_LeapController.LAYER_GESTURE_DELTA > this.layerGestureLastPos && prevDir === this.layerGestureDirection) {
-                        // console.log("gesture right");
-                        // c.fillText("gesture right", 0, 115);
-
-                        this.layerGestureDirection = "right";
-                    } else {
-                        console.log("gesture dir change");
-                        // c.fillText("gesture dir change", 0, 115);
-
-                        clearLayerGestureStatus();
+                        // if(prevDir !== layerGestureDirection){
+                        //     console.log('clearing because changed direction');
+                        //     clearLayerGestureStatus();
+                        //     return undefined;
+                        // }
                     }
+                    // if (handPosX - Ghost_LeapController.LAYER_GESTURE_DELTA < this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "left";
+                    // } else if (handPosX + Ghost_LeapController.LAYER_GESTURE_DELTA > this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "right";
+                    // } else {
+                    //     console.log("gesture dir change");
+                    //     clearLayerGestureStatus();
+                    // }
 
                     // if(prevDir !== layerGestureDirection){
                     //  console.log("quit gesture detection because of change in dir");
                     //  clearLayerGestureStatus();
                     // }
-                } 
-                // else {
-                //     console.log("first frame");
-                // }
+                } else {
+                    // console.log("first frame");
+                }
                 if (this.detectingLayerGesture === true) {
+                    // console.log(this.layerGestureFrameCount);
                     this.layerGestureFrameCount++;
                 }
                 if (this.layerGestureFrameCount === Ghost_LeapController.LAYER_GESTURE_FRAMES) { //gesture detected
@@ -231,12 +236,15 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 }
 
                 this.layerGestureLastPos = handPosX;
+                // console.log('currently detecting');
                 return "currently detecting";
             } else { // palm rotation out of range
+                // console.log('clearing because out of palm range');
                 clearLayerGestureStatus();
                 return undefined;
             }
         } else { // no hands in frame
+            // console.log('clearing because no hand in frame');
             clearLayerGestureStatus();
         }
     }
