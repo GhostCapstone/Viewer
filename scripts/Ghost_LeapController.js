@@ -77,12 +77,12 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             if(layerGestureDirection === "left" && this.currentLayer > 0){
                 mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 this.currentLayer--;
-                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                // mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
 
                 console.log("layer gesture: " + layerGestureDirection);
                 console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
             } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
-                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                // mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 this.currentLayer++;
                 mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 
