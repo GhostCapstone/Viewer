@@ -57,18 +57,45 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     this.frame = data;
     MENU_RADIUS = document.getElementById('2dCanvas').height / 3;
 
-    if(MENU_MODE) {
-        
-        this.canvas2d.clearRect(0, 0, this.width, this.height);
-        return;
-    }
-
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
     this.canvas2d.fillRect(0,0,150,75);
     
     // Clears the window
     this.canvas2d.clearRect(0, 0, this.width, this.height);
+
+    if(MENU_MODE) {
+        if (this.frame.hands.length == 0) {
+            $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
+            MENU_MODE = false;
+        }
+
+        for (var i = 0; i < this.frame.hands.length; i++) 
+        {
+            // Setting up the hand
+            var hand = this.frame.hands[i]; // The current hand
+            var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
+            var translation = this.lastFrame.translation(this.frame);
+        
+            /* GESTURES */
+
+            // POINT AND HIGHLIGHT - If one finger is present
+            if (this.frame.fingers.length == 1 && hand.fingers[0] != undefined) 
+            {
+                var finger = hand.fingers[0]; // Current finger
+                var fingerPos = this.applyLeapToScreenTransform(finger.tipPosition); // Finger position
+                // // Drawing the finger
+                this.canvas2d.strokeStyle = "#00B2EE";
+                this.canvas2d.lineWidth = 5;
+                this.canvas2d.beginPath();
+                this.canvas2d.arc(fingerPos[0], fingerPos[1], 2, 0, Math.PI * 2);
+                this.canvas2d.closePath();
+                this.canvas2d.stroke();
+            }
+        }
+
+        return;
+    }
     
     // Loops through each hand
     for (var i = 0; i < this.frame.hands.length; i++) 
@@ -116,7 +143,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             var menuY = document.getElementById('2dCanvas').height - fingerPos[1];
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
-                $("sample_ui").animate({ topMargin: "150px", leftMargin: "450px", display: "none" }, 1000);
+                $("#sample_ui").animate({ marginTop: "150px", marginLeft: "450px" }, 500);
                 MENU_MODE = true;
 /*                this.canvas2d.lineWidth = 3;
 
