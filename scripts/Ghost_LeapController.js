@@ -46,7 +46,7 @@ Ghost_LeapController.prototype.initialize = function ()
     this.leapController.connect();
 };
 
-
+var MENU_MODE = false;
 var frames = 0;
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
@@ -92,6 +92,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             } else {
                 frames++;
                 // console.log(frames);
+            }
+
+            /* MENU */
+            if ( blah ) {
+                MENU_MODE = true;
             }
         }
     
