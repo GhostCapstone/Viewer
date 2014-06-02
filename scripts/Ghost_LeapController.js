@@ -47,13 +47,21 @@ Ghost_LeapController.prototype.initialize = function ()
 };
 
 var MENU_MODE = false;
-var menuOffset = $( "sample_ui" ).offset();
+var MENU_FRAME = 0;
 var frames = 0;
-var menuCoordinates[];
+var MENU_RADIUS = 0;
+
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
     this.frame = data;
+    MENU_RADIUS = document.getElementById('2dCanvas').height / 3;
+
+    if(MENU_MODE) {
+        
+        this.canvas2d.clearRect(0, 0, this.width, this.height);
+        return;
+    }
 
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
@@ -79,11 +87,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             var fingerPos = this.applyLeapToScreenTransform(finger.tipPosition); // Finger position
             // // Drawing the finger
             this.canvas2d.strokeStyle = "#FF5A40";
-            this.canvas2d.lineWidth = 6;
+            this.canvas2d.lineWidth = 5;
             this.canvas2d.beginPath();
             this.canvas2d.arc(fingerPos[0], fingerPos[1], 2, 0, Math.PI * 2);
             this.canvas2d.closePath();
-            this.canvas2d.stroke();
+
             if(frames === 30){
                 frames = 0;
                 var pickResult = this.gfxEngine.objectAtPoint(fingerPos[0], fingerPos[1]);
@@ -98,13 +106,45 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
             /* MENU */
             // Menu coordinates; 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-            menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
+/*            menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
             menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
             menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
             menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
-            if ( blah ) {
+
+            /* MENU */
+            var menuX = document.getElementById('2dCanvas').width - fingerPos[0];
+            var menuY = document.getElementById('2dCanvas').height - fingerPos[1];
+            
+            if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
+                $("sample_ui").animate({ topMargin: "150px", leftMargin: "450px", display: "none" }, 1000);
                 MENU_MODE = true;
+/*                this.canvas2d.lineWidth = 3;
+
+                // Create gradient
+                var grd = this.canvas2d.createLinearGradient(0.000, 150.000, 300.000, 150.000);
+      
+                // Add colors
+                grd.addColorStop(0.271, 'rgba(0, 0, 0, 1.000)');
+                grd.addColorStop(0.742, 'rgba(119, 0, 0, 0.800)');
+                grd.addColorStop(0.998, 'rgba(226, 0, 0, 1.000)');
+                  
+                // Fill with gradient
+                this.canvas2d.strokeStyle = grd;
+
+                this.canvas2d.beginPath();
+                this.canvas2d.arc(fingerPos[0], fingerPos[1], 15, Math.PI / 4, Math.PI * .02 * MENU_FRAME + Math.PI / 4);
+                
+                console.log("menu coords: " + menuX + ", " + menuY);
+                MENU_FRAME++;
+
+                if (MENU_FRAME > 100) {
+                    MENU_MODE = true;
+                    MENU_FRAME = 0;
+                }
+            } else {
+                MENU_FRAME = 0;*/
             }
+            this.canvas2d.stroke();
         }
     
         // ZOOM OUT - If there are two fingers and they're separating
