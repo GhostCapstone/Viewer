@@ -185,17 +185,18 @@
 div#ui_container {
     z-index: 3;
     position: absolute;
+    overflow: hidden;
 }
 
 div#ui_menu {
     z-index: 4;
     position: absolute;
-    right: 0px;
-    bottom: 0px;
-    border: black 3px solid; 
-    background-color: white; 
-    width: 80px; 
-    height: 40px; 
+    right: -190px;
+    bottom: -200px;
+    /*border: black 3px solid; */
+    /*background-color: white; */
+    /*width: 80px; */
+    /*height: 40px; */
     transform:rotate(45deg); 
     -ms-transform:rotate(315deg); 
     -webkit-transform:rotate(315deg); /* Opera, Chrome, and Safari */

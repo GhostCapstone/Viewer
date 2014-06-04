@@ -55,7 +55,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
     this.frame = data;
-    MENU_RADIUS = document.getElementById('2dCanvas').height / 3;
+    MENU_RADIUS = document.getElementById('2dCanvas').height / 5;
 
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
@@ -298,8 +298,8 @@ Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
     // console.log(thetaIn);
 
     var thetaOffset = Math.PI / 4;
-    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset);
-    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset);
+    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset) + 50; // +50 to offset to make it easier to reach menu
+    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset) + 50;
 
     return [xoutVal, youtVal];
 }
