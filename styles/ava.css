@@ -122,10 +122,14 @@
         padding: 8px;
         color: #fff;
         font-family: Verdana, sans serif;
-        font-size: 10px;
+        font-size: 15px;
+        position: relative;
+        top: 85px;
+        -webkit-transform: scaleX(-1) rotate(-45deg);
         pointer-events: auto;
         display: none;
     }
+
     div#ava_picking a
     {
         color:#7070ff;

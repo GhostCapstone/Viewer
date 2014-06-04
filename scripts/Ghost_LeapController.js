@@ -121,16 +121,16 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 // console.log(frameHighlightCount);
             }
         }
-    
+
         // ZOOM OUT - If there are two fingers and they're separating
-        if (this.frame.fingers.length == 2 & scaleFactor < 1) 
+        if (this.frame.fingers.length == 2 && scaleFactor < 1)
         {
             // camera.position.z += (1 - scaleFactor) * 2.5;
             var update =
             {
                 rotate: { x: 0, y: 0 },
                 pan: { x: 0, y: 0 },
-                zoom: - (1 - scaleFactor) * 2.5,
+                zoom: - (1 - scaleFactor) * 2.5
             };
             
             // Apply update to camera
@@ -138,14 +138,14 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         }
         
         // ZOOM IN - If there are two fingers and they're closing in
-        else if (this.frame.fingers.length == 2 & scaleFactor > 1) 
+        else if (this.frame.fingers.length == 2 && scaleFactor > 1)
         {
             // camera.position.z -= (scaleFactor - 1) * 2.5;
             var update =
             {
                 rotate: { x: 0, y: 0 },
                 pan: { x: 0, y:0 },
-                zoom: (scaleFactor - 1) * 2.5,
+                zoom: (scaleFactor - 1) * 2.5
             };
             
             // Apply update to camera
@@ -166,7 +166,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             {
                 rotate: { x: tX, y: tZ },
                 pan: { x: 0, y:0 },
-                zoom: 0,
+                zoom: 0
             };
             
             // Apply update to camera
