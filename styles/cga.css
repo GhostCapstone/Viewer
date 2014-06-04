@@ -193,6 +193,7 @@
         position: absolute;
         right: 0px;
         bottom: -7px;
+        overflow: hidden;
         /*border: black 3px solid; */
         /*background-color: white; */
         /*width: 80px; */
@@ -203,24 +204,38 @@
     }
 
     div#ui_wheel {
-        /*transform:rotate(45deg); */
-        /*-ms-transform:rotate(315deg); */
-        /*-webkit-transform:rotate(315deg);*/
+        display: none;
+        overflow: hidden;
+        margin-left: -90px;
+        transform:rotate(45deg); 
+        -ms-transform:rotate(315deg); 
+        -webkit-transform:rotate(315deg);
         /* Opera, Chrome, and Safari */
     }
 
     div#ui_wheel #layers {
-
-    }
-
-    div#ui_wheel #quiz {
-
+        position: absolute;
+        display: block;
+        margin-left: 50px;
     }
 
     div#ui_wheel #search {
-
+        position: absolute;
+        display: inline;
+        margin-top: 50px;
     }
 
+    div#ui_wheel #quiz {
+        position: absolute;
+        display: inline;
+        margin-top: 50px;
+        margin-left: 250px;
+    }
+
+
     div#ui_wheel #settings {
-        
+        position: absolute;
+        display: block;
+        margin-top: 250px;
+        margin-left: 50px;
     }

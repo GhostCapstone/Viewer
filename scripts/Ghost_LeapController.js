@@ -62,13 +62,13 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     this.canvas2d.fillRect(0,0,150,75);
     
     // Clears the window
+    console.log('clearing window: ' + this.width)
     this.canvas2d.clearRect(0, 0, this.width, this.height);
 
     if(MENU_MODE) {
         if (this.frame.hands.length == 0) {
             // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
-            // $('#ui_wheel').show();
-            console.log('showing menu');
+            $('#ui_wheel').hide();
             MENU_MODE = false;
         }
 
@@ -147,6 +147,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
                 $("#sample_ui").animate({ marginTop: "150px", marginLeft: "450px" }, 500);
                 MENU_MODE = true;
+                $('#ui_wheel').show();
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
