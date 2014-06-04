@@ -55,7 +55,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
     this.frame = data;
-    MENU_RADIUS = document.getElementById('2dCanvas').height / 5;
+    MENU_RADIUS = document.getElementById('2dCanvas').height / 4;
 
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
@@ -66,7 +66,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
     if(MENU_MODE) {
         if (this.frame.hands.length == 0) {
-            $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
+            // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
+            // $('#ui_wheel').show();
+            console.log('showing menu');
             MENU_MODE = false;
         }
 
@@ -182,7 +184,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             {
                 rotate: { x: 0, y: 0 },
                 pan: { x: 0, y: 0 },
-                zoom: - (1 - scaleFactor) * 2.5,
+                zoom: - (1 - scaleFactor),
             };
             
             // Apply update to camera
@@ -197,7 +199,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             {
                 rotate: { x: 0, y: 0 },
                 pan: { x: 0, y:0 },
-                zoom: (scaleFactor - 1) * 2.5,
+                zoom: (scaleFactor - 1),
             };
             
             // Apply update to camera
