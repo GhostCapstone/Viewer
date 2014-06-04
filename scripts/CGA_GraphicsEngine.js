@@ -37,15 +37,22 @@ var CGA_GraphicsEngine = function(config)
     this.renderer.domElement.setAttribute("tabindex", 1);
     this.renderer.domElement.style.marginLeft = this.windowLeft + "px";
     this.renderer.domElement.style.marginTop = this.windowTop + "px";
+    this.renderer.domElement.style.zIndex = 1;
 
     // Sets Leap Canvas size
     var leapCanvas = document.getElementById('2dCanvas');
-
-    leapCanvas.width = this.windowSize/2;
-    leapCanvas.height = this.windowSize/2;
-    leapCanvas.style.left = this.windowLeft + 'px';
-    leapCanvas.style.top = this.windowTop + 'px';
+        leapCanvas.width = this.windowSize / 2;
+        leapCanvas.height = this.windowSize / 2;
+        leapCanvas.style.left = this.windowLeft + 'px';
+        leapCanvas.style.top = this.windowTop + 'px';
+        leapCanvas.style.zIndex = 2;
     
+    var uiContainer = document.getElementById('ui_container');
+        uiContainer.style.left = this.windowLeft + 'px';
+        uiContainer.style.top = this.windowTop + 'px';
+        uiContainer.style.width = this.windowSize / 2 + 'px';
+        uiContainer.style.height = this.windowSize / 2 + 'px';
+    console.log("*************UI_CONTAINER ADDED***************** ");
 
     // Viewpoint configuration
     this.views = [
