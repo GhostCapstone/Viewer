@@ -62,7 +62,6 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     this.canvas2d.fillRect(0,0,150,75);
     
     // Clears the window
-    console.log('clearing window: ' + this.width)
     this.canvas2d.clearRect(0, 0, this.width, this.height);
 
     if(MENU_MODE) {

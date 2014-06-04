@@ -206,7 +206,8 @@
     div#ui_wheel {
         display: none;
         overflow: hidden;
-        margin-left: -90px;
+        margin-left: -70px;
+        margin-top: 45px;
         transform:rotate(45deg); 
         -ms-transform:rotate(315deg); 
         -webkit-transform:rotate(315deg);
