@@ -107,20 +107,21 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 this.canvas2d.stroke();
 
                 // Animating menu
-                var menuX = fingerPos[0] - menuEntryCoord[0];
-                var menuY = fingerPos[1] - menuEntryCoord[1];
-                console.log("menu coords: " + menuX + ", " + menuY);
+                var menuX = finger.tipPosition[0] - menuEntryCoord[0];
+                var menuY = finger.tipPosition[1] - menuEntryCoord[1];
+                // console.log("menu coords: " + menuX + ", " + menuY);
                 if(menuY > Math.abs(menuX)){ //movement down
+                    $('#menu_layers').css('margin-top', '-' + menuY + "px");
                     // console.log("menu up");
-                } else if (-menuY > Math.abs(menuX)){ // sort of up??
-                    // $('#menu_layers').css('margin-top', menuY + "px");
+                } else if (-menuY > Math.abs(menuX)){ //movement down
+                    $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
                     // console.log("menu down");
                 } else if (menuX > Math.abs(menuY)){
-                    $('#menu_layers').css('margin-top', menuY + "px");
+                    $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
                     // $('#menu_layers').css('margin-top', menuY + "px");
-                    // console.log("menu right");
+                    console.log("menu left");
                 } else if (-menuX > Math.abs(menuY)){
-                    // $('#menu_layers').css('margin-top', menuY + "px");
+                    $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
                     // console.log("menu left");
                 } else {
                     // console.log("menu undetermined");
@@ -179,7 +180,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
                 // $('#ui_wheel').show();
                 MENU_MODE = true;
-                menuEntryCoord = fingerPos;
+                menuEntryCoord = finger.tipPosition;
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
