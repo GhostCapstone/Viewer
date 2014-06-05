@@ -59,7 +59,7 @@ var MENU_RADIUS = 0;
 var menuEntryCoord;
 var MENU_LAYERS_MIN = 0;
 var MENU_QUIZ_MIN = 250;
-var MENU_SEARCH_MIN = 250;
+var MENU_SEARCH_MIN = 0;
 var MENU_SETTINGS_MIN = 250;
 var MENU_MOVE_FACTOR = 0.5;
 
@@ -110,21 +110,32 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 var menuX = finger.tipPosition[0] - menuEntryCoord[0];
                 var menuY = finger.tipPosition[1] - menuEntryCoord[1];
                 // console.log("menu coords: " + menuX + ", " + menuY);
-                if(menuY > Math.abs(menuX)){ //movement down
+                if(menuY > Math.abs(menuX)){ //movement up to layers
                     $('#menu_layers').css('margin-top', '-' + menuY + "px");
-                    // console.log("menu up");
-                } else if (-menuY > Math.abs(menuX)){ //movement down
+
+                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
-                    // console.log("menu down");
-                } else if (menuX > Math.abs(menuY)){
+
+                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                } else if (menuX > Math.abs(menuY)){ //movement left to search
                     $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
-                    // $('#menu_layers').css('margin-top', menuY + "px");
-                    console.log("menu left");
-                } else if (-menuX > Math.abs(menuY)){
+
+                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
-                    // console.log("menu left");
+
+                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
                 } else {
-                    // console.log("menu undetermined");
+                    console.log("menu undetermined");
                 }
             }
         }
