@@ -61,7 +61,7 @@ var CGA_GraphicsEngine = function(config)
         bottom: 0.5,
         width: 0.5,
         height: 0.5,
-        background: new THREE.Color().setRGB( 0, 0, 0 ),
+        background: new THREE.Color().setRGB( 0, 0, 0),
         default_eye: [ 0, 0, 1.5 ],
         default_rotation: [ 0, 0, - Math.PI / 4 ],
         default_up: [ 10, 0, 1 ],

@@ -873,8 +873,34 @@
             var ghost_leapController = new Ghost_LeapController(mainApp.gfxEngine, document.getElementById("2dCanvas"));
             ghost_leapController.initialize();
         });
-        
+
     </script>
+<style>
+    .gradient {
+        background-image: url("images/fadebox.png");
+        height: 500px;
+        width: 500px;
+        position: fixed;
+        margin: 0px;
+    }
+    #gradient {
+        top: 0px;
+        left: 470px;
+    }
+    #gradient2 {
+        top: 480px;
+        left: 470px;
+    }
+    #gradient3 {
+        top: 0;
+        left: 960px;
+    }
+    #gradient4 {
+        top: 480px;
+        left: 960px;
+    }
+
+</style>
     </head>
     <body style="">
         <div id="cga_gfx_container" tabindex="1">
@@ -891,6 +917,14 @@
                 <div id="ava_ui_left_panel">
                     <div id="pick">
                     <div id="ava_picking" style="display: block;"></div>
+                    <div class="gradient" id="gradient">
+                    </div>
+                        <div class="gradient" id="gradient2">
+                        </div>
+                        <div class="gradient" id="gradient3">
+                        </div>
+                        <div class="gradient" id="gradient4">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -138,3 +138,26 @@
     {
         color:#7070ff;
     }
+
+    
+    /*gradient*/
+    .gradient {
+        background-image: url("images/fadebox.png");
+        background-size: contain;
+        height: 550px;
+        width: 550px;
+        position: fixed;
+        margin: 0px;
+    }
+    #gradient2 {
+        top: 0px;
+        left: 500px;
+    }
+    #gradient3 {
+        top: 0;
+        left: 1000px;
+    }
+    #gradient4 {
+        top: 500px;
+        left: 1000px;
+    }
