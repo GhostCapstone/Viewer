@@ -204,7 +204,7 @@
     }
 
     div#ui_wheel {
-        display: none;
+        /*display: none;*/
         overflow: hidden;
         margin-left: -70px;
         margin-top: 45px;
@@ -214,19 +214,22 @@
         /* Opera, Chrome, and Safari */
     }
 
-    div#ui_wheel #layers {
+    div#ui_wheel #menu_layers {
+        background-image: url('../images/layersoff.png');
+        width: 250px;
+        height: 100px;
         position: absolute;
         display: block;
         margin-left: 50px;
     }
 
-    div#ui_wheel #search {
+    div#ui_wheel #menu_search {
         position: absolute;
         display: inline;
         margin-top: 50px;
     }
 
-    div#ui_wheel #quiz {
+    div#ui_wheel #menu_quiz {
         position: absolute;
         display: inline;
         margin-top: 50px;
@@ -234,7 +237,7 @@
     }
 
 
-    div#ui_wheel #settings {
+    div#ui_wheel #menu_settings {
         position: absolute;
         display: block;
         margin-top: 250px;

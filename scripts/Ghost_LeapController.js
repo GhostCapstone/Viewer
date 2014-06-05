@@ -50,6 +50,7 @@ var MENU_MODE = false;
 var MENU_FRAME = 0;
 var frames = 0;
 var MENU_RADIUS = 0;
+var menuEntryCoord;
 
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
@@ -68,6 +69,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         if (this.frame.hands.length == 0) {
             // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
             $('#ui_wheel').hide();
+            menuEntryCoord = undefined;
             MENU_MODE = false;
         }
 
@@ -92,6 +94,24 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 this.canvas2d.arc(fingerPos[0], fingerPos[1], 2, 0, Math.PI * 2);
                 this.canvas2d.closePath();
                 this.canvas2d.stroke();
+
+                // Animating menu
+                var menuX = fingerPos[0] - menuEntryCoord[0];
+                var menuY = fingerPos[1] - menuEntryCoord[1];
+                if(menuY > Math.abs(menuX)){
+                    $('#ui_wheel').hide();
+                    $('#menu_layers').css('margin-top', menuY + "px");
+                    $('#ui_wheel').show();
+                    console.log("menu up");
+                } else if (-menuY > Math.abs(menuX)){
+                    console.log("menu down");
+                } else if (menuX > Math.abs(menuY)){
+                    console.log("menu right");
+                } else if (-menuX > Math.abs(menuY)){
+                    console.log("menu left");
+                } else {
+                    console.log("menu undetermined");
+                }
             }
         }
 
@@ -145,8 +165,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
                 $("#sample_ui").animate({ marginTop: "150px", marginLeft: "450px" }, 500);
-                MENU_MODE = true;
                 $('#ui_wheel').show();
+                MENU_MODE = true;
+                menuEntryCoord = fingerPos;
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
