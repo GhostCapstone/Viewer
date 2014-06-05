@@ -64,7 +64,6 @@
 
     div#cga_gfx_container canvas:first-of-type
     {
-        border: 2px solid white;
         position: fixed;
         z-index: 255;
         left: 300px;

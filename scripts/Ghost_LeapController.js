@@ -72,7 +72,8 @@ var MENU_LAYERS_MIN = 0;
 var MENU_QUIZ_MIN = 250;
 var MENU_SEARCH_MIN = 0;
 var MENU_SETTINGS_MIN = 250;
-var MENU_MOVE_FACTOR = 0.5;
+var MENU_DELAY = 200;
+var menuDelayCounter;
 var SFX = new Audio("audio/click.wav"); // buffers automatically when created
 var SFX_TRIGGER = 0;
 
@@ -90,22 +91,23 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     // Clears the window
     this.canvas2d.clearRect(0, 0, this.width, this.height);
 
-    if(MENU_MODE) {
+    if(MENU_MODE && !menuDelayCounter) {
         if (this.frame.hands.length == 0) {
             $("#ui_wheel").animate({ marginTop: "440px", marginLeft: "230px" }, 500);
             // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
 
-            $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-            $('#menu_layers').css('transform', 'scale(1)');
-            $('#menu_layers img:first').attr('src', 'images/menubottom.png');
-            $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-            $('#menu_settings').css('transform', 'scale(1)');
-            $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-            $('#menu_search').css('transform', 'scale(1)');
-            $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-            $('#menu_quiz').css('transform', 'scale(1)');
+            resetUiWheel();
+            // $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+            // $('#menu_layers').css('transform', 'scale(1)');
+            // $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+            // $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+            // $('#menu_settings').css('transform', 'scale(1)');
+            // $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+            // $('#menu_search').css('transform', 'scale(1)');
+            // $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+            // $('#menu_quiz').css('transform', 'scale(1)');
         }
 
         for (var i = 0; i < this.frame.hands.length; i++) 
@@ -138,23 +140,29 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 var scaleY = 1 + Math.sqrt(Math.abs(menuY)/1000);
                 if(menuY > Math.abs(menuX)){ //movement up to layers
                     if(Math.abs(menuY) > 50){
-                        console.log('menu layer selected');
+                        MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
+                        $('#menu_layers').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_layers').css('margin-top', '-' + menuY + "px");
+                        $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
+                        $('#menu_layers img:first').attr('src', 'images/layerson.png');
+
+
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_layers').css('margin-top', '-' + menuY + "px");
-                    $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
-                    $('#menu_layers img:first').attr('src', 'images/layerson.png');
-
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                     if(SFX_TRIGGER != 1) {
                         SFX.play();
                         SFX_TRIGGER = 1;
@@ -162,23 +170,28 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     if(Math.abs(menuY) > 50){
-                        console.log('menu settings selected');
+                        MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
+                        $('#menu_settings img:first').attr('src', 'images/settingson.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
-                    $('#menu_settings img:first').attr('src', 'images/settingson.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                      if(SFX_TRIGGER != 2) {
                         SFX.play();
                         SFX_TRIGGER = 2;
@@ -186,23 +199,28 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
                     if(Math.abs(menuX) > 50){
-                        console.log('menu search selected');
+                        MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(' + scaleX + ')');
+                        $('#menu_search img:first').attr('src', 'images/searchon.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(' + scaleX + ')');
-                    $('#menu_search img:first').attr('src', 'images/searchon.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                      if(SFX_TRIGGER != 3) {
                         SFX.play();
                         SFX_TRIGGER = 3;
@@ -210,22 +228,28 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     if(Math.abs(menuX) > 50){
-                        console.log('menu quiz selected');
+                        MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').animate({scale: 1}, 800, resetUiWheel);
+                    } else {
+                        $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
+                        $('#menu_quiz img:first').attr('src', 'images/quizon.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
                     }
-                    $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
-                    $('#menu_quiz img:first').attr('src', 'images/quizon.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
 
                      if(SFX_TRIGGER != 4) {
                         SFX.play();
@@ -239,11 +263,34 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         }
 
         return;
+    } else if(menuDelayCounter){
+        menuDelayCounter--;
+        if(menuDelayCounter === 0){
+            menuDelayCounter = undefined;
+        }
     }
     
     // Loops through each hand
     for (var i = 0; i < this.frame.hands.length; i++) 
     {
+        var layerGestureDirection = detectLayerGesture(this.frame);
+        if(layerGestureDirection) {
+            if(layerGestureDirection === "left" && this.currentLayer > 0){
+                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                this.currentLayer--;
+
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
+                this.currentLayer++;
+                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            }
+            return;
+        }
+
         // Setting up the hand
         var hand = this.frame.hands[i]; // The current hand
         var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
@@ -277,10 +324,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
             /* MENU */
             // Menu coordinates; 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-/*            menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
-            menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
-            menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
-            menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
+            // menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
 
             /* MENU */
             var menuX = document.getElementById('2dCanvas').width - fingerPos[0];
@@ -288,9 +335,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
                 // $('#ui_wheel').show();
-                MENU_MODE = true;
-                menuEntryCoord = finger.tipPosition;
-                $("#ui_wheel").animate({ marginTop: "45px", marginLeft: "-70px" }, 500);
+                if(!menuDelayCounter){
+                    MENU_MODE = true;
+                    menuEntryCoord = finger.tipPosition;
+                    $("#ui_wheel").animate({ marginTop: "45px", marginLeft: "-70px" }, 500);
+                }
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
@@ -354,15 +403,15 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         // If there are five fingers in the screen
         if (this.frame.fingers.length == 5) 
         {
-            var tX = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
-            var tY = translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
-            var tZ = translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tX = translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tY = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tZ = -translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             
-            console.log("Rotation " + tX + ", " + tY + ", " + tZ);
+            // console.log("Rotation " + tX + ", " + tY + ", " + tZ);
             
             var update =
             {
-                rotate: { x: tX, y: tY },
+                rotate: { x: tX, y: tZ },
                 pan: { x: 0, y:0 },
                 zoom: 0,
             };
@@ -389,6 +438,154 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     
     // this.updateScreenTaps();
     // this.drawScreenTaps();
+
+    function resetUiWheel(){
+        console.log("resetting ui wheel");
+        $("#ui_wheel").animate({ marginTop: "440px", marginLeft: "230px" }, 500);
+        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+        $('#menu_layers').css('transform', 'scale(1)');
+        $('#menu_layers').fadeIn(0);
+        $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+        $('#menu_settings').css('transform', 'scale(1)');
+        $('#menu_settings').fadeIn(0);
+        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+        $('#menu_search').css('transform', 'scale(1)');
+        $('#menu_search').fadeIn(0);
+        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+        $('#menu_quiz').css('transform', 'scale(1)');
+        $('#menu_quiz').fadeIn(0);
+    }
+
+     // LAYERING GESTURE
+    // returns the direction of the layer direction if detected as a string, otherwise returns null
+    function detectLayerGesture(frame) {
+        // console.log("detecting layer gesture");
+        if (frame.hands.length > 0) {
+            var handPosX = frame.hands[0].palmPosition[0];
+            var palmNormalX = frame.hands[0].palmNormal[0];
+
+            //determine if palm is sideways
+            // -1 = left, 1 = right
+            if (Math.abs(palmNormalX) > 0.65) { //start detecting gesture
+                this.detectingLayerGesture = true;
+                if (this.layerGestureLastPos !== undefined) {
+                    var prevDir = this.layerGestureDirection;
+                    // console.log("current handx: " + handPosX);
+                    // console.log("layer gesture delta: " + Ghost_LeapController.LAYER_GESTURE_DELTA);
+                    // console.log("previous x: " + this.layerGestureLastPos);
+                    // console.log("\n");
+                    if(Math.abs(handPosX - this.layerGestureLastPos) > Ghost_LeapController.LAYER_GESTURE_DELTA) { // hand has moved far enough
+                        // console.log("current delta: " + Math.abs(handPosX - this.layerGestureLastPos));
+                        if(handPosX - this.layerGestureLastPos > 0){
+                            this.layerGestureDirection = "right";
+                        } else {
+                            this.layerGestureDirection = "left";
+                        }
+
+                        // if(prevDir !== layerGestureDirection){
+                        //     console.log('clearing because changed direction');
+                        //     clearLayerGestureStatus();
+                        //     return undefined;
+                        // }
+                    }
+                    // if (handPosX - Ghost_LeapController.LAYER_GESTURE_DELTA < this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "left";
+                    // } else if (handPosX + Ghost_LeapController.LAYER_GESTURE_DELTA > this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "right";
+                    // } else {
+                    //     console.log("gesture dir change");
+                    //     clearLayerGestureStatus();
+                    // }
+
+                    // if(prevDir !== layerGestureDirection){
+                    //  console.log("quit gesture detection because of change in dir");
+                    //  clearLayerGestureStatus();
+                    // }
+                } else {
+                    // console.log("first frame");
+                }
+                if (this.detectingLayerGesture === true) {
+                    // console.log(this.layerGestureFrameCount);
+                    this.layerGestureFrameCount++;
+                }
+                if (this.layerGestureFrameCount === Ghost_LeapController.LAYER_GESTURE_FRAMES) { //gesture detected
+                    // console.log("gesture detected: " + this.layerGestureDirection);
+                    // clearLayerGestureStatus();
+                    return this.layerGestureDirection;
+                }
+
+                this.layerGestureLastPos = handPosX;
+                // console.log('currently detecting');
+                return "currently detecting";
+            } else { // palm rotation out of range
+                // console.log('clearing because out of palm range');
+                clearLayerGestureStatus();
+                return undefined;
+            }
+        } else { // no hands in frame
+            // console.log('clearing because no hand in frame');
+            clearLayerGestureStatus();
+        }
+    }
+
+    function clearLayerGestureStatus() {
+        this.detectingLayerGesture = false;
+        this.layerGestureFrameCount = 0;
+        this.layerGestureDirection = undefined;
+        this.layerGestureLastPos = undefined;
+    }
+
+    // function drawHands(frame) {
+    //     // c.clearRect(0, 0, width, height);
+    //     for (var i = 0; i < frame.hands.length; i++) {
+    //         var hand = frame.hands[i];
+    //         var handPos = leapTo2D(frame, hand.palmPosition);
+    //         for (var j = 0; j < hand.fingers.length; j++) {
+    //             //var finger = hand.fingers[j];
+    //             var fingerPos = leapTo2D(frame, hand.fingers[j].tipPosition);
+
+    //             // draw finger tips
+    //             c.lineWidth = 5;
+    //             c.fillStyle = '#00FF00';
+    //             c.strokeStyle = '#FFFF00';
+    //             c.beginPath();
+    //             c.arc(fingerPos[0], fingerPos[1], 6, 0, Math.PI * 2);
+    //             c.closePath();
+    //             c.stroke();
+
+    //             // draw finger lines
+    //             c.strokeStyle = '#0000FF';
+    //             c.lineWidth = 3;
+    //             c.beginPath();
+    //             c.moveTo(handPos[0], handPos[1]);
+    //             c.lineTo(fingerPos[0], fingerPos[1]);
+    //             c.closePath();
+    //             c.stroke();
+    //         }
+
+
+    //         // draw palm
+    //         c.fillStyle = '#00FF00';
+    //         c.strokeStyle = '#FFFF00';
+    //         c.beginPath();
+    //         c.arc(handPos[0], handPos[1], 10, 0, Math.PI * 2);
+    //         c.closePath();
+    //         c.fill();
+    //     }
+    // }
+
+    function leapTo2D(frame, leapPos) {
+        var iBox = frame.interactionBox;
+        var left = iBox.center[0] - iBox.size[0] / 2;
+        var top = iBox.center[1] + iBox.size[1] / 2;
+        var x = (leapPos[0] - left) / iBox.size[0] * width / 2;
+        var y = (leapPos[1] - top) / iBox.size[1] * width / 2;
+
+        return [x, -y];
+    }
 }
 
 
@@ -444,8 +641,8 @@ Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
     // console.log(thetaIn);
 
     var thetaOffset = Math.PI / 4;
-    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset);
-    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset);
+    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset) + 100;
+    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset) + 200;
 
     return [xoutVal, youtVal];
 }

@@ -52,7 +52,12 @@ var CGA_GraphicsEngine = function(config)
         uiContainer.style.top = this.windowTop + 'px';
         uiContainer.style.width = this.windowSize / 2 + 'px';
         uiContainer.style.height = this.windowSize / 2 + 'px';
-    console.log("*************UI_CONTAINER ADDED***************** ");
+    // console.log("*************UI_CONTAINER ADDED***************** ");
+    var gradient = document.getElementById('gradient');
+        gradient.style.left = this.windowLeft + 'px';
+        gradient.style.top = this.windowTop + 'px';
+        gradient.style.width = this.windowSize / 2 + 'px';
+        gradient.style.height = this.windowSize / 2 + 'px';
 
     // Viewpoint configuration
     this.views = [
