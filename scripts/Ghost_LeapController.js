@@ -78,7 +78,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
     if(MENU_MODE) {
         if (this.frame.hands.length == 0) {
-            // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
+            $("#ui_wheel").animate({ marginTop: "440px", marginLeft: "230px" }, 500);
             // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
@@ -210,6 +210,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 // $('#ui_wheel').show();
                 MENU_MODE = true;
                 menuEntryCoord = finger.tipPosition;
+                $("#ui_wheel").animate({ marginTop: "45px", marginLeft: "-70px" }, 500);
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
