@@ -179,3 +179,67 @@
         line-height: 14px;
         padding: 3px;
     }
+
+    /* UI MENU */
+
+    div#ui_container {
+        z-index: 3;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    div#ui_menu {
+        z-index: 4;
+        position: absolute;
+        right: 0px;
+        bottom: -7px;
+        overflow: hidden;
+        /*border: black 3px solid; */
+        /*background-color: white; */
+        /*width: 80px; */
+        /*height: 40px; */
+        /*transform:rotate(45deg); */
+        /*-ms-transform:rotate(315deg); */
+        /*-webkit-transform:rotate(315deg);/* /* Opera, Chrome, and Safari */
+    }
+
+    div#ui_wheel {
+        /*display: none;*/
+        overflow: hidden;
+        margin-left: 230px;
+        margin-top: 440px;
+        transform:rotate(45deg); 
+        -ms-transform:rotate(315deg); 
+        -webkit-transform:rotate(315deg);
+        /* Opera, Chrome, and Safari */
+    }
+
+    div#ui_wheel #menu_layers {
+        /*background-image: url('../images/layersoff.png');*/
+        /*width: 250px;*/
+        /*height: 100px;*/
+        position: absolute;
+        display: block;
+        margin-left: 50px;
+    }
+
+    div#ui_wheel #menu_search {
+        position: absolute;
+        display: inline;
+        margin-top: 50px;
+    }
+
+    div#ui_wheel #menu_quiz {
+        position: absolute;
+        display: inline;
+        margin-top: 50px;
+        margin-left: 250px;
+    }
+
+
+    div#ui_wheel #menu_settings {
+        position: absolute;
+        display: block;
+        margin-top: 250px;
+        margin-left: 50px;
+    }
