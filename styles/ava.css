@@ -125,7 +125,7 @@
         font-size: 15px;
         position: relative;
         top: 85px;
-        -webkit-transform: scaleX(-1) rotate(-45deg);
+        -webkit-transform: scaleX(-1) rotate(-135deg);
         pointer-events: auto;
         display: none;
     }

@@ -81,6 +81,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 {
     this.lastFrame = this.frame;
     this.frame = data;
+    MENU_RADIUS = document.getElementById('2dCanvas').height / 4;
 
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
