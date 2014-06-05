@@ -11,8 +11,9 @@
         <script src="scripts/jquery-1.8.3.min.js">;</script>
         <script src="scripts/jquery.mousewheel.min.js">;</script>
         <script src="scripts/DOMUtils.js">;</script>
-        <script src="scripts/Lang.js">;</script>        
-        <script src="scripts/Ghost_LeapController.js">;</script>
+        <script src="scripts/Lang.js">;</script>
+        <script type="text/javascript" src="scripts/Ghost_LayerSelector.js"></script>
+        <script type="text/javascript" src="scripts/Ghost_LeapController.js"></script>
         <script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script>
         <script src="scripts/CGA_BaseController.js">;</script>
         <script src="scripts/CGA_GeometryObject.js">;</script>
@@ -21,7 +22,6 @@
         <script src="scripts/CGA_InteractionManager.js">;</script>
         <script src="scripts/CGA_Main.js">;</script>
         <script src="scripts/CGA_Scene.js">;</script>
-        <script type="text/javascript" src="scripts/Ghost_LayerSelector.js"></script>
         <script src="scripts/CGA_SceneContentLoader.js">;</script>
         <script src="scripts/CGA_UI_HelpPanel.js">;</script>
         <script src="scripts/CGA_UI_LoadProgressPanel.js">;</script>
@@ -846,7 +846,7 @@
         {
             if (typeof errorMessage !== 'undefined')
             {
-                var msg = "Errors occurred while preparing this scene:\n\n" + errorMessage
+                var msg = "Errors occurred while preparing this scene:\n\n" + errorMessage;
 
                 console.log(msg);
                 alert(msg);

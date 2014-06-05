@@ -13,34 +13,36 @@ var Ghost_LayerSelector = function (scene) {
 
 // Turn on the next enabled layer going to the right, if there are layers to the right to still enable
 Ghost_LayerSelector.prototype.enableNextLayer = function () {
-    'use strict';
-    var nextLayerIndex = this.currentLayerIndex + 1;
-    var enabled = false; // have we finished enabling a layer
-    do {
-        if (this.layerEnabled(this.LAYER_LIST[nextLayerIndex])) {
-            this.scene.enableObjectsOnLayer(this.LAYER_LIST[nextLayerIndex]);
-        } else {
-            nextLayerIndex++;
+    // find another layer to enable to the right if there are still more ON layers to the right
+    if (this.numberOfSwitchedOnLayersRight(this.currentLayerIndex + 1) >= 1) {
+        var curr = this.currentLayerIndex + 1;
+        while (this.layerIsSwitchedOff(this.LAYER_LIST[curr])) {
+            curr++;
         }
-    } while (this.layerIsInBounds(nextLayerIndex) && !enabled);
-
-    // If we went out of bounds, all the layers must be on
-
+        this.enableLayer(this.LAYER_LIST[curr]);
+        this.currentLayerIndex = curr;
+        return true;
+    } else {
+        return false;
+    }
 };
 
 Ghost_LayerSelector.prototype.disableNextLayer = function () {
-    'use strict';
-    var nextLayerIndex = this.currentLayerIndex - 1;
-    var enabled = false; // have we finished enabling a layer
-    do {
-        if (this.layerEnabled(this.LAYER_LIST[nextLayerIndex])) {
-            this.scene.disableObjectsOnLayer(this.LAYER_LIST[nextLayerIndex]);
-        } else {
-            nextLayerIndex--;
+    // disable the current index's layer if there are still more ON layers to the left
+    if (this.numberOfSwitchedOnLayersLeft(this.currentLayerIndex - 1) >= 1) {
+        this.disableLayer(this.LAYER_LIST[this.currentLayerIndex]);
+        // set current index = to the next switched on layer
+        var curr = this.currentLayerIndex - 1;
+        while (this.layerIsSwitchedOff(this.LAYER_LIST[curr])) {
+            curr--;
         }
-    } while (this.layerIsInBounds(nextLayerIndex) && !enabled);
+        // curr should now be the next available index
+        this.currentLayerIndex = curr;
+        return true;
+    } else {
+        return false;
 
-    // If we went out of bounds, all the layers must be off
+    }
 };
 
 Ghost_LayerSelector.prototype.layerIsInBounds = function (layerIndex) {
@@ -48,15 +50,26 @@ Ghost_LayerSelector.prototype.layerIsInBounds = function (layerIndex) {
     return layerIndex >= 0 && layerIndex <= this.LAYER_LIST.length - 1;
 };
 
-Ghost_LayerSelector.prototype.layerEnabled = function (layer) {
+Ghost_LayerSelector.prototype.layerIsSwitchedOn = function (layer) {
     'use strict';
     return this.LAYER_SWITCHES[layer];
 };
 
-Ghost_LayerSelector.prototype.layerDisabled = function (layer) {
+Ghost_LayerSelector.prototype.layerIsSwitchedOff = function (layer) {
     'use strict';
-    return !this.layerEnabled();
+    return !this.layerIsSwitchedOn(layer);
 };
+
+Ghost_LayerSelector.prototype.switchLayerOn = function (layer) {
+    this.enableLayer(layer);
+    this.LAYER_SWITCHES[layer] = true;
+};
+
+Ghost_LayerSelector.prototype.switchLayerOff = function (layer) {
+    this.disableLayer(layer);
+    this.LAYER_SWITCHES[layer] = false;
+};
+
 
 Ghost_LayerSelector.prototype.enableLayer = function (layer) {
     'use strict';
@@ -66,4 +79,26 @@ Ghost_LayerSelector.prototype.enableLayer = function (layer) {
 Ghost_LayerSelector.prototype.disableLayer = function (layer) {
     'use strict';
     this.scene.disableObjectsOnLayer(layer);
+};
+
+//TODO: Make this return the next left index or -1
+Ghost_LayerSelector.prototype.numberOfSwitchedOnLayersLeft = function (startingIndex) {
+    var totalOn = 0;
+    for (var i = startingIndex; i >= 0; i--) {
+        if (this.LAYER_SWITCHES[this.LAYER_LIST[i]]) {
+            totalOn++;
+        }
+    }
+    return totalOn;
+};
+
+//TODO: Make this return the next right index or -1
+Ghost_LayerSelector.prototype.numberOfSwitchedOnLayersRight = function (startingIndex) {
+    var totalOn = 0;
+    for (var i = startingIndex; i < this.LAYER_LIST.length; i++) {
+        if (this.LAYER_SWITCHES[this.LAYER_LIST[i]]) {
+            totalOn++;
+        }
+    }
+    return totalOn;
 };

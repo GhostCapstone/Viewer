@@ -72,18 +72,21 @@ Ghost_LeapController.prototype.handleFrame = function (data) {
     for (var i = 0; i < this.frame.hands.length; i++) {
         var layerGestureDirection = detectLayerGesture(this.frame);
         if (layerGestureDirection) {
-            if (layerGestureDirection === "left" && this.currentLayer > 0) {
-                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
-                this.currentLayer--;
+            if (layerGestureDirection === "left") {
+               this.layerSelector.disableNextLayer();
+//                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+//                this.currentLayer--;
+//
+//                console.log("layer gesture: " + layerGestureDirection);
+//                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            } else if (layerGestureDirection === "right") {
+               this.layerSelector.enableNextLayer();
 
-                console.log("layer gesture: " + layerGestureDirection);
-                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
-            } else if (layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
-                this.currentLayer++;
-                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
-
-                console.log("layer gesture: " + layerGestureDirection);
-                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+//                this.currentLayer++;
+//                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+//
+//                console.log("layer gesture: " + layerGestureDirection);
+//                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
             }
             return;
         }
