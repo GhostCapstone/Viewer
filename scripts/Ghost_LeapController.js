@@ -61,6 +61,7 @@ var MENU_LAYERS_MIN = 0;
 var MENU_QUIZ_MIN = 250;
 var MENU_SEARCH_MIN = 250;
 var MENU_SETTINGS_MIN = 250;
+var MENU_MOVE_FACTOR = 0.5;
 
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
@@ -76,7 +77,6 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     this.canvas2d.clearRect(0, 0, this.width, this.height);
 
     if(MENU_MODE) {
-        console.log('menu mode');
         if (this.frame.hands.length == 0) {
             // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
             // $('#ui_wheel').hide();
@@ -109,17 +109,18 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 // Animating menu
                 var menuX = fingerPos[0] - menuEntryCoord[0];
                 var menuY = fingerPos[1] - menuEntryCoord[1];
-                if(menuY > Math.abs(menuX)){
-                    $('#menu_layers').css('margin-top', menuY + "px");
+                console.log("menu coords: " + menuX + ", " + menuY);
+                if(menuY > Math.abs(menuX)){ //movement down
                     // console.log("menu up");
-                } else if (-menuY > Math.abs(menuX)){
-                    $('#menu_layers').css('margin-top', menuY + "px");
+                } else if (-menuY > Math.abs(menuX)){ // sort of up??
+                    // $('#menu_layers').css('margin-top', menuY + "px");
                     // console.log("menu down");
                 } else if (menuX > Math.abs(menuY)){
                     $('#menu_layers').css('margin-top', menuY + "px");
+                    // $('#menu_layers').css('margin-top', menuY + "px");
                     // console.log("menu right");
                 } else if (-menuX > Math.abs(menuY)){
-                    $('#menu_layers').css('margin-top', menuY + "px");
+                    // $('#menu_layers').css('margin-top', menuY + "px");
                     // console.log("menu left");
                 } else {
                     // console.log("menu undetermined");
@@ -176,7 +177,6 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             var menuY = document.getElementById('2dCanvas').height - fingerPos[1];
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
-                $("#sample_ui").animate({ marginTop: "150px", marginLeft: "450px" }, 500);
                 // $('#ui_wheel').show();
                 MENU_MODE = true;
                 menuEntryCoord = fingerPos;
