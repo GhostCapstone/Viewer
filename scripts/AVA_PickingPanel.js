@@ -26,10 +26,10 @@ AVA_PickingPanel.prototype.buildUI = function ()
     this.aSelected = document.createElement("a");
 
     // Assemble
-    this.container.appendChild(document.createTextNode("Pointing at: "));
+  //  this.container.appendChild(document.createTextNode("Pointing at: "));
     this.container.appendChild(this.aHovered);
-    this.container.appendChild(document.createElement("br"));
-    this.container.appendChild(document.createTextNode("Selected: "));
+  //  this.container.appendChild(document.createElement("br"));
+ //   this.container.appendChild(document.createTextNode("Selected: "));
     this.container.appendChild(this.aSelected);
 };
 

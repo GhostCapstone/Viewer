@@ -125,18 +125,20 @@
         font-size: 15px;
         position: relative;
         top: 85px;
-        -webkit-transform: scaleX(-1) rotate(-135deg);
+        -webkit-transform: scaleX(-1) rotate(45deg);
         pointer-events: auto;
         display: none;
     }
 
     div#ava_picking a
     {
-        color:#7070ff;
+        color: #ffffff;
+        text-decoration: none;
     }
     div#ava_picking a:visited
     {
-        color:#7070ff;
+        text-decoration: none;
+        color: #ffffff;
     }
 
     
