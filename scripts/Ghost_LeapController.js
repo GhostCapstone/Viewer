@@ -358,11 +358,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             var tY = translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             var tZ = translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             
-            console.log("Rotation " + tX + ", " + tY + ", " + tZ);
+            // console.log("Rotation " + tX + ", " + tY + ", " + tZ);
             
             var update =
             {
-                rotate: { x: tX, y: tY },
+                rotate: { x: tX, y: tZ },
                 pan: { x: 0, y:0 },
                 zoom: 0,
             };
@@ -444,8 +444,8 @@ Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
     // console.log(thetaIn);
 
     var thetaOffset = Math.PI / 4;
-    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset);
-    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset);
+    var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset) + 100;
+    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset) + 100;
 
     return [xoutVal, youtVal];
 }
