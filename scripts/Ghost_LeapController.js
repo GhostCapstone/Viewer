@@ -40,7 +40,13 @@ Ghost_LeapController.prototype.initialize = function ()
     // Define frame event. Fired every new frame by Leap architecture
     this.leapController.on('frame', function (data) 
     { 
-        that.handleFrame(data); 
+        $('#ui_wheel').hide();
+        var originalTop = parseInt($('#ui_wheel').css('margin-top'));
+        $('#ui_wheel').css('margin-top', originalTop - 1 + "px");
+        // $('#ui_wheel').css('margin-top',)
+        that.handleFrame(data);
+        $('#ui_wheel').css('margin-top', originalTop + "px");
+        $('#ui_wheel').show();
     });
     
     this.leapController.connect();
@@ -51,6 +57,11 @@ var MENU_FRAME = 0;
 var frames = 0;
 var MENU_RADIUS = 0;
 var menuEntryCoord;
+var MENU_LAYERS_MIN = 0;
+var MENU_QUIZ_MIN = 250;
+var MENU_SEARCH_MIN = 250;
+var MENU_SETTINGS_MIN = 250;
+var MENU_MOVE_FACTOR = 0.5;
 
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
@@ -68,7 +79,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     if(MENU_MODE) {
         if (this.frame.hands.length == 0) {
             // $("#sample_ui").animate({ marginTop: "250px", marginLeft: "550px" }, 500);
-            $('#ui_wheel').hide();
+            // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
         }
@@ -98,19 +109,21 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 // Animating menu
                 var menuX = fingerPos[0] - menuEntryCoord[0];
                 var menuY = fingerPos[1] - menuEntryCoord[1];
-                if(menuY > Math.abs(menuX)){
-                    $('#ui_wheel').hide();
-                    $('#menu_layers').css('margin-top', menuY + "px");
-                    $('#ui_wheel').show();
-                    console.log("menu up");
-                } else if (-menuY > Math.abs(menuX)){
-                    console.log("menu down");
+                console.log("menu coords: " + menuX + ", " + menuY);
+                if(menuY > Math.abs(menuX)){ //movement down
+                    // console.log("menu up");
+                } else if (-menuY > Math.abs(menuX)){ // sort of up??
+                    // $('#menu_layers').css('margin-top', menuY + "px");
+                    // console.log("menu down");
                 } else if (menuX > Math.abs(menuY)){
-                    console.log("menu right");
+                    $('#menu_layers').css('margin-top', menuY + "px");
+                    // $('#menu_layers').css('margin-top', menuY + "px");
+                    // console.log("menu right");
                 } else if (-menuX > Math.abs(menuY)){
-                    console.log("menu left");
+                    // $('#menu_layers').css('margin-top', menuY + "px");
+                    // console.log("menu left");
                 } else {
-                    console.log("menu undetermined");
+                    // console.log("menu undetermined");
                 }
             }
         }
@@ -164,8 +177,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             var menuY = document.getElementById('2dCanvas').height - fingerPos[1];
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
-                $("#sample_ui").animate({ marginTop: "150px", marginLeft: "450px" }, 500);
-                $('#ui_wheel').show();
+                // $('#ui_wheel').show();
                 MENU_MODE = true;
                 menuEntryCoord = fingerPos;
 /*                this.canvas2d.lineWidth = 3;
