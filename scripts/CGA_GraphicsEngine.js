@@ -46,7 +46,6 @@ var CGA_GraphicsEngine = function(config)
         leapCanvas.style.left = this.windowLeft + 'px';
         leapCanvas.style.top = this.windowTop + 'px';
         leapCanvas.style.zIndex = 2;
-        leapCanvas.style.border = "1px solid red";
     
     var uiContainer = document.getElementById('ui_container');
         uiContainer.style.left = this.windowLeft + 'px';
