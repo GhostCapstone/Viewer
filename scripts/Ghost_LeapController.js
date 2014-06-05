@@ -244,6 +244,24 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     // Loops through each hand
     for (var i = 0; i < this.frame.hands.length; i++) 
     {
+        var layerGestureDirection = detectLayerGesture(this.frame);
+        if(layerGestureDirection) {
+            if(layerGestureDirection === "left" && this.currentLayer > 0){
+                mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                this.currentLayer--;
+
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
+                this.currentLayer++;
+                mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
+                
+                console.log("layer gesture: " + layerGestureDirection);
+                console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
+            }
+            return;
+        }
+
         // Setting up the hand
         var hand = this.frame.hands[i]; // The current hand
         var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
@@ -277,10 +295,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
             /* MENU */
             // Menu coordinates; 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-/*            menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
-            menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
-            menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
-            menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[0] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[1] = { x: menuOffset.left + $( "sample_ui" ), y: menuOffset.offset().top };
+            // menuCoordinates[2] = { x: menuOffset.left, y: menuOffset.offset().top };
+            // menuCoordinates[3] = { x: menuOffset.left, y: menuOffset.offset().top };
 
             /* MENU */
             var menuX = document.getElementById('2dCanvas').width - fingerPos[0];
@@ -389,6 +407,136 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     
     // this.updateScreenTaps();
     // this.drawScreenTaps();
+
+     // LAYERING GESTURE
+    // returns the direction of the layer direction if detected as a string, otherwise returns null
+    function detectLayerGesture(frame) {
+        // console.log("detecting layer gesture");
+        if (frame.hands.length > 0) {
+            var handPosX = frame.hands[0].palmPosition[0];
+            var palmNormalX = frame.hands[0].palmNormal[0];
+
+            //determine if palm is sideways
+            // -1 = left, 1 = right
+            if (Math.abs(palmNormalX) > 0.65) { //start detecting gesture
+                this.detectingLayerGesture = true;
+                if (this.layerGestureLastPos !== undefined) {
+                    var prevDir = this.layerGestureDirection;
+                    // console.log("current handx: " + handPosX);
+                    // console.log("layer gesture delta: " + Ghost_LeapController.LAYER_GESTURE_DELTA);
+                    // console.log("previous x: " + this.layerGestureLastPos);
+                    // console.log("\n");
+                    if(Math.abs(handPosX - this.layerGestureLastPos) > Ghost_LeapController.LAYER_GESTURE_DELTA) { // hand has moved far enough
+                        // console.log("current delta: " + Math.abs(handPosX - this.layerGestureLastPos));
+                        if(handPosX - this.layerGestureLastPos > 0){
+                            this.layerGestureDirection = "right";
+                        } else {
+                            this.layerGestureDirection = "left";
+                        }
+
+                        // if(prevDir !== layerGestureDirection){
+                        //     console.log('clearing because changed direction');
+                        //     clearLayerGestureStatus();
+                        //     return undefined;
+                        // }
+                    }
+                    // if (handPosX - Ghost_LeapController.LAYER_GESTURE_DELTA < this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "left";
+                    // } else if (handPosX + Ghost_LeapController.LAYER_GESTURE_DELTA > this.layerGestureLastPos 
+                    //     && prevDir === this.layerGestureDirection) {
+                    //     this.layerGestureDirection = "right";
+                    // } else {
+                    //     console.log("gesture dir change");
+                    //     clearLayerGestureStatus();
+                    // }
+
+                    // if(prevDir !== layerGestureDirection){
+                    //  console.log("quit gesture detection because of change in dir");
+                    //  clearLayerGestureStatus();
+                    // }
+                } else {
+                    // console.log("first frame");
+                }
+                if (this.detectingLayerGesture === true) {
+                    // console.log(this.layerGestureFrameCount);
+                    this.layerGestureFrameCount++;
+                }
+                if (this.layerGestureFrameCount === Ghost_LeapController.LAYER_GESTURE_FRAMES) { //gesture detected
+                    // console.log("gesture detected: " + this.layerGestureDirection);
+                    // clearLayerGestureStatus();
+                    return this.layerGestureDirection;
+                }
+
+                this.layerGestureLastPos = handPosX;
+                // console.log('currently detecting');
+                return "currently detecting";
+            } else { // palm rotation out of range
+                // console.log('clearing because out of palm range');
+                clearLayerGestureStatus();
+                return undefined;
+            }
+        } else { // no hands in frame
+            // console.log('clearing because no hand in frame');
+            clearLayerGestureStatus();
+        }
+    }
+
+    function clearLayerGestureStatus() {
+        this.detectingLayerGesture = false;
+        this.layerGestureFrameCount = 0;
+        this.layerGestureDirection = undefined;
+        this.layerGestureLastPos = undefined;
+    }
+
+    // function drawHands(frame) {
+    //     // c.clearRect(0, 0, width, height);
+    //     for (var i = 0; i < frame.hands.length; i++) {
+    //         var hand = frame.hands[i];
+    //         var handPos = leapTo2D(frame, hand.palmPosition);
+    //         for (var j = 0; j < hand.fingers.length; j++) {
+    //             //var finger = hand.fingers[j];
+    //             var fingerPos = leapTo2D(frame, hand.fingers[j].tipPosition);
+
+    //             // draw finger tips
+    //             c.lineWidth = 5;
+    //             c.fillStyle = '#00FF00';
+    //             c.strokeStyle = '#FFFF00';
+    //             c.beginPath();
+    //             c.arc(fingerPos[0], fingerPos[1], 6, 0, Math.PI * 2);
+    //             c.closePath();
+    //             c.stroke();
+
+    //             // draw finger lines
+    //             c.strokeStyle = '#0000FF';
+    //             c.lineWidth = 3;
+    //             c.beginPath();
+    //             c.moveTo(handPos[0], handPos[1]);
+    //             c.lineTo(fingerPos[0], fingerPos[1]);
+    //             c.closePath();
+    //             c.stroke();
+    //         }
+
+
+    //         // draw palm
+    //         c.fillStyle = '#00FF00';
+    //         c.strokeStyle = '#FFFF00';
+    //         c.beginPath();
+    //         c.arc(handPos[0], handPos[1], 10, 0, Math.PI * 2);
+    //         c.closePath();
+    //         c.fill();
+    //     }
+    // }
+
+    function leapTo2D(frame, leapPos) {
+        var iBox = frame.interactionBox;
+        var left = iBox.center[0] - iBox.size[0] / 2;
+        var top = iBox.center[1] + iBox.size[1] / 2;
+        var x = (leapPos[0] - left) / iBox.size[0] * width / 2;
+        var y = (leapPos[1] - top) / iBox.size[1] * width / 2;
+
+        return [x, -y];
+    }
 }
 
 
