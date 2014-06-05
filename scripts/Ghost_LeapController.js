@@ -138,11 +138,16 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 var scaleY = 1 + Math.sqrt(Math.abs(menuY)/1000);
                 if(menuY > Math.abs(menuX)){ //movement up to layers
                     if(Math.abs(menuY) > 50){
-                        console.log('menu layer selected');
+                        MENU_MODE = false;
+                        $('#menu_layers').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').fadeOut(500);
                     }
                     $('#menu_layers').css('margin-top', '-' + menuY + "px");
                     $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
                     $('#menu_layers img:first').attr('src', 'images/layerson.png');
+
 
                     $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(1)');
@@ -162,7 +167,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     if(Math.abs(menuY) > 50){
-                        console.log('menu settings selected');
+                        MENU_MODE = false;
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').fadeOut(500);
                     }
                     $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
@@ -186,7 +195,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
                     if(Math.abs(menuX) > 50){
-                        console.log('menu search selected');
+                        MENU_MODE = false;
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').animate({scale: 1}, 800, resetUiWheel);
+                        $('#menu_quiz').fadeOut(500);
                     }
                     $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
                     $('#menu_search').css('transform', 'scale(' + scaleX + ')');
@@ -210,7 +223,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     if(Math.abs(menuX) > 50){
-                        console.log('menu quiz selected');
+                        MENU_MODE = false;
+                        $('#menu_layers').fadeOut(500);
+                        $('#menu_settings').fadeOut(500);
+                        $('#menu_search').fadeOut(500);
+                        $('#menu_quiz').animate({scale: 1}, 800, resetUiWheel);
                     }
                     $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
@@ -407,6 +424,24 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     
     // this.updateScreenTaps();
     // this.drawScreenTaps();
+
+    function resetUiWheel(){
+        console.log("resetting ui wheel");
+        $("#ui_wheel").animate({ marginTop: "440px", marginLeft: "230px" }, 500);
+        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+        $('#menu_layers').css('transform', 'scale(1)');
+        $('#menu_layers').fadeIn(0);
+        $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+        $('#menu_settings').css('transform', 'scale(1)');
+        $('#menu_settings').fadeIn(0);
+        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+        $('#menu_search').css('transform', 'scale(1)');
+        $('#menu_search').fadeIn(0);
+        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+        $('#menu_quiz').css('transform', 'scale(1)');
+        $('#menu_quiz').fadeIn(0);
+    }
 
      // LAYERING GESTURE
     // returns the direction of the layer direction if detected as a string, otherwise returns null
