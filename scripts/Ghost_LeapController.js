@@ -72,7 +72,8 @@ var MENU_LAYERS_MIN = 0;
 var MENU_QUIZ_MIN = 250;
 var MENU_SEARCH_MIN = 0;
 var MENU_SETTINGS_MIN = 250;
-var MENU_MOVE_FACTOR = 0.5;
+var MENU_DELAY = 200;
+var menuDelayCounter;
 var SFX = new Audio("audio/click.wav"); // buffers automatically when created
 var SFX_TRIGGER = 0;
 
@@ -90,22 +91,23 @@ Ghost_LeapController.prototype.handleFrame = function (data)
     // Clears the window
     this.canvas2d.clearRect(0, 0, this.width, this.height);
 
-    if(MENU_MODE) {
+    if(MENU_MODE && !menuDelayCounter) {
         if (this.frame.hands.length == 0) {
             $("#ui_wheel").animate({ marginTop: "440px", marginLeft: "230px" }, 500);
             // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
 
-            $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-            $('#menu_layers').css('transform', 'scale(1)');
-            $('#menu_layers img:first').attr('src', 'images/menubottom.png');
-            $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-            $('#menu_settings').css('transform', 'scale(1)');
-            $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-            $('#menu_search').css('transform', 'scale(1)');
-            $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-            $('#menu_quiz').css('transform', 'scale(1)');
+            resetUiWheel();
+            // $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+            // $('#menu_layers').css('transform', 'scale(1)');
+            // $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+            // $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+            // $('#menu_settings').css('transform', 'scale(1)');
+            // $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+            // $('#menu_search').css('transform', 'scale(1)');
+            // $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+            // $('#menu_quiz').css('transform', 'scale(1)');
         }
 
         for (var i = 0; i < this.frame.hands.length; i++) 
@@ -139,27 +141,28 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 if(menuY > Math.abs(menuX)){ //movement up to layers
                     if(Math.abs(menuY) > 50){
                         MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
                         $('#menu_layers').animate({scale: 1}, 800, resetUiWheel);
                         $('#menu_settings').fadeOut(500);
                         $('#menu_search').fadeOut(500);
                         $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_layers').css('margin-top', '-' + menuY + "px");
+                        $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
+                        $('#menu_layers img:first').attr('src', 'images/layerson.png');
+
+
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_layers').css('margin-top', '-' + menuY + "px");
-                    $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
-                    $('#menu_layers img:first').attr('src', 'images/layerson.png');
-
-
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                     if(SFX_TRIGGER != 1) {
                         SFX.play();
                         SFX_TRIGGER = 1;
@@ -168,26 +171,27 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     if(Math.abs(menuY) > 50){
                         MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY
                         $('#menu_layers').fadeOut(500);
                         $('#menu_settings').animate({scale: 1}, 800, resetUiWheel);
                         $('#menu_search').fadeOut(500);
                         $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
+                        $('#menu_settings img:first').attr('src', 'images/settingson.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
-                    $('#menu_settings img:first').attr('src', 'images/settingson.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                      if(SFX_TRIGGER != 2) {
                         SFX.play();
                         SFX_TRIGGER = 2;
@@ -196,26 +200,27 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
                     if(Math.abs(menuX) > 50){
                         MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
                         $('#menu_layers').fadeOut(500);
                         $('#menu_settings').fadeOut(500);
                         $('#menu_search').animate({scale: 1}, 800, resetUiWheel);
                         $('#menu_quiz').fadeOut(500);
+                    } else {
+                        $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(' + scaleX + ')');
+                        $('#menu_search img:first').attr('src', 'images/searchon.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                     }
-                    $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(' + scaleX + ')');
-                    $('#menu_search img:first').attr('src', 'images/searchon.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
-
                      if(SFX_TRIGGER != 3) {
                         SFX.play();
                         SFX_TRIGGER = 3;
@@ -224,25 +229,27 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     if(Math.abs(menuX) > 50){
                         MENU_MODE = false;
+                        menuDelayCounter = MENU_DELAY;
                         $('#menu_layers').fadeOut(500);
                         $('#menu_settings').fadeOut(500);
                         $('#menu_search').fadeOut(500);
                         $('#menu_quiz').animate({scale: 1}, 800, resetUiWheel);
+                    } else {
+                        $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
+                        $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
+                        $('#menu_quiz img:first').attr('src', 'images/quizon.png');
+
+                        $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+                        $('#menu_layers').css('transform', 'scale(1)');
+                        $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+                        $('#menu_settings').css('transform', 'scale(1)');
+                        $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+                        $('#menu_search').css('transform', 'scale(1)');
+
+                        $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                        $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                        $('#menu_search img:first').attr('src', 'images/searchoff.png');
                     }
-                    $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
-                    $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
-                    $('#menu_quiz img:first').attr('src', 'images/quizon.png');
-
-                    $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
-                    $('#menu_layers').css('transform', 'scale(1)');
-                    $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
-                    $('#menu_settings').css('transform', 'scale(1)');
-                    $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
-                    $('#menu_search').css('transform', 'scale(1)');
-
-                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
-                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
-                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
 
                      if(SFX_TRIGGER != 4) {
                         SFX.play();
@@ -256,6 +263,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         }
 
         return;
+    } else if(menuDelayCounter){
+        menuDelayCounter--;
+        if(menuDelayCounter === 0){
+            menuDelayCounter = undefined;
+        }
     }
     
     // Loops through each hand
@@ -323,9 +335,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             
             if ( Math.sqrt(menuX * menuX + menuY * menuY) < MENU_RADIUS ) {
                 // $('#ui_wheel').show();
-                MENU_MODE = true;
-                menuEntryCoord = finger.tipPosition;
-                $("#ui_wheel").animate({ marginTop: "45px", marginLeft: "-70px" }, 500);
+                if(!menuDelayCounter){
+                    MENU_MODE = true;
+                    menuEntryCoord = finger.tipPosition;
+                    $("#ui_wheel").animate({ marginTop: "45px", marginLeft: "-70px" }, 500);
+                }
 /*                this.canvas2d.lineWidth = 3;
 
                 // Create gradient
@@ -628,7 +642,7 @@ Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
 
     var thetaOffset = Math.PI / 4;
     var xoutVal = rinVal * Math.cos(thetaIn - thetaOffset) + 100;
-    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset) + 100;
+    var youtVal = rinVal * Math.sin(thetaIn - thetaOffset) + 200;
 
     return [xoutVal, youtVal];
 }
