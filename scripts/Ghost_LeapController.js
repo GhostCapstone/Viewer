@@ -354,9 +354,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         // If there are five fingers in the screen
         if (this.frame.fingers.length == 5) 
         {
-            var tX = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
-            var tY = translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
-            var tZ = translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tX = translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tY = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
+            var tZ = -translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             
             // console.log("Rotation " + tX + ", " + tY + ", " + tZ);
             
