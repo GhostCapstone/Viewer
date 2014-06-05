@@ -85,6 +85,16 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
+
+            $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+            $('#menu_layers').css('transform', 'scale(1)');
+            $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+            $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+            $('#menu_settings').css('transform', 'scale(1)');
+            $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+            $('#menu_search').css('transform', 'scale(1)');
+            $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+            $('#menu_quiz').css('transform', 'scale(1)');
         }
 
         for (var i = 0; i < this.frame.hands.length; i++) 
@@ -116,6 +126,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                 var scaleX = 1 + Math.sqrt(Math.abs(menuX)/1000);
                 var scaleY = 1 + Math.sqrt(Math.abs(menuY)/1000);
                 if(menuY > Math.abs(menuX)){ //movement up to layers
+                    if(Math.abs(menuY) > 50){
+                        console.log('menu layer selected');
+                    }
                     $('#menu_layers').css('margin-top', '-' + menuY + "px");
                     $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
                     $('#menu_layers img:first').attr('src', 'images/layerson.png');
@@ -137,6 +150,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     }
 
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
+                    if(Math.abs(menuY) > 50){
+                        console.log('menu settings selected');
+                    }
                     $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
                     $('#menu_settings img:first').attr('src', 'images/settingson.png');
@@ -158,6 +174,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     }
 
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
+                    if(Math.abs(menuX) > 50){
+                        console.log('menu search selected');
+                    }
                     $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
                     $('#menu_search').css('transform', 'scale(' + scaleX + ')');
                     $('#menu_search img:first').attr('src', 'images/searchon.png');
@@ -179,6 +198,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     }
 
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
+                    if(Math.abs(menuX) > 50){
+                        console.log('menu quiz selected');
+                    }
                     $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
                     $('#menu_quiz img:first').attr('src', 'images/quizon.png');
