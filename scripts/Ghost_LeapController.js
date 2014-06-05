@@ -62,6 +62,9 @@ var MENU_QUIZ_MIN = 250;
 var MENU_SEARCH_MIN = 0;
 var MENU_SETTINGS_MIN = 250;
 var MENU_MOVE_FACTOR = 0.5;
+var SFX = new Audio("audio/click.wav"); // buffers automatically when created
+var SFX_TRIGGER = 0;
+
 
 Ghost_LeapController.prototype.handleFrame = function (data)
 {
@@ -128,6 +131,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_search img:first').attr('src', 'images/searchoff.png');
                     $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
 
+                    if(SFX_TRIGGER != 1) {
+                        SFX.play();
+                        SFX_TRIGGER = 1;
+                    }
+
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
@@ -143,6 +151,12 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_layers img:first').attr('src', 'images/layersoff.png');
                     $('#menu_search img:first').attr('src', 'images/searchoff.png');
                     $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
+
+                     if(SFX_TRIGGER != 2) {
+                        SFX.play();
+                        SFX_TRIGGER = 2;
+                    }
+
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
                     $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
                     $('#menu_search').css('transform', 'scale(' + scaleX + ')');
@@ -158,6 +172,12 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_layers img:first').attr('src', 'images/layersoff.png');
                     $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
                     $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
+
+                     if(SFX_TRIGGER != 3) {
+                        SFX.play();
+                        SFX_TRIGGER = 3;
+                    }
+
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
@@ -173,6 +193,12 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_layers img:first').attr('src', 'images/layersoff.png');
                     $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
                     $('#menu_search img:first').attr('src', 'images/searchoff.png');
+
+                     if(SFX_TRIGGER != 4) {
+                        SFX.play();
+                        SFX_TRIGGER = 4;
+                    }
+
                 } else {
                     console.log("menu undetermined");
                 }
