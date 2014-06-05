@@ -82,6 +82,16 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             // $('#ui_wheel').hide();
             menuEntryCoord = undefined;
             MENU_MODE = false;
+
+            $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
+            $('#menu_layers').css('transform', 'scale(1)');
+            $('#menu_layers img:first').attr('src', 'images/menubottom.png');
+            $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
+            $('#menu_settings').css('transform', 'scale(1)');
+            $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
+            $('#menu_search').css('transform', 'scale(1)');
+            $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
+            $('#menu_quiz').css('transform', 'scale(1)');
         }
 
         for (var i = 0; i < this.frame.hands.length; i++) 
