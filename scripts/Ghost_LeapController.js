@@ -3,87 +3,85 @@
 // Pinch, Rotation, and Point gestures
 
 
-var Ghost_LeapController = function(gfxEngine, canvas)
-{
+var Ghost_LeapController = function (gfxEngine, canvas) {
     this.gfxEngine = gfxEngine;
     this.canvas = canvas;
     this.canvas2d = canvas.getContext('2d');
-    
+
     // Making sure we have the proper aspect ratio for our canvas
-    this.width  = canvas.clientWidth;
+    this.width = canvas.clientWidth;
     this.height = canvas.clientHeight;
-    
+
     this.frame = null;
     this.frame_previous = null;
-    
+
     this.screenTaps = [];
 
     this.detectingLayerGesture = false;
     this.layerGestureFrameCount = 0;
     this.layerGestureLastPos;
     this.layerGestureDirection;
-    
+
     this.LAYER_LIST = ['nervous', 'digestive', 'respiratory', 'circulatory', 'skeletal', 'muscular'];
     this.currentLayer = this.LAYER_LIST.length - 1;
+    this.layerSelector = new Ghost_LayerSelector(mainApp.gfxEngine.scene);
 };
 
 Ghost_LeapController.SCREENTAP_LIFETIME = 1;
 Ghost_LeapController.SCREENTAP_START_SIZE = 30;
-Ghost_LeapController.X_AXIS = new THREE.Vector3(1,0,0);
-Ghost_LeapController.Y_AXIS = new THREE.Vector3(0,1,0);
-Ghost_LeapController.Z_AXIS = new THREE.Vector3(0,0,1);
+Ghost_LeapController.X_AXIS = new THREE.Vector3(1, 0, 0);
+Ghost_LeapController.Y_AXIS = new THREE.Vector3(0, 1, 0);
+Ghost_LeapController.Z_AXIS = new THREE.Vector3(0, 0, 1);
 Ghost_LeapController.SCALE_FACTOR_ROTATION = 0.02;
 Ghost_LeapController.LAYER_GESTURE_FRAMES = 20;
 Ghost_LeapController.LAYER_GESTURE_DELTA = 2.0;
 
-Ghost_LeapController.prototype.initialize = function ()
-{
+Ghost_LeapController.prototype.initialize = function () {
     // Define self reference
     var that = this;
-    
+
     // Setting up the Leap Controller
     this.leapController = new Leap.Controller({
         enableGestures: true
     });
-    
+
     // Define frame event. Fired every new frame by Leap architecture
-    this.leapController.on('frame', function (data) 
-    { 
-        that.handleFrame(data); 
+    this.leapController.on('frame', function (data) {
+        that.handleFrame(data);
     });
-    
+
     this.leapController.connect();
 };
 
 
 var frameHighlightCount = 0;
-Ghost_LeapController.prototype.handleFrame = function (data)
-{
+
+//TODO: Decouple some of this, this method is way too long
+Ghost_LeapController.prototype.handleFrame = function (data) {
     this.lastFrame = this.frame;
     this.frame = data;
 
     // Dtaw UI
     this.canvas2d.fillStyle = "#FF0000";
-    this.canvas2d.fillRect(0,0,150,75);
-    
+    this.canvas2d.fillRect(0, 0, 150, 75);
+
     // Clears the window
     this.canvas2d.clearRect(0, 0, this.width, this.height);
-    
+
     // Loops through each hand
-    for (var i = 0; i < this.frame.hands.length; i++) 
-    {
+    for (var i = 0; i < this.frame.hands.length; i++) {
         var layerGestureDirection = detectLayerGesture(this.frame);
-        if(layerGestureDirection) {
-            if(layerGestureDirection === "left" && this.currentLayer > 0){
+        if (layerGestureDirection) {
+            if (layerGestureDirection === "left" && this.currentLayer > 0) {
                 mainApp.gfxEngine.scene.disableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
                 this.currentLayer--;
 
                 console.log("layer gesture: " + layerGestureDirection);
                 console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
-            } else if(layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
+            } else if (layerGestureDirection === "right" && this.currentLayer < this.LAYER_LIST.length - 1) {
                 this.currentLayer++;
                 mainApp.gfxEngine.scene.enableObjectsOnLayer(this.LAYER_LIST[this.currentLayer]);
-                
+
                 console.log("layer gesture: " + layerGestureDirection);
                 console.log("current layer: " + this.LAYER_LIST[this.currentLayer]);
             }
@@ -94,12 +92,11 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         var hand = this.frame.hands[i]; // The current hand
         var scaleFactor = hand.scaleFactor(this.lastFrame, this.frame);
         var translation = this.lastFrame.translation(this.frame);
-    
+
         /* GESTURES */
 
         // POINT AND HIGHLIGHT - If one finger is present
-        if (this.frame.fingers.length == 1 && hand.fingers[0] != undefined) 
-        {
+        if (this.frame.fingers.length == 1 && hand.fingers[0] != undefined) {
             var finger = hand.fingers[0]; // Current finger
             var fingerPos = this.applyLeapToScreenTransform(finger.tipPosition); // Finger position
             // // Drawing the finger
@@ -109,10 +106,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
             this.canvas2d.arc(fingerPos[0], fingerPos[1], 2, 0, Math.PI * 2);
             this.canvas2d.closePath();
             this.canvas2d.stroke();
-            if(frameHighlightCount === 30){
+            if (frameHighlightCount === 30) {
                 frameHighlightCount = 0;
                 var pickResult = this.gfxEngine.objectAtPoint(fingerPos[0], fingerPos[1]);
-                
+
                 // console.log(mainApp.interactionManager);
                 mainApp.interactionManager.highlightObjects(pickResult);
                 // console.log("fingerPos: " + fingerPos[0] + ", " + fingerPos[1]);
@@ -123,58 +120,55 @@ Ghost_LeapController.prototype.handleFrame = function (data)
         }
 
         // ZOOM OUT - If there are two fingers and they're separating
-        if (this.frame.fingers.length == 2 && scaleFactor < 1)
-        {
+        if (this.frame.fingers.length == 2 && scaleFactor < 1) {
             // camera.position.z += (1 - scaleFactor) * 2.5;
             var update =
             {
                 rotate: { x: 0, y: 0 },
                 pan: { x: 0, y: 0 },
-                zoom: - (1 - scaleFactor) * 2.5
+                zoom: -(1 - scaleFactor) * 2.5
             };
-            
+
             // Apply update to camera
             this.gfxEngine.applyCameraUpdate(update);
         }
-        
+
         // ZOOM IN - If there are two fingers and they're closing in
-        else if (this.frame.fingers.length == 2 && scaleFactor > 1)
-        {
+        else if (this.frame.fingers.length == 2 && scaleFactor > 1) {
             // camera.position.z -= (scaleFactor - 1) * 2.5;
             var update =
             {
                 rotate: { x: 0, y: 0 },
-                pan: { x: 0, y:0 },
+                pan: { x: 0, y: 0 },
                 zoom: (scaleFactor - 1) * 2.5
             };
-            
+
             // Apply update to camera
             this.gfxEngine.applyCameraUpdate(update);
         }
-    
+
         // ROTATION GESTURE - Movement With Five Fingers
         // If there are five fingers in the screen
-        if (this.frame.fingers.length == 5) 
-        {
+        if (this.frame.fingers.length == 5) {
             var tX = -(translation[0] * Ghost_LeapController.SCALE_FACTOR_ROTATION);
             var tY = translation[1] * Ghost_LeapController.SCALE_FACTOR_ROTATION;
             var tZ = -(translation[2] * Ghost_LeapController.SCALE_FACTOR_ROTATION);
-            
+
             // console.log("Rotation " + tX + ", " + tY + ", " + tZ);
-            
+
             var update =
             {
                 rotate: { x: tX, y: tZ },
-                pan: { x: 0, y:0 },
+                pan: { x: 0, y: 0 },
                 zoom: 0
             };
-            
+
             // Apply update to camera
             this.gfxEngine.applyCameraUpdate(update);
         }
-        
+
     }
-    
+
     // LAYERING GESTURE
     // returns the direction of the layer direction if detected as a string, otherwise returns null
     function detectLayerGesture(frame) {
@@ -193,9 +187,9 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     // console.log("layer gesture delta: " + Ghost_LeapController.LAYER_GESTURE_DELTA);
                     // console.log("previous x: " + this.layerGestureLastPos);
                     // console.log("\n");
-                    if(Math.abs(handPosX - this.layerGestureLastPos) > Ghost_LeapController.LAYER_GESTURE_DELTA) { // hand has moved far enough
+                    if (Math.abs(handPosX - this.layerGestureLastPos) > Ghost_LeapController.LAYER_GESTURE_DELTA) { // hand has moved far enough
                         // console.log("current delta: " + Math.abs(handPosX - this.layerGestureLastPos));
-                        if(handPosX - this.layerGestureLastPos > 0){
+                        if (handPosX - this.layerGestureLastPos > 0) {
                             this.layerGestureDirection = "right";
                         } else {
                             this.layerGestureDirection = "left";
@@ -304,20 +298,19 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
         return [x, -y];
     }
-    
+
     // BUILT-IN GESTURES - Switch case
-    for (var k = 0; k < this.frame.gestures.length; k++) 
-    {
+    for (var k = 0; k < this.frame.gestures.length; k++) {
         var gesture = this.frame.gestures[k];
         var type = gesture.type;
-    
+
         switch (type) {
-        case "screenTap":
-            // this.onScreenTap(gesture);
-            break;
+            case "screenTap":
+                // this.onScreenTap(gesture);
+                break;
         }
     }
-    
+
     // this.updateScreenTaps();
     // this.drawScreenTaps();
 }
@@ -325,8 +318,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
 
 // Create a rotation matrix for the DAE model (For Rotation Gesture)
 // http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js
-Ghost_LeapController.prototype.rotateAroundObjectAxis = function(object, axis, radians) 
-{
+Ghost_LeapController.prototype.rotateAroundObjectAxis = function (object, axis, radians) {
     var rotObjectMatrix = new THREE.Matrix4();
     rotObjectMatrix.makeRotationAxis(axis.normalize(), radians);
 
@@ -343,8 +335,7 @@ Ghost_LeapController.prototype.rotateAroundObjectAxis = function(object, axis, r
 
 
 // Transfrom leap coordinates into screen coordinates
-Ghost_LeapController.prototype.applyLeapToScreenTransform = function(leapPos) 
-{
+Ghost_LeapController.prototype.applyLeapToScreenTransform = function (leapPos) {
     var iBox = this.frame.interactionBox;
 
     // Left coordinate = Center X - Interaction Box Size / 2
@@ -367,10 +358,10 @@ Ghost_LeapController.prototype.applyLeapToScreenTransform = function(leapPos)
     return returnCoordinates;
 }
 
-Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
+Ghost_LeapController.prototype.polarCoordinateConversion = function (xin, yin) {
     var xinVal = parseInt(xin);
     var yinVal = parseInt(yin);
-    var rinVal = Math.sqrt(xinVal*xinVal + yinVal*yinVal);
+    var rinVal = Math.sqrt(xinVal * xinVal + yinVal * yinVal);
     var thetaIn = Math.atan2(yinVal, xinVal);
     // console.log(thetaIn);
 
@@ -382,8 +373,7 @@ Ghost_LeapController.prototype.polarCoordinateConversion = function(xin, yin) {
 }
 
 
-Ghost_LeapController.prototype.onScreenTap = function(gesture)
-{
+Ghost_LeapController.prototype.onScreenTap = function (gesture) {
     var pos = leapToScene(gesture.position);
 
     var time = this.frame.timestamp;
@@ -392,8 +382,7 @@ Ghost_LeapController.prototype.onScreenTap = function(gesture)
 };
 
 
-Ghost_LeapController.prototype.updateScreenTaps = function() 
-{
+Ghost_LeapController.prototype.updateScreenTaps = function () {
 
     for (var i = 0; i < screenTaps.length; i++) {
 
@@ -408,8 +397,7 @@ Ghost_LeapController.prototype.updateScreenTaps = function()
 };
 
 
-Ghost_LeapController.prototype.drawScreenTaps = function() 
-{
+Ghost_LeapController.prototype.drawScreenTaps = function () {
     for (var i = 0; i < screenTaps.length; i++) {
 
         var screenTap = screenTaps[i];
@@ -424,10 +412,10 @@ Ghost_LeapController.prototype.drawScreenTaps = function()
         var timeLeft = 1 - completion;
 
         /*
-        
-        Drawing the static ring
 
-        */
+         Drawing the static ring
+
+         */
         this.canvas2d.strokeStyle = "#FFB300";
         this.canvas2d.lineWidth = 3;
 
