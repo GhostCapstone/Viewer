@@ -118,6 +118,7 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     }
                     $('#menu_layers').css('margin-top', '-' + menuY + "px");
                     $('#menu_layers').css('transform', 'scale(' + scaleY + ')');
+                    $('#menu_layers img:first').attr('src', 'images/layerson.png');
 
                     $('#menu_settings').css('margin-top', MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(1)');
@@ -125,12 +126,18 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_search').css('transform', 'scale(1)');
                     $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(1)');
+
+                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
+
                 } else if (-menuY > Math.abs(menuX)){ //movement down to settings
                     if(Math.abs(menuY) > 50){
                         console.log('menu settings selected');
                     }
                     $('#menu_settings').css('margin-top', -menuY + MENU_SETTINGS_MIN+ "px");
                     $('#menu_settings').css('transform', 'scale(' + scaleY + ')');
+                    $('#menu_settings img:first').attr('src', 'images/settingson.png');
 
                     $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
                     $('#menu_layers').css('transform', 'scale(1)');
@@ -138,12 +145,17 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_search').css('transform', 'scale(1)');
                     $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(1)');
+
+                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
+                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                 } else if (menuX > Math.abs(menuY)){ //movement left to search
                     if(Math.abs(menuX) > 50){
                         console.log('menu search selected');
                     }
                     $('#menu_search').css('margin-left', '-' + menuX + MENU_SEARCH_MIN + "px");
                     $('#menu_search').css('transform', 'scale(' + scaleX + ')');
+                    $('#menu_search img:first').attr('src', 'images/searchon.png');
 
                     $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
                     $('#menu_layers').css('transform', 'scale(1)');
@@ -151,12 +163,17 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_settings').css('transform', 'scale(1)');
                     $('#menu_quiz').css('margin-left', MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(1)');
+
+                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                    $('#menu_quiz img:first').attr('src', 'images/quizoff.png');
                 } else if (-menuX > Math.abs(menuY)){ // movement right to quiz
                     if(Math.abs(menuX) > 50){
                         console.log('menu quiz selected');
                     }
                     $('#menu_quiz').css('margin-left', -menuX + MENU_QUIZ_MIN + "px");
                     $('#menu_quiz').css('transform', 'scale(' + scaleX + ')');
+                    $('#menu_quiz img:first').attr('src', 'images/quizon.png');
 
                     $('#menu_layers').css('margin-top', '-' + MENU_LAYERS_MIN + "px");
                     $('#menu_layers').css('transform', 'scale(1)');
@@ -164,6 +181,10 @@ Ghost_LeapController.prototype.handleFrame = function (data)
                     $('#menu_settings').css('transform', 'scale(1)');
                     $('#menu_search').css('margin-left', '-' + MENU_SEARCH_MIN + "px");
                     $('#menu_search').css('transform', 'scale(1)');
+
+                    $('#menu_layers img:first').attr('src', 'images/layersoff.png');
+                    $('#menu_settings img:first').attr('src', 'images/settingsoff.png');
+                    $('#menu_search img:first').attr('src', 'images/searchoff.png');
                 } else {
                     console.log("menu undetermined");
                 }
