@@ -215,9 +215,9 @@
     }
 
     div#ui_wheel #menu_layers {
-        background-image: url('../images/layersoff.png');
-        width: 250px;
-        height: 100px;
+        /*background-image: url('../images/layersoff.png');*/
+        /*width: 250px;*/
+        /*height: 100px;*/
         position: absolute;
         display: block;
         margin-left: 50px;
